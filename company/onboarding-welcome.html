@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Empresa — Configuração Cuzto</title>
+    <link rel="icon" type="image/svg+xml" href="../shared/assets/favicon.svg" />
+    <link rel="stylesheet" href="../shared/styles.css" />
+    <style>
+      .onboard-page {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 24px;
+        background: linear-gradient(135deg, var(--bg) 0%, var(--surface-2) 100%);
+      }
+      .onboard-logo {
+        margin: 32px 0 24px;
+      }
+      .onboard-steps {
+        display: flex;
+        align-items: center;
+        gap: 0;
+        margin-bottom: 32px;
+        max-width: 440px;
+        width: 100%;
+      }
+      .ob-node {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex: 0 0 auto;
+        position: relative;
+      }
+      .ob-circle {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        font-size: 13px;
+        font-weight: 800;
+        border: 3px solid var(--border-strong);
+        background: var(--surface);
+        color: var(--ink-3);
+        box-shadow: 0 3px 0 var(--border-strong);
+        font-family: var(--f-display);
+      }
+      .ob-node.done .ob-circle {
+        background: var(--primary);
+        border-color: var(--primary);
+        color: var(--text-on-primary);
+        box-shadow: 0 3px 0 var(--primary-shadow);
+      }
+      .ob-node.cur .ob-circle {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: #2b1a00;
+        box-shadow: 0 3px 0 var(--accent-shadow);
+      }
+      .ob-text {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--ink-3);
+        margin-top: 6px;
+        white-space: nowrap;
+      }
+      .ob-node.done .ob-text,
+      .ob-node.cur .ob-text {
+        color: var(--ink);
+      }
+      .ob-conn {
+        flex: 1;
+        height: 4px;
+        background: var(--surface-3);
+        border-radius: 2px;
+        min-width: 16px;
+      }
+      .ob-conn.done {
+        background: var(--primary);
+      }
+      .onboard-card {
+        background: var(--surface);
+        border: 2px solid var(--border);
+        border-radius: var(--r-xl);
+        padding: 36px;
+        max-width: 500px;
+        width: 100%;
+        box-shadow:
+          0 6px 0 var(--border),
+          var(--sh-2);
+      }
+      .onboard-card h2 {
+        font-family: var(--f-display);
+        font-size: 22px;
+        font-weight: 800;
+        text-align: center;
+        margin-bottom: 6px;
+      }
+      .onboard-card .sub {
+        text-align: center;
+        color: var(--ink-3);
+        font-size: 14px;
+        margin-bottom: 24px;
+      }
+      .onboard-actions {
+        display: flex;
+        gap: 10px;
+        justify-content: space-between;
+        margin-top: 24px;
+      }
+      .autofill-hint {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 14px;
+        border-radius: var(--r-md);
+        background: var(--primary-subtle);
+        border: 1.5px solid var(--primary-light);
+        font-size: 12px;
+        color: var(--primary-deep);
+        font-weight: 600;
+        margin-bottom: 20px;
+      }
+      .autofill-hint svg {
+        flex: none;
+        width: 16px;
+        height: 16px;
+        stroke: currentColor;
+        fill: none;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .filled-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 10px;
+        font-weight: 700;
+        color: var(--success-text);
+        background: var(--success-soft);
+        padding: 2px 8px;
+        border-radius: var(--r-pill);
+        margin-left: 8px;
+      }
+      @media (max-width: 480px) {
+        .onboard-page {
+          padding: 16px;
+        }
+        .onboard-card {
+          padding: 24px 20px;
+          border-radius: var(--r-lg);
+        }
+        .onboard-actions {
+          flex-direction: column;
+        }
+        .onboard-actions .btn {
+          width: 100%;
+        }
+        .ob-text {
+          font-size: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="onboard-page">
+      <div class="onboard-logo">
+        <img
+          src="../shared/assets/logo-light.svg"
+          alt="Cuzto"
+          height="36"
+          class="sidebar-logo-img"
+        />
+        <img
+          src="../shared/assets/logo-dark.svg"
+          alt="Cuzto"
+          height="36"
+          class="sidebar-logo-img sidebar-logo-dark"
+        />
+      </div>
+      <div class="onboard-steps">
+        <div class="ob-node done">
+          <div class="ob-circle">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="3"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M20 6L9 17l-5-5" />
+            </svg>
+          </div>
+          <div class="ob-text">Boas-vindas</div>
+        </div>
+        <div class="ob-conn done"></div>
+        <div class="ob-node cur">
+          <div class="ob-circle">2</div>
+          <div class="ob-text">Empresa</div>
+        </div>
+        <div class="ob-conn"></div>
+        <div class="ob-node">
+          <div class="ob-circle">3</div>
+          <div class="ob-text">Acesso</div>
+        </div>
+      </div>
+      <div class="onboard-card">
+        <h2>Dados da sua empresa</h2>
+        <div class="sub">Digite o CNPJ e preenchemos o resto automaticamente.</div>
+
+        <div class="autofill-hint">
+          <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" /></svg>
+          Preenchimento automático via BrasilAPI
+        </div>
+
+        <div class="field">
+          <label>CNPJ</label>
+          <div class="input">
+            <input
+              type="text"
+              value="12.345.678/0001-90"
+              style="font-family: var(--f-mono); font-weight: 600"
+            />
+          </div>
+        </div>
+        <div class="field">
+          <label
+            >Razão social
+            <span class="filled-badge"
+              ><svg
+                width="10"
+                height="10"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M20 6L9 17l-5-5" />
+              </svg>
+              Auto</span
+            ></label
+          >
+          <div class="input" style="background: var(--surface-2)">
+            <input
+              type="text"
+              value="Construtora Horizonte Ltda"
+              style="font-weight: 600"
+              disabled
+            />
+          </div>
+        </div>
+        <div class="field">
+          <label>Nome fantasia</label>
+          <div class="input">
+            <input type="text" value="Construtora Horizonte" style="font-weight: 600" />
+          </div>
+        </div>
+        <div class="field">
+          <label>Timezone</label>
+          <div class="custom-select">
+            <button type="button" class="cs-trigger">
+              <span class="cs-val">America/São Paulo</span
+              ><svg
+                class="cs-chev"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </button>
+            <div class="cs-menu">
+              <button type="button" class="cs-opt selected">America/São Paulo</button
+              ><button type="button" class="cs-opt">America/Manaus</button
+              ><button type="button" class="cs-opt">America/Recife</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="onboard-actions">
+          <a href="onboarding-step1.html" class="btn btn-sm btn-ghost">Anterior</a>
+          <a href="onboarding-step3.html" class="btn btn-sm btn-primary">Próximo</a>
+        </div>
+      </div>
+    </div>
+    <script src="../shared/app.js"></script>
+  </body>
+</html>

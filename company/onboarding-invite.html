@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Convidar Funcionários — Cuzto</title>
+    <link rel="icon" type="image/svg+xml" href="../shared/assets/favicon.svg" />
+    <link rel="stylesheet" href="../shared/styles.css" />
+    <style>
+      .onboard-page {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 24px;
+        background: linear-gradient(135deg, var(--bg) 0%, var(--surface-2) 100%);
+      }
+      .onboard-logo {
+        margin: 32px 0 24px;
+      }
+      .onboard-card {
+        background: var(--surface);
+        border: 2px solid var(--border);
+        border-radius: var(--r-xl);
+        padding: 36px;
+        max-width: 500px;
+        width: 100%;
+        box-shadow:
+          0 6px 0 var(--border),
+          var(--sh-2);
+      }
+      .onboard-card h2 {
+        font-family: var(--f-display);
+        font-size: 22px;
+        font-weight: 800;
+        text-align: center;
+        margin-bottom: 6px;
+      }
+      .onboard-card .sub {
+        text-align: center;
+        color: var(--ink-3);
+        font-size: 14px;
+        margin-bottom: 24px;
+      }
+      .invite-list {
+        display: grid;
+        gap: 6px;
+        margin-bottom: 20px;
+      }
+      .invite-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 14px;
+        border: 2px solid var(--border);
+        border-radius: var(--r-md);
+        background: var(--surface);
+        box-shadow: 0 2px 0 var(--border);
+        font-size: 14px;
+        font-weight: 600;
+      }
+      .invite-item input[type="checkbox"] {
+        appearance: none;
+        width: 22px;
+        height: 22px;
+        border: 2px solid var(--border-strong);
+        border-radius: 6px;
+        background: var(--surface);
+        cursor: pointer;
+        display: grid;
+        place-content: center;
+        box-shadow: 0 2px 0 var(--border-strong);
+        flex: none;
+        transition:
+          background var(--t-fast),
+          border-color var(--t-fast);
+      }
+      .invite-item input:checked {
+        background: var(--primary);
+        border-color: var(--primary);
+        box-shadow: 0 2px 0 var(--primary-shadow);
+      }
+      .invite-item input:checked::after {
+        content: "";
+        display: block;
+        width: 6px;
+        height: 10px;
+        border: solid var(--text-on-primary);
+        border-width: 0 2.5px 2.5px 0;
+        transform: rotate(45deg);
+        margin-top: -1px;
+      }
+      .invite-item .name {
+        flex: 1;
+        min-width: 0;
+      }
+      .invite-item .phone {
+        font-family: var(--f-mono);
+        font-size: 12px;
+        color: var(--ink-3);
+      }
+      .wa-preview {
+        background: #e5ddd5;
+        border-radius: var(--r-lg);
+        padding: 14px;
+        margin-bottom: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .wa-preview .bubble {
+        background: #dcf8c6;
+        color: #111;
+        padding: 8px 12px;
+        border-radius: 12px;
+        border-bottom-right-radius: 4px;
+        font-size: 13px;
+        line-height: 1.5;
+        max-width: 90%;
+        align-self: flex-end;
+      }
+      .wa-preview .time {
+        font-size: 10px;
+        color: #8696a0;
+        text-align: right;
+        margin-top: 2px;
+      }
+      .wa-preview .label {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--ink-3);
+        margin-bottom: 6px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      [data-theme="dark"] .wa-preview {
+        background: #0b141a;
+      }
+      [data-theme="dark"] .wa-preview .bubble {
+        background: #005c4b;
+        color: #e9edef;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) .wa-preview {
+          background: #0b141a;
+        }
+        :root:not([data-theme="light"]) .wa-preview .bubble {
+          background: #005c4b;
+          color: #e9edef;
+        }
+      }
+      .invite-success {
+        display: none;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 14px;
+        border-radius: var(--r-md);
+        background: var(--success-soft);
+        color: var(--success-text);
+        font-size: 14px;
+        font-weight: 700;
+        margin-bottom: 16px;
+        border: 2px solid var(--success);
+      }
+      .invite-success svg {
+        flex: none;
+        width: 20px;
+        height: 20px;
+        stroke: currentColor;
+        fill: none;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .invite-actions {
+        display: grid;
+        gap: 10px;
+        margin-top: 20px;
+      }
+      @media (max-width: 480px) {
+        .onboard-page {
+          padding: 16px;
+        }
+        .onboard-card {
+          padding: 24px 20px;
+          border-radius: var(--r-lg);
+        }
+        .invite-item .phone {
+          font-size: 11px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="onboard-page">
+      <div class="onboard-logo">
+        <img
+          src="../shared/assets/logo-light.svg"
+          alt="Cuzto"
+          height="36"
+          class="sidebar-logo-img"
+        />
+        <img
+          src="../shared/assets/logo-dark.svg"
+          alt="Cuzto"
+          height="36"
+          class="sidebar-logo-img sidebar-logo-dark"
+        />
+      </div>
+
+      <div class="onboard-card">
+        <h2>Convidar Funcionários</h2>
+        <div class="sub">Envie um convite pelo WhatsApp para que comecem a registrar despesas.</div>
+
+        <div class="invite-list">
+          <label class="invite-item"
+            ><input type="checkbox" checked />
+            <div class="avatar sm" style="width: 28px; height: 28px; font-size: 10px">CO</div>
+            <span class="name">Carlos Oliveira</span
+            ><span class="phone">(11) 99988-7766</span></label
+          >
+          <label class="invite-item"
+            ><input type="checkbox" checked />
+            <div class="avatar sm a4" style="width: 28px; height: 28px; font-size: 10px">AF</div>
+            <span class="name">Ana Ferreira</span><span class="phone">(21) 98877-6655</span></label
+          >
+          <label class="invite-item"
+            ><input type="checkbox" checked />
+            <div class="avatar sm a3" style="width: 28px; height: 28px; font-size: 10px">RS</div>
+            <span class="name">Ricardo Santos</span
+            ><span class="phone">(31) 97766-5544</span></label
+          >
+        </div>
+
+        <div class="wa-preview">
+          <div class="label">Prévia da mensagem</div>
+          <div class="bubble">
+            Olá! Você foi cadastrado no Cuzto pela Construtora Horizonte. Para registrar suas
+            despesas, basta enviar a foto do cupom para este número. Seu saldo será atualizado
+            automaticamente.
+            <div class="time">Agora</div>
+          </div>
+        </div>
+
+        <div class="invite-success" id="invite-ok">
+          <svg viewBox="0 0 24 24">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+            <polyline points="22 4 12 14.01 9 11.01" />
+          </svg>
+          Convites enviados com sucesso!
+        </div>
+
+        <button
+          class="btn btn-primary btn-block btn-lg"
+          id="invite-send"
+          onclick="
+            document.getElementById('invite-ok').style.display = 'flex';
+            this.style.display = 'none';
+            document.getElementById('invite-done').style.display = 'grid';
+          "
+        >
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M22 2L11 13" />
+            <path d="M22 2l-7 20-4-9-9-4 20-7z" />
+          </svg>
+          Enviar convite (3 funcionários)
+        </button>
+
+        <div class="invite-actions" id="invite-done" style="display: none">
+          <a href="dashboard.html" class="btn btn-primary btn-block">Ir para o Dashboard</a>
+          <a
+            href="onboarding-complete.html"
+            class="btn btn-ghost btn-block"
+            style="min-height: 40px"
+          >
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="15 18 9 12 15 6" />
+            </svg>
+            Voltar
+          </a>
+        </div>
+      </div>
+    </div>
+    <script src="../shared/app.js"></script>
+  </body>
+</html>

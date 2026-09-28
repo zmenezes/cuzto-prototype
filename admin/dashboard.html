@@ -1,0 +1,1017 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard — Cuzto Admin</title>
+    <link rel="icon" type="image/svg+xml" href="../shared/assets/favicon.svg" />
+    <link rel="stylesheet" href="../shared/styles.css" />
+    <style>
+      :root {
+        --primary: #6366f1;
+        --primary-deep: #4f46e5;
+        --primary-hover: #4338ca;
+        --primary-light: #eef2ff;
+        --primary-subtle: #f5f3ff;
+        --primary-shadow: #4338ca;
+        --primary-soft-shadow: #c7d2fe;
+        --primary-glow: rgba(99, 102, 241, 0.25);
+      }
+      .chart-bar-h {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 10px;
+      }
+      .chart-bar-h .label {
+        width: 100px;
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--ink-2);
+        text-align: right;
+        flex: none;
+      }
+      .chart-bar-h .bar {
+        flex: 1;
+        height: 28px;
+        background: var(--surface-3);
+        border-radius: var(--r-sm);
+        overflow: hidden;
+        position: relative;
+      }
+      .chart-bar-h .bar .fill {
+        height: 100%;
+        border-radius: var(--r-sm);
+        background: linear-gradient(90deg, var(--primary-deep), var(--primary));
+        transition: width 0.5s var(--e-out);
+      }
+      .chart-bar-h .val {
+        width: 50px;
+        font: 800 14px var(--f-display);
+        color: var(--ink);
+        flex: none;
+      }
+      .chart-bar-v {
+        display: flex;
+        align-items: flex-end;
+        gap: 8px;
+        height: 180px;
+        padding-top: 10px;
+      }
+      .chart-bar-v .col {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 4px;
+        height: 100%;
+      }
+      .chart-bar-v .col .bar {
+        width: 100%;
+        border-radius: var(--r-xs) var(--r-xs) 0 0;
+        background: linear-gradient(180deg, var(--primary), var(--primary-deep));
+        min-height: 4px;
+      }
+      .chart-bar-v .col .lbl {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--ink-3);
+        flex: none;
+      }
+      .chart-bar-v .col .val {
+        font: 800 12px var(--f-display);
+        color: var(--ink);
+        flex: none;
+      }
+      .alert-card {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 14px;
+        border-radius: var(--r-lg);
+        border: 2px solid var(--border);
+        background: var(--surface);
+        box-shadow: 0 3px 0 var(--border);
+        margin-bottom: 8px;
+      }
+      .alert-card .a-ic {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        display: grid;
+        place-items: center;
+        flex: none;
+      }
+      .alert-card .a-body {
+        flex: 1;
+        min-width: 0;
+      }
+      .alert-card .a-title {
+        font: 700 14px var(--f-display);
+        color: var(--ink);
+        margin-bottom: 2px;
+      }
+      .alert-card .a-desc {
+        font-size: 13px;
+        color: var(--ink-2);
+      }
+      .alert-card .a-time {
+        font: 600 11px var(--f-mono);
+        color: var(--ink-3);
+        margin-top: 4px;
+      }
+      .dashboard-layout {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+      @media (max-width: 900px) {
+        .dashboard-layout {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app-layout">
+      <nav class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+          <img
+            src="../shared/assets/logo-light.svg"
+            alt="Cuzto"
+            class="sidebar-logo-img"
+            height="28"
+          /><img
+            src="../shared/assets/logo-dark.svg"
+            alt="Cuzto"
+            class="sidebar-logo-img sidebar-logo-dark"
+            height="28"
+          /><span
+            style="
+              font-size: 10px;
+              font-weight: 800;
+              text-transform: uppercase;
+              letter-spacing: 0.06em;
+              padding: 2px 8px;
+              border-radius: var(--r-pill);
+              background: var(--primary-light);
+              color: var(--primary-deep);
+              margin-left: 8px;
+            "
+            >Admin</span
+          >
+        </div>
+        <div class="sidebar-nav">
+          <div class="sidebar-section">Principal</div>
+          <a class="nav-item active" href="dashboard.html"
+            ><svg viewBox="0 0 24 24">
+              <rect x="3" y="3" width="7" height="7" rx="1" />
+              <rect x="14" y="3" width="7" height="7" rx="1" />
+              <rect x="3" y="14" width="7" height="7" rx="1" />
+              <rect x="14" y="14" width="7" height="7" rx="1" /></svg
+            >Dashboard</a
+          ><a class="nav-item" href="tenants.html"
+            ><svg viewBox="0 0 24 24">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+              <polyline points="9 22 9 12 15 12 15 22" /></svg
+            >Tenants</a
+          ><a class="nav-item" href="billing.html"
+            ><svg viewBox="0 0 24 24">
+              <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
+              <line x1="1" y1="10" x2="23" y2="10" /></svg
+            >Billing</a
+          >
+          <div class="sidebar-sep"></div>
+          <div class="sidebar-section">WhatsApp</div>
+          <a class="nav-item" href="wa-overview.html"
+            ><svg viewBox="0 0 24 24">
+              <path
+                d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"
+              /></svg
+            >Visão Geral</a
+          ><a class="nav-item" href="wa-templates.html"
+            ><svg viewBox="0 0 24 24">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" /></svg
+            >Templates</a
+          ><a class="nav-item" href="wa-usage.html"
+            ><svg viewBox="0 0 24 24">
+              <rect x="2" y="2" width="20" height="20" rx="2" />
+              <path d="M7 17v-4M12 17v-7M17 17v-2" /></svg
+            >Uso & Limites</a
+          ><a class="nav-item" href="wa-cost-report.html"
+            ><svg viewBox="0 0 24 24">
+              <line x1="12" y1="1" x2="12" y2="23" />
+              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" /></svg
+            >Custos</a
+          ><a class="nav-item" href="wa-health.html"
+            ><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12" /></svg
+            >Saúde</a
+          >
+          <div class="sidebar-sep"></div>
+          <div class="sidebar-section">Sistema</div>
+          <a class="nav-item" href="system-health.html"
+            ><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12" /></svg
+            >Health</a
+          ><a class="nav-item" href="system-metrics.html"
+            ><svg viewBox="0 0 24 24">
+              <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+              <polyline points="17 6 23 6 23 12" /></svg
+            >Métricas</a
+          ><a class="nav-item" href="system-logs.html"
+            ><svg viewBox="0 0 24 24">
+              <polyline points="4 17 10 11 4 5" />
+              <line x1="12" y1="19" x2="20" y2="19" /></svg
+            >Logs</a
+          ><a class="nav-item" href="system-jobs.html"
+            ><svg viewBox="0 0 24 24">
+              <polygon points="12 2 2 7 12 12 22 7 12 2" />
+              <polyline points="2 17 12 22 22 17" />
+              <polyline points="2 12 12 17 22 12" /></svg
+            >Jobs & Filas</a
+          ><a class="nav-item" href="system-alerts.html"
+            ><svg viewBox="0 0 24 24">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+              <path d="M13.73 21a2 2 0 0 1-3.46 0" /></svg
+            >Alertas</a
+          ><a class="nav-item" href="system-config.html"
+            ><svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="3" />
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83" /></svg
+            >Configurações</a
+          ><a class="nav-item" href="system-migrations.html"
+            ><svg viewBox="0 0 24 24">
+              <rect x="4" y="4" width="16" height="16" rx="2" />
+              <path d="M9 9h6M9 13h6M9 17h4" /></svg
+            >Migrations</a
+          >
+          <div class="sidebar-sep"></div>
+          <div class="sidebar-section">Suporte</div>
+          <a class="nav-item" href="support-tickets.html"
+            ><svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10" />
+              <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+              <line x1="12" y1="17" x2="12.01" y2="17" /></svg
+            >Tickets</a
+          ><a class="nav-item" href="support-knowledge-base.html"
+            ><svg viewBox="0 0 24 24">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" /></svg
+            >Base de Conhecimento</a
+          ><a class="nav-item" href="admin-users.html"
+            ><svg viewBox="0 0 24 24">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+              <path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg
+            >Usuários Admin</a
+          >
+        </div>
+        <div class="sidebar-user">
+          <div class="avatar sm" style="background: linear-gradient(135deg, #4338ca, #818cf8)">
+            AC
+          </div>
+          <div><strong>Admin Cuzto</strong><small>Super Admin</small></div>
+        </div>
+      </nav>
+      <div class="sidebar-overlay" id="sidebar-overlay"></div>
+      <header class="topbar">
+        <button class="topbar-hamburger" id="hamburger">
+          <svg viewBox="0 0 24 24">
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        </button>
+        <div class="topbar-search">
+          <svg viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" /></svg
+          ><input type="text" placeholder="Buscar tenants, faturas..." />
+        </div>
+        <div class="topbar-actions">
+          <button class="theme-toggle">
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="4" />
+              <path
+                d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"
+              />
+            </svg>
+          </button>
+          <div class="user-menu-wrap">
+            <button class="topbar-user" id="user-menu-btn">
+              <div class="avatar sm" style="background: linear-gradient(135deg, #4338ca, #818cf8)">
+                AC
+              </div>
+              <span class="topbar-user-name">Admin Cuzto</span>
+            </button>
+            <div class="user-dropdown" id="user-dropdown">
+              <a class="user-dd-item" href="admin-users.html"
+                ><svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" /></svg
+                >Administradores</a
+              >
+              <a class="user-dd-item" href="../company/dashboard.html"
+                ><svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></svg
+                >Painel Empresa</a
+              >
+              <div class="user-dd-sep"></div>
+              <a class="user-dd-item logout" href="login.html"
+                ><svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                  <polyline points="16 17 21 12 16 7" />
+                  <line x1="21" y1="12" x2="9" y2="12" /></svg
+                >Sair</a
+              >
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main class="content">
+        <div class="page-hdr">
+          <div>
+            <div class="page-hdr-title">Dashboard Admin</div>
+            <div class="page-hdr-sub">Visão geral do SaaS · 23 de setembro, 2026</div>
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <div
+          style="
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+          "
+        >
+          <div class="stat-card">
+            <div class="stat-label">Tenants ativos</div>
+            <div class="stat-value">47</div>
+            <div class="stat-trend up" style="margin-top: 6px">
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+                <polyline points="17 6 23 6 23 12" />
+              </svg>
+              +3 este mês
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Receita mensal (MRR)</div>
+            <div class="stat-value">R$ 23.500</div>
+            <div class="stat-trend up" style="margin-top: 6px">
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+                <polyline points="17 6 23 6 23 12" />
+              </svg>
+              +8.2%
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Despesas processadas</div>
+            <div class="stat-value">3.842</div>
+            <div class="stat-trend up" style="margin-top: 6px">Set/2026</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Uso WhatsApp</div>
+            <div class="stat-value">78%</div>
+            <div
+              style="
+                margin-top: 8px;
+                height: 8px;
+                background: var(--surface-3);
+                border-radius: var(--r-pill);
+                overflow: hidden;
+              "
+            >
+              <div
+                style="
+                  height: 100%;
+                  width: 78%;
+                  background: linear-gradient(90deg, var(--primary-deep), var(--primary));
+                  border-radius: var(--r-pill);
+                "
+              ></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dashboard-layout">
+          <!-- Left column -->
+          <div>
+            <div
+              style="
+                background: var(--surface);
+                border: 2px solid var(--border);
+                border-radius: var(--r-lg);
+                padding: 20px;
+                box-shadow: 0 4px 0 var(--border);
+                margin-bottom: 20px;
+              "
+            >
+              <h3 style="font: 700 16px var(--f-display); margin-bottom: 16px">
+                Tenants por plano
+              </h3>
+              <div class="chart-bar-h">
+                <span class="label">Starter</span>
+                <div class="bar">
+                  <div
+                    class="fill"
+                    style="
+                      width: 26%;
+                      background: linear-gradient(90deg, var(--ink-3), var(--ink-2));
+                    "
+                  ></div>
+                </div>
+                <span class="val">12</span>
+              </div>
+              <div class="chart-bar-h">
+                <span class="label">Essencial</span>
+                <div class="bar"><div class="fill" style="width: 48%"></div></div>
+                <span class="val">22</span>
+              </div>
+              <div class="chart-bar-h">
+                <span class="label">Profissional</span>
+                <div class="bar"><div class="fill" style="width: 20%"></div></div>
+                <span class="val">9</span>
+              </div>
+              <div class="chart-bar-h">
+                <span class="label">Enterprise</span>
+                <div class="bar">
+                  <div
+                    class="fill"
+                    style="
+                      width: 8%;
+                      background: linear-gradient(90deg, var(--accent), var(--warning));
+                    "
+                  ></div>
+                </div>
+                <span class="val">4</span>
+              </div>
+            </div>
+
+            <div
+              style="
+                background: var(--surface);
+                border: 2px solid var(--border);
+                border-radius: var(--r-lg);
+                padding: 20px;
+                box-shadow: 0 4px 0 var(--border);
+              "
+            >
+              <h3 style="font: 700 16px var(--f-display); margin-bottom: 16px">
+                Receita últimos 6 meses
+              </h3>
+              <div class="chart-bar-v">
+                <div class="col">
+                  <span class="val">18k</span>
+                  <div class="bar" style="height: 52%"></div>
+                  <span class="lbl">Abr</span>
+                </div>
+                <div class="col">
+                  <span class="val">20k</span>
+                  <div class="bar" style="height: 58%"></div>
+                  <span class="lbl">Mai</span>
+                </div>
+                <div class="col">
+                  <span class="val">19k</span>
+                  <div class="bar" style="height: 55%"></div>
+                  <span class="lbl">Jun</span>
+                </div>
+                <div class="col">
+                  <span class="val">21k</span>
+                  <div class="bar" style="height: 61%"></div>
+                  <span class="lbl">Jul</span>
+                </div>
+                <div class="col">
+                  <span class="val">22k</span>
+                  <div class="bar" style="height: 64%"></div>
+                  <span class="lbl">Ago</span>
+                </div>
+                <div class="col">
+                  <span class="val">23k</span>
+                  <div
+                    class="bar"
+                    style="
+                      height: 70%;
+                      background: linear-gradient(180deg, var(--primary), var(--accent));
+                    "
+                  ></div>
+                  <span class="lbl">Set</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right column -->
+          <div>
+            <div style="margin-bottom: 20px">
+              <h3 style="font: 700 16px var(--f-display); margin-bottom: 12px">Alertas recentes</h3>
+              <div class="alert-card">
+                <div
+                  class="a-ic"
+                  style="background: var(--warning-soft); color: var(--warning-text)"
+                >
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.75"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path
+                      d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
+                    />
+                    <line x1="12" y1="9" x2="12" y2="13" />
+                    <line x1="12" y1="17" x2="12.01" y2="17" />
+                  </svg>
+                </div>
+                <div class="a-body">
+                  <div class="a-title">WhatsApp tier limit</div>
+                  <div class="a-desc">
+                    Uso de 78% do limite diário de conversas. Considerar upgrade de tier.
+                  </div>
+                  <div class="a-time">há 2h</div>
+                </div>
+              </div>
+              <div class="alert-card" style="border-color: var(--error)">
+                <div class="a-ic" style="background: var(--error-soft); color: var(--error-text)">
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.75"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M15 9l-6 6M9 9l6 6" />
+                  </svg>
+                </div>
+                <div class="a-body">
+                  <div class="a-title">Tenant suspenso</div>
+                  <div class="a-desc">Construtora ABC suspensa por falta de pagamento.</div>
+                  <div class="a-time">há 5h</div>
+                </div>
+              </div>
+              <div class="alert-card" style="border-color: var(--success)">
+                <div
+                  class="a-ic"
+                  style="background: var(--success-soft); color: var(--success-text)"
+                >
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.75"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                    <polyline points="22 4 12 14.01 9 11.01" />
+                  </svg>
+                </div>
+                <div class="a-body">
+                  <div class="a-title">Novo tenant</div>
+                  <div class="a-desc">Logística Express cadastrada no plano Profissional.</div>
+                  <div class="a-time">ontem</div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              style="
+                background: var(--surface);
+                border: 2px solid var(--border);
+                border-radius: var(--r-lg);
+                padding: 20px;
+                box-shadow: 0 4px 0 var(--border);
+              "
+            >
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  margin-bottom: 12px;
+                "
+              >
+                <h3 style="font: 700 16px var(--f-display)">Tenants recentes</h3>
+                <a href="tenants.html" style="font-size: 13px; font-weight: 700">Ver todos</a>
+              </div>
+              <div class="tbl-wrap" style="border: none; box-shadow: none; border-radius: 0">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Empresa</th>
+                      <th>Plano</th>
+                      <th>Criado</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr onclick="location = 'tenant-detail.html'" style="cursor: pointer">
+                      <td style="font-weight: 700">Logística Express</td>
+                      <td>
+                        <span
+                          class="badge accent"
+                          style="height: 20px; font-size: 10px; padding: 0 8px"
+                          >Profissional</span
+                        >
+                      </td>
+                      <td class="tnum" style="font-size: 12px; color: var(--ink-3)">22/09/2026</td>
+                    </tr>
+                    <tr onclick="location = 'tenant-detail.html'" style="cursor: pointer">
+                      <td style="font-weight: 700">Engefor Ltda</td>
+                      <td>
+                        <span
+                          class="badge primary"
+                          style="height: 20px; font-size: 10px; padding: 0 8px"
+                          >Essencial</span
+                        >
+                      </td>
+                      <td class="tnum" style="font-size: 12px; color: var(--ink-3)">20/09/2026</td>
+                    </tr>
+                    <tr onclick="location = 'tenant-detail.html'" style="cursor: pointer">
+                      <td style="font-weight: 700">MontaTech</td>
+                      <td>
+                        <span
+                          class="badge neutral"
+                          style="height: 20px; font-size: 10px; padding: 0 8px"
+                          >Starter</span
+                        >
+                      </td>
+                      <td class="tnum" style="font-size: 12px; color: var(--ink-3)">18/09/2026</td>
+                    </tr>
+                    <tr onclick="location = 'tenant-detail.html'" style="cursor: pointer">
+                      <td style="font-weight: 700">Solar Engenharia</td>
+                      <td>
+                        <span
+                          class="badge primary"
+                          style="height: 20px; font-size: 10px; padding: 0 8px"
+                          >Enterprise</span
+                        >
+                      </td>
+                      <td class="tnum" style="font-size: 12px; color: var(--ink-3)">15/09/2026</td>
+                    </tr>
+                    <tr onclick="location = 'tenant-detail.html'" style="cursor: pointer">
+                      <td style="font-weight: 700">Construtora Horizonte</td>
+                      <td>
+                        <span
+                          class="badge accent"
+                          style="height: 20px; font-size: 10px; padding: 0 8px"
+                          >Profissional</span
+                        >
+                      </td>
+                      <td class="tnum" style="font-size: 12px; color: var(--ink-3)">01/09/2026</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Additional sections -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px">
+          <div
+            style="
+              background: var(--surface);
+              border: 2px solid var(--border);
+              border-radius: var(--r-lg);
+              padding: 20px;
+              box-shadow: 0 4px 0 var(--border);
+            "
+          >
+            <h3 style="font: 700 16px var(--f-display); margin-bottom: 12px">
+              Tendência de Receita
+            </h3>
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 14px">
+              <div style="font: 800 24px var(--f-display); color: var(--ink)">R$ 23.500</div>
+              <span class="stat-trend up"
+                ><svg
+                  width="12"
+                  height="12"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+                  <polyline points="17 6 23 6 23 12" />
+                </svg>
+                +5% MoM</span
+              >
+            </div>
+            <div style="display: flex; align-items: flex-end; gap: 4px; height: 60px">
+              <div
+                style="
+                  flex: 1;
+                  background: var(--primary-light);
+                  border-radius: 3px 3px 0 0;
+                  height: 50%;
+                "
+              ></div>
+              <div
+                style="
+                  flex: 1;
+                  background: var(--primary-light);
+                  border-radius: 3px 3px 0 0;
+                  height: 58%;
+                "
+              ></div>
+              <div
+                style="
+                  flex: 1;
+                  background: var(--primary-light);
+                  border-radius: 3px 3px 0 0;
+                  height: 55%;
+                "
+              ></div>
+              <div
+                style="
+                  flex: 1;
+                  background: var(--primary-light);
+                  border-radius: 3px 3px 0 0;
+                  height: 61%;
+                "
+              ></div>
+              <div
+                style="
+                  flex: 1;
+                  background: var(--primary-light);
+                  border-radius: 3px 3px 0 0;
+                  height: 64%;
+                "
+              ></div>
+              <div
+                style="
+                  flex: 1;
+                  background: linear-gradient(180deg, var(--primary), var(--primary-deep));
+                  border-radius: 3px 3px 0 0;
+                  height: 70%;
+                "
+              ></div>
+            </div>
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                font-size: 10px;
+                color: var(--ink-3);
+                font-weight: 700;
+                margin-top: 4px;
+              "
+            >
+              <span>Abr</span><span>Mai</span><span>Jun</span><span>Jul</span><span>Ago</span
+              ><span>Set</span>
+            </div>
+            <div style="margin-top: 12px; display: flex; gap: 16px; font-size: 13px">
+              <div>
+                <span style="color: var(--ink-3)">Projeção Out:</span>
+                <strong style="color: var(--success-text)">R$ 24.700</strong>
+              </div>
+              <div><span style="color: var(--ink-3)">ARR:</span> <strong>R$ 282k</strong></div>
+            </div>
+          </div>
+
+          <div
+            style="
+              background: var(--surface);
+              border: 2px solid var(--border);
+              border-radius: var(--r-lg);
+              padding: 20px;
+              box-shadow: 0 4px 0 var(--border);
+            "
+          >
+            <h3 style="font: 700 16px var(--f-display); margin-bottom: 12px">
+              Uso por horário (hoje)
+            </h3>
+            <div
+              style="
+                display: grid;
+                grid-template-columns: repeat(12, 1fr);
+                gap: 3px;
+                margin-bottom: 6px;
+              "
+            >
+              <div
+                style="aspect-ratio: 1; border-radius: 4px; background: var(--surface-3)"
+                title="00h"
+              ></div>
+              <div
+                style="aspect-ratio: 1; border-radius: 4px; background: var(--surface-3)"
+                title="02h"
+              ></div>
+              <div
+                style="aspect-ratio: 1; border-radius: 4px; background: var(--surface-3)"
+                title="04h"
+              ></div>
+              <div
+                style="aspect-ratio: 1; border-radius: 4px; background: var(--primary-light)"
+                title="06h"
+              ></div>
+              <div
+                style="aspect-ratio: 1; border-radius: 4px; background: var(--primary)"
+                title="08h"
+              ></div>
+              <div
+                style="aspect-ratio: 1; border-radius: 4px; background: var(--primary-deep)"
+                title="10h"
+              ></div>
+              <div
+                style="aspect-ratio: 1; border-radius: 4px; background: var(--primary)"
+                title="12h"
+              ></div>
+              <div
+                style="aspect-ratio: 1; border-radius: 4px; background: var(--primary-deep)"
+                title="14h"
+              ></div>
+              <div
+                style="aspect-ratio: 1; border-radius: 4px; background: var(--primary)"
+                title="16h"
+              ></div>
+              <div
+                style="aspect-ratio: 1; border-radius: 4px; background: var(--primary-light)"
+                title="18h"
+              ></div>
+              <div
+                style="aspect-ratio: 1; border-radius: 4px; background: var(--surface-3)"
+                title="20h"
+              ></div>
+              <div
+                style="aspect-ratio: 1; border-radius: 4px; background: var(--surface-3)"
+                title="22h"
+              ></div>
+            </div>
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                font-size: 9px;
+                color: var(--ink-3);
+                font-weight: 700;
+              "
+            >
+              <span>00h</span><span>06h</span><span>12h</span><span>18h</span><span>23h</span>
+            </div>
+            <div style="margin-top: 12px; font-size: 13px; color: var(--ink-2)">
+              <div>Pico: <strong>10h–14h</strong> (312 mensagens)</div>
+              <div style="margin-top: 4px">
+                Total hoje: <strong>847 mensagens</strong> de <strong>23 tenants</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick links -->
+        <div style="display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap">
+          <a
+            href="billing-revenue-report.html"
+            class="btn btn-sm btn-outline"
+            style="text-decoration: none"
+            ><svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect x="2" y="2" width="20" height="20" rx="2" />
+              <path d="M7 17v-4M12 17v-7M17 17v-2" />
+            </svg>
+            Relatório de receita</a
+          >
+          <a
+            href="billing-coupons.html"
+            class="btn btn-sm btn-outline"
+            style="text-decoration: none"
+            ><svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="20.59" y1="13.41" x2="10.59" y2="3.41" />
+              <line x1="16" y1="8" x2="2" y2="22" />
+            </svg>
+            Cupons</a
+          >
+          <a
+            href="wa-conversations.html"
+            class="btn btn-sm btn-outline"
+            style="text-decoration: none"
+            ><svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+            </svg>
+            Conversas</a
+          >
+        </div>
+      </main>
+    </div>
+    <nav class="bottom-nav">
+      <a class="bnav-item on" href="dashboard.html"
+        ><svg viewBox="0 0 24 24">
+          <rect x="3" y="3" width="7" height="7" rx="1" />
+          <rect x="14" y="3" width="7" height="7" rx="1" />
+          <rect x="3" y="14" width="7" height="7" rx="1" />
+          <rect x="14" y="14" width="7" height="7" rx="1" /></svg
+        ><span>Dashboard</span></a
+      >
+      <a class="bnav-item" href="tenants.html"
+        ><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></svg
+        ><span>Tenants</span></a
+      >
+      <a class="bnav-item" href="billing.html"
+        ><svg viewBox="0 0 24 24">
+          <rect x="1" y="4" width="22" height="16" rx="2" />
+          <line x1="1" y1="10" x2="23" y2="10" /></svg
+        ><span>Billing</span></a
+      >
+      <a class="bnav-item" href="wa-overview.html"
+        ><svg viewBox="0 0 24 24">
+          <path
+            d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"
+          /></svg
+        ><span>WhatsApp</span></a
+      >
+      <a class="bnav-item" href="system-health.html"
+        ><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12" /></svg
+        ><span>Sistema</span></a
+      >
+    </nav>
+    <script src="../shared/app.js"></script>
+  </body>
+</html>

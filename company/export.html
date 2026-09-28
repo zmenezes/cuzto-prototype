@@ -1,0 +1,1125 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exportar — Cuzto</title>
+    <link rel="icon" type="image/svg+xml" href="../shared/assets/favicon.svg" />
+    <link rel="stylesheet" href="../shared/styles.css" />
+    <style>
+      .export-card {
+        background: var(--surface);
+        border: 2px solid var(--border);
+        border-radius: var(--r-xl);
+        padding: 28px;
+        box-shadow: 0 4px 0 var(--border);
+        max-width: 620px;
+      }
+      .export-card h3 {
+        font-family: var(--f-display);
+        font-size: 18px;
+        font-weight: 700;
+        margin-bottom: 20px;
+      }
+      .seg-ctrl {
+        display: inline-flex;
+        padding: 3px;
+        background: var(--surface-2);
+        border-radius: var(--r-pill);
+        gap: 2px;
+        border: 2px solid var(--border);
+        box-shadow: 0 2px 0 var(--border);
+        margin-bottom: 20px;
+      }
+      .seg-btn {
+        min-height: 38px;
+        padding: 0 16px;
+        border: 0;
+        background: transparent;
+        border-radius: var(--r-pill);
+        font-weight: 700;
+        font-size: 13.5px;
+        color: var(--ink-2);
+        cursor: pointer;
+        transition:
+          background var(--t-base),
+          color var(--t-fast),
+          box-shadow var(--t-fast);
+        font-family: var(--f-ui);
+        white-space: nowrap;
+      }
+      .seg-btn.on {
+        background: var(--primary-light);
+        color: var(--primary-deep);
+        box-shadow: 0 2px 0 var(--primary-soft-shadow);
+      }
+      .col-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 6px;
+        margin-bottom: 20px;
+      }
+      .col-check {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-height: 36px;
+        padding: 4px 0;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--ink);
+      }
+      .col-check input {
+        appearance: none;
+        width: 22px;
+        height: 22px;
+        border: 2px solid var(--border-strong);
+        border-radius: 6px;
+        background: var(--surface);
+        cursor: pointer;
+        display: grid;
+        place-content: center;
+        box-shadow: 0 2px 0 var(--border-strong);
+        transition:
+          background var(--t-fast),
+          border-color var(--t-fast);
+      }
+      .col-check input:checked {
+        background: var(--primary);
+        border-color: var(--primary);
+        box-shadow: 0 2px 0 var(--primary-shadow);
+      }
+      .col-check input:checked::after {
+        content: "✓";
+        color: var(--text-on-primary);
+        font-size: 12px;
+        font-weight: 800;
+      }
+      .fmt-group {
+        display: flex;
+        gap: 16px;
+        margin-bottom: 20px;
+      }
+      .fmt-opt {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--ink);
+      }
+      .fmt-opt input {
+        appearance: none;
+        width: 22px;
+        height: 22px;
+        border: 2px solid var(--border-strong);
+        border-radius: 50%;
+        background: var(--surface);
+        cursor: pointer;
+        box-shadow: 0 2px 0 var(--border-strong);
+        transition: border-color var(--t-fast);
+      }
+      .fmt-opt input:checked {
+        border-color: var(--primary);
+        border-width: 6px;
+        box-shadow: 0 2px 0 var(--primary-shadow);
+      }
+      .export-count {
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--primary-deep);
+        margin-bottom: 20px;
+        font-family: var(--f-display);
+      }
+      .recent-export {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 14px;
+        border-bottom: 1px solid var(--border);
+        font-size: 13px;
+      }
+      .recent-export:last-child {
+        border-bottom: 0;
+      }
+      .recent-export .fname {
+        font-weight: 700;
+        color: var(--ink);
+        font-family: var(--f-mono);
+        font-size: 12px;
+        flex: 1;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .recent-export .fmeta {
+        color: var(--ink-3);
+        white-space: nowrap;
+      }
+      @media (max-width: 500px) {
+        .col-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+
+      /* Date Range Picker styles now in shared/styles.css */
+    </style>
+  </head>
+  <body>
+    <div class="app-layout">
+      <!-- Sidebar -->
+      <nav class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+          <img
+            src="../shared/assets/logo-light.svg"
+            alt="Cuzto"
+            class="sidebar-logo-img"
+            height="28"
+          />
+          <img
+            src="../shared/assets/logo-dark.svg"
+            alt="Cuzto"
+            class="sidebar-logo-img sidebar-logo-dark"
+            height="28"
+          />
+        </div>
+        <div class="sidebar-nav">
+          <div class="sidebar-section">Principal</div>
+          <a class="nav-item" href="dashboard.html"
+            ><svg viewBox="0 0 24 24">
+              <rect x="3" y="3" width="7" height="7" rx="1" />
+              <rect x="14" y="3" width="7" height="7" rx="1" />
+              <rect x="3" y="14" width="7" height="7" rx="1" />
+              <rect x="14" y="14" width="7" height="7" rx="1" /></svg
+            >Dashboard</a
+          >
+          <a class="nav-item" href="expenses.html"
+            ><svg viewBox="0 0 24 24">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+              <line x1="16" y1="13" x2="8" y2="13" />
+              <line x1="16" y1="17" x2="8" y2="17" /></svg
+            >Despesas</a
+          >
+          <a class="nav-item" href="employees.html"
+            ><svg viewBox="0 0 24 24">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+              <path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg
+            >Funcionários</a
+          >
+          <a class="nav-item" href="advances.html"
+            ><svg viewBox="0 0 24 24">
+              <line x1="12" y1="1" x2="12" y2="23" />
+              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" /></svg
+            >Adiantamentos</a
+          >
+          <a class="nav-item" href="approvals.html"
+            ><svg viewBox="0 0 24 24">
+              <polyline points="9 11 12 14 22 4" />
+              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" /></svg
+            >Aprovações<span class="nav-badge">7</span></a
+          >
+          <a class="nav-item" href="reports.html"
+            ><svg viewBox="0 0 24 24">
+              <rect x="2" y="2" width="20" height="20" rx="2" />
+              <path d="M7 17v-4M12 17v-7M17 17v-2" /></svg
+            >Relatórios</a
+          >
+          <div class="sidebar-sep"></div>
+          <div class="sidebar-section">Configuração</div>
+          <a class="nav-item" href="policy.html"
+            ><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg
+            >Política</a
+          >
+          <a class="nav-item" href="period-closure.html"
+            ><svg viewBox="0 0 24 24">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+              <line x1="16" y1="2" x2="16" y2="6" />
+              <line x1="8" y1="2" x2="8" y2="6" />
+              <line x1="3" y1="10" x2="21" y2="10" /></svg
+            >Fechamento</a
+          >
+          <a class="nav-item" href="audit.html"
+            ><svg viewBox="0 0 24 24">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+              <line x1="16" y1="13" x2="8" y2="13" />
+              <line x1="16" y1="17" x2="8" y2="17" /></svg
+            >Auditoria</a
+          >
+          <a class="nav-item" href="settings.html"
+            ><svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="3" />
+              <path
+                d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"
+              /></svg
+            >Configurações</a
+          >
+        </div>
+        <div class="sidebar-user">
+          <div class="avatar sm">MS</div>
+          <div><strong>Maria Silva</strong><small>Financeiro</small></div>
+        </div>
+      </nav>
+
+      <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+      <!-- Topbar -->
+      <header class="topbar">
+        <button class="topbar-hamburger" id="hamburger">
+          <svg viewBox="0 0 24 24">
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        </button>
+        <div class="topbar-search">
+          <svg viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+          <input type="text" placeholder="Buscar despesas, funcionários..." />
+        </div>
+        <div class="topbar-actions">
+          <div class="topbar-bell-wrap">
+            <button class="topbar-icon" id="notif-btn">
+              <svg viewBox="0 0 24 24">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                <path d="M13.73 21a2 2 0 0 1-3.46 0" /></svg
+              ><span class="topbar-count">7</span>
+            </button>
+            <div class="notif-dropdown" id="notif-dropdown">
+              <div class="notif-dd-header">Notificações</div>
+              <div class="notif-dd-list">
+                <a class="notif-dd-item unread" href="approvals.html"
+                  ><span class="notif-dd-dot"></span>
+                  <div
+                    class="notif-dd-ic"
+                    style="background: var(--accent-soft); color: var(--accent-text)"
+                  >
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                      <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                    </svg>
+                  </div>
+                  <div class="notif-dd-body">
+                    <div class="notif-dd-title">Nova despesa pendente</div>
+                    <div class="notif-dd-desc">Carlos Oliveira, R$ 287,50</div>
+                    <div class="notif-dd-time">há 5 min</div>
+                  </div></a
+                >
+                <a class="notif-dd-item unread" href="expenses.html"
+                  ><span class="notif-dd-dot"></span>
+                  <div
+                    class="notif-dd-ic"
+                    style="background: var(--success-soft); color: var(--success-text)"
+                  >
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                      <polyline points="22 4 12 14.01 9 11.01" />
+                    </svg>
+                  </div>
+                  <div class="notif-dd-body">
+                    <div class="notif-dd-title">Exceção aprovada</div>
+                    <div class="notif-dd-desc">Maria Silva aprovou R$ 171,00</div>
+                    <div class="notif-dd-time">há 12 min</div>
+                  </div></a
+                >
+                <a class="notif-dd-item" href="audit.html"
+                  ><div
+                    class="notif-dd-ic"
+                    style="background: var(--error-soft); color: var(--error-text)"
+                  >
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path
+                        d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
+                      />
+                      <line x1="12" y1="9" x2="12" y2="13" />
+                      <line x1="12" y1="17" x2="12.01" y2="17" />
+                    </svg>
+                  </div>
+                  <div class="notif-dd-body">
+                    <div class="notif-dd-title">Falha SEFAZ</div>
+                    <div class="notif-dd-desc">Timeout na consulta NFC-e</div>
+                    <div class="notif-dd-time">há 1h</div>
+                  </div></a
+                >
+                <a class="notif-dd-item" href="advances.html"
+                  ><div
+                    class="notif-dd-ic"
+                    style="background: var(--primary-light); color: var(--primary-deep)"
+                  >
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <line x1="12" y1="1" x2="12" y2="23" />
+                      <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                    </svg>
+                  </div>
+                  <div class="notif-dd-body">
+                    <div class="notif-dd-title">Adiantamento pago</div>
+                    <div class="notif-dd-desc">R$ 1.500 creditado</div>
+                    <div class="notif-dd-time">há 3h</div>
+                  </div></a
+                >
+              </div>
+              <a class="notif-dd-footer" href="notifications.html">Ver todas as notificações</a>
+            </div>
+          </div>
+          <button class="theme-toggle">
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="4" />
+              <path
+                d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"
+              />
+            </svg>
+          </button>
+          <div class="user-menu-wrap">
+            <button class="topbar-user" id="user-menu-btn">
+              <div class="avatar sm">MS</div>
+              <span class="topbar-user-name">Maria Silva</span>
+            </button>
+            <div class="user-dropdown" id="user-dropdown">
+              <a class="user-dd-item" href="profile.html"
+                ><svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" /></svg
+                >Meu perfil</a
+              >
+              <a class="user-dd-item" href="settings.html"
+                ><svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <circle cx="12" cy="12" r="3" />
+                  <path
+                    d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"
+                  /></svg
+                >Configurações</a
+              >
+              <div class="user-dd-sep"></div>
+              <a class="user-dd-item logout" href="login.html"
+                ><svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                  <polyline points="16 17 21 12 16 7" />
+                  <line x1="21" y1="12" x2="9" y2="12" /></svg
+                >Sair</a
+              >
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main class="content">
+        <nav class="crumb">
+          <a href="settings.html">Configurações</a
+          ><span class="sep"
+            ><svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="9 18 15 12 9 6" /></svg></span
+          ><span aria-current="page">Exportar</span>
+        </nav>
+        <div class="page-hdr">
+          <div>
+            <div class="page-hdr-title">Exportar Dados</div>
+            <div class="page-hdr-sub">Gere relatórios em CSV ou XLSX</div>
+          </div>
+        </div>
+
+        <div class="export-card">
+          <h3>Configurar exportação</h3>
+
+          <div class="field">
+            <label>Período</label>
+            <div style="position: relative" id="drp-wrap">
+              <button type="button" class="drp-trigger" id="drp-trigger">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                  <line x1="16" y1="2" x2="16" y2="6" />
+                  <line x1="8" y1="2" x2="8" y2="6" />
+                  <line x1="3" y1="10" x2="21" y2="10" />
+                </svg>
+                <span class="drp-dates"
+                  ><span id="drp-start">01/09/2026</span> <span class="drp-sep">—</span>
+                  <span id="drp-end">30/09/2026</span></span
+                >
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </button>
+              <div class="drp-panel" id="drp-panel">
+                <div class="drp-body">
+                  <div class="drp-presets">
+                    <button class="drp-preset" data-preset="today">Hoje</button>
+                    <button class="drp-preset" data-preset="yesterday">Ontem</button>
+                    <button class="drp-preset" data-preset="7d">Últimos 7 dias</button>
+                    <button class="drp-preset" data-preset="30d">Últimos 30 dias</button>
+                    <button class="drp-preset active" data-preset="this-month">Mês atual</button>
+                    <button class="drp-preset" data-preset="last-month">Mês anterior</button>
+                    <button class="drp-preset" data-preset="this-year">Este ano</button>
+                    <button class="drp-preset" data-preset="last-year">Ano passado</button>
+                  </div>
+                  <div class="drp-calendars">
+                    <div class="drp-cal" id="drp-cal-left">
+                      <div class="drp-cal-header">
+                        <button id="drp-prev">
+                          <svg
+                            width="14"
+                            height="14"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          >
+                            <polyline points="15 18 9 12 15 6" />
+                          </svg>
+                        </button>
+                        <span id="drp-month-left">Setembro 2026</span>
+                        <span></span>
+                      </div>
+                      <div class="drp-cal-grid" id="drp-grid-left"></div>
+                    </div>
+                    <div class="drp-cal" id="drp-cal-right">
+                      <div class="drp-cal-header">
+                        <span></span>
+                        <span id="drp-month-right">Outubro 2026</span>
+                        <button id="drp-next">
+                          <svg
+                            width="14"
+                            height="14"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          >
+                            <polyline points="9 18 15 12 9 6" />
+                          </svg>
+                        </button>
+                      </div>
+                      <div class="drp-cal-grid" id="drp-grid-right"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="drp-footer">
+                  <span class="drp-range-text" id="drp-range-text">01/09/2026 — 30/09/2026</span>
+                  <div style="display: flex; gap: 8px">
+                    <button class="btn btn-sm btn-ghost" id="drp-cancel">Cancelar</button>
+                    <button class="btn btn-sm btn-primary" id="drp-apply">Aplicar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="field"><label>Tipo de dados</label></div>
+          <div class="seg-ctrl">
+            <button
+              class="seg-btn on"
+              onclick="
+                document.querySelectorAll('.seg-btn').forEach((b) => b.classList.remove('on'));
+                this.classList.add('on');
+              "
+            >
+              Despesas
+            </button>
+            <button
+              class="seg-btn"
+              onclick="
+                document.querySelectorAll('.seg-btn').forEach((b) => b.classList.remove('on'));
+                this.classList.add('on');
+              "
+            >
+              Adiantamentos
+            </button>
+            <button
+              class="seg-btn"
+              onclick="
+                document.querySelectorAll('.seg-btn').forEach((b) => b.classList.remove('on'));
+                this.classList.add('on');
+              "
+            >
+              Ledger
+            </button>
+          </div>
+
+          <div class="field"><label>Colunas</label></div>
+          <div class="col-grid">
+            <label class="col-check"><input type="checkbox" checked /> Data</label>
+            <label class="col-check"><input type="checkbox" checked /> Funcionário</label>
+            <label class="col-check"><input type="checkbox" checked /> Estabelecimento</label>
+            <label class="col-check"><input type="checkbox" checked /> Categoria</label>
+            <label class="col-check"><input type="checkbox" checked /> Valor</label>
+            <label class="col-check"><input type="checkbox" /> Método</label>
+            <label class="col-check"><input type="checkbox" checked /> Status</label>
+            <label class="col-check"><input type="checkbox" /> Política</label>
+          </div>
+
+          <div class="field"><label>Formato</label></div>
+          <div style="display: flex; gap: 20px; margin-bottom: 20px">
+            <label class="cb-radio"
+              ><input type="radio" name="fmt" checked /><span class="cb-dot"></span>CSV</label
+            >
+            <label class="cb-radio"
+              ><input type="radio" name="fmt" /><span class="cb-dot"></span>XLSX</label
+            >
+          </div>
+
+          <div class="export-count">47 despesas selecionadas</div>
+
+          <div style="display: flex; gap: 10px">
+            <a href="export-progress.html" class="btn btn-primary"
+              ><svg
+                viewBox="0 0 24 24"
+                width="16"
+                height="16"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
+              Exportar</a
+            >
+            <a href="settings.html" class="btn btn-ghost">Cancelar</a>
+          </div>
+        </div>
+
+        <div class="mt-24" style="max-width: 560px">
+          <div class="sec-hdr mb-12"><span class="sec-hdr-title">Exportações recentes</span></div>
+          <div
+            style="
+              background: var(--surface);
+              border: 2px solid var(--border);
+              border-radius: var(--r-lg);
+              box-shadow: 0 3px 0 var(--border);
+              overflow: hidden;
+            "
+          >
+            <div class="recent-export">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="var(--success-text)"
+                stroke-width="1.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+              </svg>
+              <span class="fname">despesas_setembro_2026.csv</span>
+              <span class="fmeta">22/09 · 47 reg.</span>
+              <a
+                href="export-progress.html"
+                class="btn btn-sm btn-link"
+                style="min-height: 28px; padding: 0 8px; font-size: 12px"
+                >Baixar</a
+              >
+            </div>
+            <div class="recent-export">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="var(--info-text)"
+                stroke-width="1.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+              </svg>
+              <span class="fname">adiantamentos_agosto_2026.xlsx</span>
+              <span class="fmeta">01/09 · 12 reg.</span>
+              <a
+                href="export-progress.html"
+                class="btn btn-sm btn-link"
+                style="min-height: 28px; padding: 0 8px; font-size: 12px"
+                >Baixar</a
+              >
+            </div>
+            <div class="recent-export">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="var(--ink-3)"
+                stroke-width="1.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+              </svg>
+              <span class="fname">ledger_carlos_oliveira.csv</span>
+              <span class="fmeta">20/09 · 45 reg.</span>
+              <a
+                href="export-progress.html"
+                class="btn btn-sm btn-link"
+                style="min-height: 28px; padding: 0 8px; font-size: 12px"
+                >Baixar</a
+              >
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Bottom Nav -->
+    <nav class="bottom-nav">
+      <a class="bnav-item" href="dashboard.html"
+        ><svg viewBox="0 0 24 24">
+          <rect x="3" y="3" width="7" height="7" rx="1" />
+          <rect x="14" y="3" width="7" height="7" rx="1" />
+          <rect x="3" y="14" width="7" height="7" rx="1" />
+          <rect x="14" y="14" width="7" height="7" rx="1" /></svg
+        ><span>Dashboard</span></a
+      >
+      <a class="bnav-item" href="expenses.html"
+        ><svg viewBox="0 0 24 24">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+          <polyline points="14 2 14 8 20 8" /></svg
+        ><span>Despesas</span></a
+      >
+      <a class="bnav-item" href="advances.html"
+        ><svg viewBox="0 0 24 24">
+          <line x1="12" y1="1" x2="12" y2="23" />
+          <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" /></svg
+        ><span>Adiantam.</span></a
+      >
+      <a class="bnav-item" href="approvals.html"
+        ><svg viewBox="0 0 24 24">
+          <polyline points="9 11 12 14 22 4" />
+          <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" /></svg
+        ><span>Aprovações</span><span class="bnav-count">7</span></a
+      >
+      <a class="bnav-item" href="settings.html"
+        ><svg viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="1" />
+          <circle cx="19" cy="12" r="1" />
+          <circle cx="5" cy="12" r="1" /></svg
+        ><span>Mais</span></a
+      >
+    </nav>
+
+    <script src="../shared/app.js"></script>
+    <script>
+      (function () {
+        var trigger = document.getElementById("drp-trigger");
+        var panel = document.getElementById("drp-panel");
+        var wrap = document.getElementById("drp-wrap");
+        var startEl = document.getElementById("drp-start");
+        var endEl = document.getElementById("drp-end");
+        var rangeText = document.getElementById("drp-range-text");
+        var gridL = document.getElementById("drp-grid-left");
+        var gridR = document.getElementById("drp-grid-right");
+        var monthL = document.getElementById("drp-month-left");
+        var monthR = document.getElementById("drp-month-right");
+        var months = [
+          "Janeiro",
+          "Fevereiro",
+          "Março",
+          "Abril",
+          "Maio",
+          "Junho",
+          "Julho",
+          "Agosto",
+          "Setembro",
+          "Outubro",
+          "Novembro",
+          "Dezembro",
+        ];
+        var daysH = ["D", "S", "T", "Q", "Q", "S", "S"];
+
+        var baseMonth = 8,
+          baseYear = 2026;
+        var selStart = new Date(2026, 8, 1),
+          selEnd = new Date(2026, 8, 30);
+        var picking = null; // null or 'end'
+        var hoverDate = null;
+
+        function fmt(d) {
+          return (
+            ("0" + d.getDate()).slice(-2) +
+            "/" +
+            ("0" + (d.getMonth() + 1)).slice(-2) +
+            "/" +
+            d.getFullYear()
+          );
+        }
+        function ts(d) {
+          return d.getTime();
+        }
+        function sameDay(a, b) {
+          return a && b && a.toDateString() === b.toDateString();
+        }
+
+        function updateDisplay() {
+          startEl.textContent = fmt(selStart);
+          endEl.textContent = fmt(selEnd);
+          rangeText.textContent = fmt(selStart) + " — " + fmt(selEnd);
+        }
+
+        function getRangeEnd() {
+          if (picking === "end" && hoverDate) {
+            return hoverDate >= selStart ? hoverDate : selStart;
+          }
+          return selEnd;
+        }
+        function getRangeStart() {
+          if (picking === "end" && hoverDate && hoverDate < selStart) {
+            return hoverDate;
+          }
+          return selStart;
+        }
+
+        function buildGrid(container, year, month) {
+          container.innerHTML = "";
+          daysH.forEach(function (d) {
+            container.innerHTML += '<span class="dh">' + d + "</span>";
+          });
+          var first = new Date(year, month, 1);
+          var startDay = first.getDay();
+          var daysInMonth = new Date(year, month + 1, 0).getDate();
+          var prevDays = new Date(year, month, 0).getDate();
+          var today = new Date();
+          var rStart = getRangeStart(),
+            rEnd = getRangeEnd();
+
+          for (var i = startDay - 1; i >= 0; i--) {
+            container.innerHTML += '<span class="dd other">' + (prevDays - i) + "</span>";
+          }
+          for (var d = 1; d <= daysInMonth; d++) {
+            var date = new Date(year, month, d);
+            var cls = "dd";
+            if (date.toDateString() === today.toDateString()) cls += " today";
+            if (rStart && rEnd) {
+              if (sameDay(date, rStart) && sameDay(date, rEnd)) cls += " sel sel-end";
+              else if (sameDay(date, rStart)) cls += " sel";
+              else if (sameDay(date, rEnd)) cls += " sel-end";
+              else if (date > rStart && date < rEnd) cls += " in";
+            }
+            container.innerHTML +=
+              '<span class="' +
+              cls +
+              '" data-date="' +
+              year +
+              "-" +
+              month +
+              "-" +
+              d +
+              '">' +
+              d +
+              "</span>";
+          }
+          var totalCells = startDay + daysInMonth;
+          var remaining = 42 - totalCells;
+          for (var i = 1; i <= remaining; i++) {
+            container.innerHTML += '<span class="dd other">' + i + "</span>";
+          }
+        }
+
+        function render() {
+          monthL.textContent = months[baseMonth] + " " + baseYear;
+          var nextM = baseMonth + 1,
+            nextY = baseYear;
+          if (nextM > 11) {
+            nextM = 0;
+            nextY++;
+          }
+          monthR.textContent = months[nextM] + " " + nextY;
+          buildGrid(gridL, baseYear, baseMonth);
+          buildGrid(gridR, nextY, nextM);
+        }
+
+        var savedStart = null,
+          savedEnd = null;
+
+        trigger.addEventListener("click", function (e) {
+          e.stopPropagation();
+          if (!panel.classList.contains("open")) {
+            savedStart = new Date(selStart.getTime());
+            savedEnd = new Date(selEnd.getTime());
+            picking = null;
+            hoverDate = null;
+            panel.classList.add("open");
+            render();
+          }
+        });
+
+        document.getElementById("drp-prev").addEventListener("click", function () {
+          baseMonth--;
+          if (baseMonth < 0) {
+            baseMonth = 11;
+            baseYear--;
+          }
+          render();
+        });
+        document.getElementById("drp-next").addEventListener("click", function () {
+          baseMonth++;
+          if (baseMonth > 11) {
+            baseMonth = 0;
+            baseYear++;
+          }
+          render();
+        });
+
+        function parseDate(el) {
+          var parts = el.dataset.date.split("-");
+          return new Date(parseInt(parts[0]), parseInt(parts[1]), parseInt(parts[2]));
+        }
+
+        // Track last hovered date for click fallback
+        var lastHoveredDate = null;
+
+        [gridL, gridR].forEach(function (g) {
+          // Hover: preview range + track hovered date
+          g.addEventListener("mouseover", function (e) {
+            var dd = e.target.closest(".dd");
+            if (!dd || !dd.dataset.date || dd.classList.contains("other")) return;
+            lastHoveredDate = dd.dataset.date;
+            if (picking !== "end") return;
+            hoverDate = parseDate(dd);
+            // Don't re-render, just update classes directly
+            var rStart = getRangeStart(),
+              rEnd = getRangeEnd();
+            g.querySelectorAll(".dd:not(.other)").forEach(function (cell) {
+              if (!cell.dataset.date) return;
+              var d = parseDate(cell);
+              cell.classList.remove("sel", "sel-end", "in");
+              if (sameDay(d, rStart) && sameDay(d, rEnd)) {
+                cell.classList.add("sel", "sel-end");
+              } else if (sameDay(d, rStart)) {
+                cell.classList.add("sel");
+              } else if (sameDay(d, rEnd)) {
+                cell.classList.add("sel-end");
+              } else if (d > rStart && d < rEnd) {
+                cell.classList.add("in");
+              }
+            });
+            // Also update the OTHER grid
+            var otherG = g === gridL ? gridR : gridL;
+            otherG.querySelectorAll(".dd:not(.other)").forEach(function (cell) {
+              if (!cell.dataset.date) return;
+              var d = parseDate(cell);
+              cell.classList.remove("sel", "sel-end", "in");
+              if (sameDay(d, rStart) && sameDay(d, rEnd)) {
+                cell.classList.add("sel", "sel-end");
+              } else if (sameDay(d, rStart)) {
+                cell.classList.add("sel");
+              } else if (sameDay(d, rEnd)) {
+                cell.classList.add("sel-end");
+              } else if (d > rStart && d < rEnd) {
+                cell.classList.add("in");
+              }
+            });
+            rangeText.textContent = fmt(rStart) + " — " + fmt(rEnd);
+          });
+
+          g.addEventListener("mouseleave", function () {
+            if (picking !== "end") return;
+            hoverDate = null;
+            render();
+            rangeText.textContent = fmt(selStart) + " — " + fmt(selEnd);
+          });
+
+          // Click: select date
+          g.addEventListener("click", function (e) {
+            var dd = e.target.closest(".dd");
+            if (!dd || dd.classList.contains("other")) return;
+            var dateStr = dd.dataset.date || lastHoveredDate;
+            if (!dateStr) return;
+            var parts = dateStr.split("-");
+            var clicked = new Date(parseInt(parts[0]), parseInt(parts[1]), parseInt(parts[2]));
+
+            if (picking !== "end") {
+              selStart = clicked;
+              selEnd = clicked;
+              picking = "end";
+              hoverDate = null;
+            } else {
+              if (clicked < selStart) {
+                selEnd = selStart;
+                selStart = clicked;
+              } else {
+                selEnd = clicked;
+              }
+              picking = null;
+              hoverDate = null;
+            }
+            updateDisplay();
+            render();
+            document.querySelectorAll(".drp-preset").forEach(function (p) {
+              p.classList.remove("active");
+            });
+          });
+        });
+
+        document.querySelectorAll(".drp-preset").forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            document.querySelectorAll(".drp-preset").forEach(function (p) {
+              p.classList.remove("active");
+            });
+            btn.classList.add("active");
+            var now = new Date(2026, 8, 22);
+            var p = btn.dataset.preset;
+            if (p === "today") {
+              selStart = selEnd = new Date(now);
+            } else if (p === "yesterday") {
+              var y = new Date(now);
+              y.setDate(y.getDate() - 1);
+              selStart = selEnd = y;
+            } else if (p === "7d") {
+              selEnd = new Date(now);
+              selStart = new Date(now);
+              selStart.setDate(selStart.getDate() - 6);
+            } else if (p === "30d") {
+              selEnd = new Date(now);
+              selStart = new Date(now);
+              selStart.setDate(selStart.getDate() - 29);
+            } else if (p === "this-month") {
+              selStart = new Date(2026, 8, 1);
+              selEnd = new Date(2026, 8, 30);
+            } else if (p === "last-month") {
+              selStart = new Date(2026, 7, 1);
+              selEnd = new Date(2026, 7, 31);
+            } else if (p === "this-year") {
+              selStart = new Date(2026, 0, 1);
+              selEnd = new Date(now);
+            } else if (p === "last-year") {
+              selStart = new Date(2025, 0, 1);
+              selEnd = new Date(2025, 11, 31);
+            }
+            baseMonth = selStart.getMonth();
+            baseYear = selStart.getFullYear();
+            picking = null;
+            hoverDate = null;
+            updateDisplay();
+            render();
+          });
+        });
+
+        document.getElementById("drp-apply").addEventListener("click", function () {
+          picking = null;
+          hoverDate = null;
+          panel.classList.remove("open");
+        });
+        document.getElementById("drp-cancel").addEventListener("click", function () {
+          picking = null;
+          hoverDate = null;
+          if (savedStart && savedEnd) {
+            selStart = savedStart;
+            selEnd = savedEnd;
+          }
+          updateDisplay();
+          render();
+          panel.classList.remove("open");
+        });
+
+        render();
+        updateDisplay();
+      })();
+    </script>
+  </body>
+</html>

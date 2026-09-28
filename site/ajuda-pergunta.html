@@ -1,0 +1,876 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Como o sistema lê a nota fiscal e por que às vezes pede confirmação? — Central de Ajuda —
+      Cuzto
+    </title>
+    <link rel="icon" type="image/svg+xml" href="../shared/assets/favicon.svg" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Figtree:wght@400;500;600;700&display=swap"
+    />
+    <style>
+      :root {
+        --primary: #10b981;
+        --primary-deep: #059669;
+        --primary-hover: #047857;
+        --primary-light: #ecfdf5;
+        --primary-subtle: #f0fdf4;
+        --primary-shadow: #047857;
+        --bg: #ffffff;
+        --surface: #ffffff;
+        --surface-2: #f7fdf9;
+        --surface-3: #ecfdf5;
+        --ink: #064e3b;
+        --ink-2: #065f46;
+        --ink-3: #6b7280;
+        --ink-inverse: #ffffff;
+        --border: #d1fae5;
+        --border-strong: #a7f3d0;
+        --f-display: "Baloo 2", "Figtree", system-ui, sans-serif;
+        --f-ui: "Figtree", system-ui, -apple-system, sans-serif;
+        --r-sm: 10px;
+        --r-md: 14px;
+        --r-lg: 20px;
+        --r-xl: 28px;
+        --r-pill: 999px;
+        --t-fast: 120ms;
+        --t-base: 200ms;
+        --t-press: 80ms;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --bg: #0a1a14;
+          --surface: #112820;
+          --surface-2: #15332a;
+          --surface-3: #1a3f34;
+          --ink: #e2f5ee;
+          --ink-2: #a7d5c4;
+          --ink-3: #6b8e80;
+          --ink-inverse: #0a1a14;
+          --border: #1a3f34;
+          --border-strong: #22574a;
+          --primary: #6ee7b7;
+          --primary-deep: #10b981;
+          --primary-hover: #a7f3d0;
+          --primary-light: #064e3b;
+          --primary-subtle: #022c22;
+          --primary-shadow: #059669;
+        }
+      }
+      :root[data-theme="dark"] {
+        --bg: #0a1a14;
+        --surface: #112820;
+        --surface-2: #15332a;
+        --surface-3: #1a3f34;
+        --ink: #e2f5ee;
+        --ink-2: #a7d5c4;
+        --ink-3: #6b8e80;
+        --ink-inverse: #0a1a14;
+        --border: #1a3f34;
+        --border-strong: #22574a;
+        --primary: #6ee7b7;
+        --primary-deep: #10b981;
+        --primary-hover: #a7f3d0;
+        --primary-light: #064e3b;
+        --primary-subtle: #022c22;
+        --primary-shadow: #059669;
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      html {
+        -webkit-text-size-adjust: 100%;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font: 400 16px/1.7 var(--f-ui);
+        -webkit-font-smoothing: antialiased;
+        overflow-x: clip;
+      }
+      h1,
+      h2,
+      h3 {
+        font-family: var(--f-display);
+        margin: 0;
+        line-height: 1.2;
+      }
+      p {
+        margin: 0;
+      }
+      a {
+        color: var(--primary-deep);
+      }
+      img {
+        max-width: 100%;
+        display: block;
+      }
+      .container {
+        max-width: 1140px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+      /* Navbar */
+      .navbar {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: color-mix(in srgb, var(--bg) 90%, transparent);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+        padding: 0 20px;
+      }
+      .navbar-inner {
+        max-width: 1140px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        min-height: 64px;
+      }
+      .navbar-logo img {
+        height: 28px;
+      }
+      .navbar-logo .dark {
+        display: none;
+      }
+      [data-theme="dark"] .navbar-logo .light {
+        display: none;
+      }
+      [data-theme="dark"] .navbar-logo .dark {
+        display: block;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) .navbar-logo .light {
+          display: none;
+        }
+        :root:not([data-theme="light"]) .navbar-logo .dark {
+          display: block;
+        }
+      }
+      .navbar-links {
+        display: flex;
+        gap: 6px;
+        flex: 1;
+      }
+      .navbar-links a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 40px;
+        padding: 0 14px;
+        border-radius: var(--r-pill);
+        font: 600 14px var(--f-ui);
+        color: var(--ink-2);
+        text-decoration: none;
+        transition:
+          background var(--t-fast),
+          color var(--t-fast);
+      }
+      .navbar-links a:hover,
+      .navbar-links a.active {
+        background: var(--surface-3);
+        color: var(--ink);
+      }
+      .navbar-actions {
+        display: flex;
+        gap: 10px;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        min-height: 46px;
+        padding: 0 22px;
+        border-radius: var(--r-lg);
+        font: 800 15px/1 var(--f-ui);
+        border: 2px solid transparent;
+        cursor: pointer;
+        white-space: nowrap;
+        text-decoration: none;
+        transition:
+          background var(--t-fast),
+          transform var(--t-press),
+          box-shadow var(--t-press);
+      }
+      .btn:active {
+        transform: translateY(4px);
+        box-shadow: none !important;
+      }
+      .btn-primary {
+        background: var(--primary);
+        color: var(--ink-inverse);
+        box-shadow: 0 4px 0 var(--primary-shadow);
+      }
+      .btn-ghost {
+        background: transparent;
+        color: var(--ink-2);
+        box-shadow: none;
+      }
+      .btn-ghost:hover {
+        background: var(--surface-3);
+      }
+      .btn-outline {
+        background: transparent;
+        color: var(--primary-deep);
+        border-color: var(--primary);
+      }
+      .btn-outline:hover {
+        background: var(--primary-subtle);
+      }
+      .btn-sm {
+        min-height: 36px;
+        padding: 0 14px;
+        font-size: 13px;
+        border-radius: var(--r-sm);
+      }
+      .navbar-hamburger {
+        display: none;
+        width: 44px;
+        height: 44px;
+        border: none;
+        background: none;
+        cursor: pointer;
+        color: var(--ink);
+        border-radius: var(--r-sm);
+      }
+      .navbar-hamburger svg {
+        width: 22px;
+        height: 22px;
+        stroke: currentColor;
+        fill: none;
+        stroke-width: 1.75;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      @media (max-width: 768px) {
+        .navbar-links {
+          display: none;
+        }
+        .navbar-hamburger {
+          display: grid;
+          place-items: center;
+        }
+      }
+      /* Breadcrumb */
+      .crumbs {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex-wrap: wrap;
+        font-size: 13px;
+        color: var(--ink-3);
+        margin: 32px 0 22px;
+      }
+      .crumbs a {
+        color: var(--ink-3);
+        text-decoration: none;
+      }
+      .crumbs a:hover {
+        color: var(--primary-deep);
+        text-decoration: underline;
+      }
+      .crumbs svg {
+        width: 13px;
+        height: 13px;
+        stroke: currentColor;
+        fill: none;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        flex: none;
+      }
+      .crumbs .current {
+        color: var(--ink-2);
+        font-weight: 600;
+      }
+      /* Layout */
+      .article-wrap {
+        padding-bottom: 88px;
+      }
+      .article-grid {
+        display: grid;
+        grid-template-columns: 1fr 280px;
+        gap: 32px;
+        align-items: start;
+      }
+      @media (max-width: 860px) {
+        .article-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      /* Article */
+      .article h1 {
+        font-size: clamp(24px, 3.4vw, 32px);
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        margin-bottom: 14px;
+      }
+      .article .meta {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        flex-wrap: wrap;
+        font-size: 13px;
+        color: var(--ink-3);
+        padding-bottom: 24px;
+        margin-bottom: 24px;
+        border-bottom: 2px solid var(--border);
+      }
+      .article .meta span {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+      }
+      .article .meta svg {
+        width: 14px;
+        height: 14px;
+        stroke: currentColor;
+        fill: none;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .article .body p {
+        font-size: 15.5px;
+        line-height: 1.75;
+        color: var(--ink-2);
+        margin-bottom: 16px;
+      }
+      .article .body h3 {
+        font-size: 18px;
+        font-weight: 800;
+        color: var(--ink);
+        margin-top: 30px;
+        margin-bottom: 10px;
+      }
+      .article .body ol,
+      .article .body ul {
+        padding-left: 22px;
+        margin-bottom: 16px;
+      }
+      .article .body li {
+        font-size: 15px;
+        line-height: 1.7;
+        color: var(--ink-2);
+        margin-bottom: 8px;
+      }
+      .article .body strong {
+        color: var(--ink);
+        font-weight: 700;
+      }
+      .tip {
+        display: flex;
+        gap: 12px;
+        background: var(--surface-3);
+        border: 2px solid var(--border-strong);
+        border-radius: var(--r-lg);
+        padding: 16px 18px;
+        margin: 24px 0;
+      }
+      .tip svg {
+        flex: none;
+        width: 20px;
+        height: 20px;
+        color: var(--primary-deep);
+        margin-top: 2px;
+        stroke: currentColor;
+        fill: none;
+        stroke-width: 1.75;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .tip p {
+        font-size: 14px;
+        color: var(--ink-2);
+        line-height: 1.6;
+        margin: 0;
+      }
+      /* Helpful widget */
+      .helpful {
+        margin-top: 40px;
+        padding: 22px;
+        background: var(--surface-2);
+        border: 2px solid var(--border);
+        border-radius: var(--r-lg);
+        text-align: center;
+      }
+      .helpful h4 {
+        font-size: 15px;
+        font-weight: 800;
+        margin-bottom: 14px;
+      }
+      .helpful .btns {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+      }
+      .helpful button {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        min-height: 42px;
+        padding: 0 18px;
+        border-radius: var(--r-lg);
+        border: 2px solid var(--border-strong);
+        background: var(--surface);
+        color: var(--ink-2);
+        font: 700 14px var(--f-ui);
+        cursor: pointer;
+        box-shadow: 0 3px 0 var(--border-strong);
+        transition:
+          border-color var(--t-fast),
+          transform var(--t-press),
+          box-shadow var(--t-press);
+      }
+      .helpful button:hover {
+        border-color: var(--primary);
+      }
+      .helpful button:active,
+      .helpful button.picked {
+        transform: translateY(3px);
+        box-shadow: none;
+      }
+      .helpful button.picked {
+        border-color: var(--primary);
+        color: var(--primary-deep);
+        background: var(--primary-subtle);
+      }
+      .helpful button svg {
+        width: 16px;
+        height: 16px;
+        stroke: currentColor;
+        fill: none;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .helpful .thanks {
+        display: none;
+        margin-top: 12px;
+        font-size: 13.5px;
+        color: var(--primary-deep);
+        font-weight: 700;
+      }
+      /* Related */
+      .related {
+        margin-top: 40px;
+      }
+      .related h4 {
+        font-size: 13px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--ink-3);
+        margin-bottom: 14px;
+      }
+      .qa-list {
+        display: grid;
+        gap: 10px;
+      }
+      .qa-row {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 14px 16px;
+        background: var(--surface);
+        border: 2px solid var(--border);
+        border-radius: var(--r-lg);
+        box-shadow: 0 3px 0 var(--border);
+        color: var(--ink);
+        text-decoration: none;
+        transition:
+          border-color var(--t-fast),
+          transform var(--t-press),
+          box-shadow var(--t-press);
+      }
+      .qa-row:hover {
+        border-color: var(--primary);
+      }
+      .qa-row:active {
+        transform: translateY(3px);
+        box-shadow: none;
+      }
+      .qa-row .qt {
+        flex: 1;
+        font-weight: 700;
+        font-size: 14px;
+      }
+      .qa-row .chev {
+        flex: none;
+        width: 16px;
+        height: 16px;
+        color: var(--ink-3);
+        stroke: currentColor;
+        fill: none;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      /* Sidebar */
+      .side-card {
+        background: var(--surface-2);
+        border: 2px solid var(--border);
+        border-radius: var(--r-lg);
+        padding: 22px;
+        margin-bottom: 16px;
+      }
+      .side-card h4 {
+        font-size: 13px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--ink-3);
+        margin-bottom: 14px;
+      }
+      .side-list {
+        display: grid;
+        gap: 2px;
+      }
+      .side-list a {
+        display: block;
+        padding: 9px 0;
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--ink-2);
+        text-decoration: none;
+        border-bottom: 1px solid var(--border);
+      }
+      .side-list a:last-child {
+        border-bottom: none;
+      }
+      .side-list a:hover {
+        color: var(--primary-deep);
+      }
+      .side-card.cta-card {
+        background: var(--primary-subtle);
+        border-color: var(--border-strong);
+        text-align: center;
+      }
+      .side-card.cta-card p {
+        font-size: 13.5px;
+        color: var(--ink-2);
+        margin: 0 0 14px;
+        line-height: 1.5;
+      }
+      /* Footer */
+      .footer {
+        background: var(--surface-2);
+        border-top: 2px solid var(--border);
+        padding: 48px 0 24px;
+      }
+      .footer-inner {
+        max-width: 1140px;
+        margin: 0 auto;
+        padding: 0 20px;
+        display: grid;
+        grid-template-columns: 1.5fr repeat(3, 1fr);
+        gap: 32px;
+      }
+      .footer-brand img {
+        height: 28px;
+        margin-bottom: 10px;
+      }
+      .footer-brand .dark {
+        display: none;
+      }
+      [data-theme="dark"] .footer-brand .light {
+        display: none;
+      }
+      [data-theme="dark"] .footer-brand .dark {
+        display: block;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) .footer-brand .light {
+          display: none;
+        }
+        :root:not([data-theme="light"]) .footer-brand .dark {
+          display: block;
+        }
+      }
+      .footer-brand p {
+        font-size: 13px;
+        color: var(--ink-3);
+        max-width: 240px;
+        line-height: 1.5;
+      }
+      .footer-col h4 {
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--ink-3);
+        margin-bottom: 12px;
+      }
+      .footer-col a {
+        display: block;
+        font-size: 14px;
+        color: var(--ink-2);
+        padding: 4px 0;
+        font-weight: 500;
+        text-decoration: none;
+        transition: color var(--t-fast);
+      }
+      .footer-col a:hover {
+        color: var(--primary);
+        text-decoration: none;
+      }
+      .footer-bottom {
+        max-width: 1140px;
+        margin: 32px auto 0;
+        padding: 16px 20px 0;
+        border-top: 1px solid var(--border);
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
+        color: var(--ink-3);
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      @media (max-width: 768px) {
+        .footer-inner {
+          grid-template-columns: 1fr 1fr;
+          gap: 24px;
+        }
+        .footer-brand {
+          grid-column: 1/-1;
+        }
+      }
+      @media (max-width: 500px) {
+        .footer-inner {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="navbar-inner">
+        <a href="index.html" class="navbar-logo"
+          ><img src="../shared/assets/logo-light.svg" alt="Cuzto" class="light" /><img
+            src="../shared/assets/logo-dark.svg"
+            alt="Cuzto"
+            class="dark"
+        /></a>
+        <div class="navbar-links">
+          <a href="index.html#funcionalidades">Produto</a
+          ><a href="index.html#como-funciona">Como Funciona</a><a href="index.html#planos">Planos</a
+          ><a href="index.html#faq">FAQ</a><a href="ajuda.html" class="active">Ajuda</a
+          ><a href="contato.html">Contato</a>
+        </div>
+        <div class="navbar-actions">
+          <a href="../company/login.html" class="btn btn-ghost btn-sm">Entrar</a
+          ><a href="../company/onboarding-step1.html" class="btn btn-primary btn-sm"
+            >Começar grátis</a
+          >
+        </div>
+      </div>
+    </nav>
+
+    <section class="article-wrap">
+      <div class="container">
+        <div class="crumbs">
+          <a href="ajuda.html">Central de Ajuda</a>
+          <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6" /></svg>
+          <a href="ajuda-topico.html">WhatsApp e envio de despesas</a>
+          <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6" /></svg>
+          <span class="current">Como o sistema lê a nota fiscal</span>
+        </div>
+
+        <div class="article-grid">
+          <article class="article">
+            <h1>Como o sistema lê a nota fiscal e por que às vezes pede confirmação?</h1>
+            <div class="meta">
+              <span
+                ><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg
+                >Atualizado em 20 de set de 2026</span
+              >
+              <span
+                ><svg viewBox="0 0 24 24"><path d="M12 2v20M2 12h20" /></svg
+                >Leitura de 2 min</span
+              >
+              <span
+                ><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" /></svg
+                >340 pessoas acharam útil</span
+              >
+            </div>
+
+            <div class="body">
+              <p>
+                Quando você envia a foto de um cupom ou nota pelo WhatsApp, o Cuzto tenta extrair
+                automaticamente o valor, o estabelecimento, a data e a categoria da despesa. O
+                método usado depende do tipo de documento enviado.
+              </p>
+
+              <h3>Notas com QR Code (NFC-e)</h3>
+              <p>
+                Se a nota tem QR Code, o sistema consulta os dados diretamente na SEFAZ do estado
+                emissor. Como a informação vem de uma fonte oficial, ela é considerada 100%
+                confiável e a despesa é registrada automaticamente — <strong>sem pedir
+                confirmação</strong>.
+              </p>
+
+              <h3>Cupons sem QR Code (OCR)</h3>
+              <p>
+                Para cupons fiscais simples ou notas sem QR Code, o Cuzto usa reconhecimento óptico
+                de caracteres (OCR) para extrair os dados da imagem. Quando a confiança da leitura
+                é de <strong>95% ou mais</strong>, a despesa também é registrada direto. Abaixo
+                disso, o sistema envia os dados extraídos e pede para você confirmar ou corrigir
+                antes de registrar — isso evita que um valor mal lido entre errado no seu saldo ou
+                nos relatórios do financeiro.
+              </p>
+
+              <h3>O que fazer se a leitura estiver errada</h3>
+              <p>Se os dados exibidos na confirmação estiverem incorretos, basta:</p>
+              <ol>
+                <li>Tocar em <strong>[Corrigir]</strong> na mensagem de confirmação.</li>
+                <li>
+                  Informar o valor correto quando o Cuzto perguntar — o sistema guia você campo por
+                  campo (valor, estabelecimento e categoria).
+                </li>
+                <li>
+                  Confirmar os dados corrigidos. A despesa é registrada normalmente, com o
+                  comprovante original anexado.
+                </li>
+              </ol>
+
+              <div class="tip">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M9 18h6M10 22h4M12 2a6 6 0 0 0-4 10.5c.6.6 1 1.4 1 2.5h6c0-1.1.4-1.9 1-2.5A6 6 0 0 0 12 2z"
+                  />
+                </svg>
+                <p>
+                  <strong>Dica:</strong> quanto mais nítida e bem enquadrada a foto — sem reflexo,
+                  sombra ou corte — melhor a leitura automática e menor a chance de precisar
+                  confirmar manualmente.
+                </p>
+              </div>
+
+              <p>
+                Independentemente do método, toda despesa registrada passa em seguida pela
+                política de despesas da sua empresa, que verifica limites e regras antes de aprovar
+                automaticamente ou enviar para a fila de exceções.
+              </p>
+            </div>
+
+            <div class="helpful" id="helpfulWidget">
+              <h4>Essa resposta foi útil?</h4>
+              <div class="btns">
+                <button type="button" data-vote="yes">
+                  <svg viewBox="0 0 24 24">
+                    <path
+                      d="M14 9V5a3 3 0 0 0-3-3L7 11v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z"
+                    />
+                    <path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3v11z" />
+                  </svg>
+                  Sim
+                </button>
+                <button type="button" data-vote="no">
+                  <svg viewBox="0 0 24 24" style="transform: scaleY(-1)">
+                    <path
+                      d="M14 9V5a3 3 0 0 0-3-3L7 11v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z"
+                    />
+                    <path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3v11z" />
+                  </svg>
+                  Não
+                </button>
+              </div>
+              <div class="thanks" id="helpfulThanks">Obrigado pelo retorno! Isso nos ajuda a melhorar.</div>
+            </div>
+
+            <div class="related">
+              <h4>Perguntas relacionadas</h4>
+              <div class="qa-list">
+                <a class="qa-row" href="ajuda-topico.html">
+                  <span class="qt">O que acontece se eu enviar uma foto borrada ou incompleta?</span>
+                  <svg class="chev" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6" /></svg>
+                </a>
+                <a class="qa-row" href="ajuda-topico.html">
+                  <span class="qt">Como corrijo um valor lido errado pelo sistema?</span>
+                  <svg class="chev" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6" /></svg>
+                </a>
+                <a class="qa-row" href="ajuda-topico.html">
+                  <span class="qt">Posso registrar uma despesa sem foto do comprovante?</span>
+                  <svg class="chev" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6" /></svg>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <aside>
+            <div class="side-card">
+              <h4>Neste tópico</h4>
+              <div class="side-list">
+                <a href="ajuda-topico.html">Ver todas as 12 perguntas</a>
+                <a href="ajuda.html">Voltar à Central de Ajuda</a>
+              </div>
+            </div>
+            <div class="side-card cta-card">
+              <p>Ainda com dúvidas sobre esse assunto?</p>
+              <a href="contato.html" class="btn btn-outline btn-sm">Falar com o suporte</a>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <img src="../shared/assets/logo-light.svg" alt="Cuzto" class="light" />
+          <img src="../shared/assets/logo-dark.svg" alt="Cuzto" class="dark" />
+          <p>Gestão de despesas pelo WhatsApp para empresas com equipes em campo.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Produto</h4>
+          <a href="index.html#funcionalidades">Funcionalidades</a>
+          <a href="index.html#planos">Planos</a>
+          <a href="index.html#faq">FAQ</a>
+          <a href="index.html#como-funciona">Como funciona</a>
+        </div>
+        <div class="footer-col">
+          <h4>Suporte</h4>
+          <a href="ajuda.html">Central de Ajuda</a>
+          <a href="contato.html">Contato</a>
+          <a href="#">Sobre</a>
+          <a href="#">Blog</a>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <a href="termos.html">Termos de Uso</a>
+          <a href="privacidade.html">Política de Privacidade</a>
+          <a href="cookies.html">Política de Cookies</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 Cuzto Tecnologia Ltda. Todos os direitos reservados.</span>
+        <span>CNPJ: 00.000.000/0001-00</span>
+      </div>
+    </footer>
+
+    <script>
+      (function () {
+        var buttons = document.querySelectorAll('#helpfulWidget button[data-vote]');
+        var thanks = document.getElementById("helpfulThanks");
+        buttons.forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            buttons.forEach(function (b) {
+              b.classList.remove("picked");
+              b.disabled = true;
+            });
+            btn.classList.add("picked");
+            thanks.style.display = "block";
+          });
+        });
+      })();
+    </script>
+  </body>
+</html>

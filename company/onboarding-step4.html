@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WhatsApp — Configuração Cuzto</title>
+    <link rel="icon" type="image/svg+xml" href="../shared/assets/favicon.svg" />
+    <link rel="stylesheet" href="../shared/styles.css" />
+    <style>
+      .onboard-page {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 24px;
+        background: linear-gradient(135deg, var(--bg) 0%, var(--surface-2) 100%);
+      }
+      .onboard-logo {
+        margin: 32px 0 24px;
+      }
+      .onboard-steps {
+        display: flex;
+        align-items: center;
+        gap: 0;
+        margin-bottom: 32px;
+        max-width: 500px;
+        width: 100%;
+      }
+      .ob-node {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex: 0 0 auto;
+        position: relative;
+      }
+      .ob-circle {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        font-size: 13px;
+        font-weight: 800;
+        border: 3px solid var(--border-strong);
+        background: var(--surface);
+        color: var(--ink-3);
+        box-shadow: 0 3px 0 var(--border-strong);
+        font-family: var(--f-display);
+      }
+      .ob-node.done .ob-circle {
+        background: var(--primary);
+        border-color: var(--primary);
+        color: var(--text-on-primary);
+        box-shadow: 0 3px 0 var(--primary-shadow);
+      }
+      .ob-node.cur .ob-circle {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: #2b1a00;
+        box-shadow: 0 3px 0 var(--accent-shadow);
+      }
+      .ob-text {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--ink-3);
+        margin-top: 6px;
+        white-space: nowrap;
+      }
+      .ob-node.done .ob-text,
+      .ob-node.cur .ob-text {
+        color: var(--ink);
+      }
+      .ob-conn {
+        flex: 1;
+        height: 4px;
+        background: var(--surface-3);
+        border-radius: 2px;
+        min-width: 16px;
+      }
+      .ob-conn.done {
+        background: var(--primary);
+      }
+      .onboard-card {
+        background: var(--surface);
+        border: 2px solid var(--border);
+        border-radius: var(--r-xl);
+        padding: 36px;
+        max-width: 500px;
+        width: 100%;
+        box-shadow:
+          0 6px 0 var(--border),
+          var(--sh-2);
+      }
+      .onboard-card h2 {
+        font-family: var(--f-display);
+        font-size: 22px;
+        font-weight: 800;
+        text-align: center;
+        margin-bottom: 6px;
+      }
+      .onboard-card .sub {
+        text-align: center;
+        color: var(--ink-3);
+        font-size: 14px;
+        margin-bottom: 24px;
+      }
+      .onboard-actions {
+        display: flex;
+        gap: 10px;
+        justify-content: space-between;
+        margin-top: 24px;
+      }
+      .conn-box {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 16px;
+        border: 2px solid var(--border);
+        border-radius: var(--r-lg);
+        background: var(--surface);
+        box-shadow: 0 3px 0 var(--border);
+        margin-bottom: 16px;
+      }
+      .conn-box .cdot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        flex: none;
+        background: var(--ink-3);
+      }
+      .conn-box .cdot.ok {
+        background: var(--success);
+        box-shadow: 0 0 0 4px color-mix(in srgb, var(--success) 20%, transparent);
+      }
+      .conn-box .label {
+        flex: 1;
+        font-weight: 700;
+        font-size: 14px;
+      }
+      .wa-preview {
+        background: #e5ddd5;
+        border-radius: var(--r-lg);
+        padding: 14px;
+        margin-top: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .wa-preview .bubble {
+        background: #dcf8c6;
+        color: #111;
+        padding: 8px 12px;
+        border-radius: 12px;
+        border-bottom-right-radius: 4px;
+        font-size: 13px;
+        line-height: 1.5;
+        max-width: 85%;
+        align-self: flex-end;
+      }
+      .wa-preview .time {
+        font-size: 10px;
+        color: #8696a0;
+        text-align: right;
+        margin-top: 2px;
+      }
+      [data-theme="dark"] .wa-preview {
+        background: #0b141a;
+      }
+      [data-theme="dark"] .wa-preview .bubble {
+        background: #005c4b;
+        color: #e9edef;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) .wa-preview {
+          background: #0b141a;
+        }
+        :root:not([data-theme="light"]) .wa-preview .bubble {
+          background: #005c4b;
+          color: #e9edef;
+        }
+      }
+      .ob-select-btn {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        min-height: 46px;
+        padding: 0 14px;
+        border: 2px solid var(--border-strong);
+        border-radius: var(--r-md);
+        background: var(--surface);
+        font: 700 15px var(--f-ui);
+        color: var(--ink);
+        cursor: pointer;
+        box-shadow: 0 3px 0 var(--border-strong);
+        text-align: left;
+        transition:
+          border-color var(--t-fast),
+          box-shadow var(--t-fast);
+      }
+      .ob-select-btn:hover {
+        border-color: var(--primary);
+      }
+      .ob-select-btn:active {
+        transform: translateY(3px);
+        box-shadow: none;
+      }
+      .ob-select-menu {
+        display: none;
+        padding: 6px;
+        background: var(--surface);
+        border: 2px solid var(--border);
+        border-radius: var(--r-md);
+        box-shadow:
+          0 4px 0 var(--border),
+          var(--sh-3);
+        margin-top: 6px;
+      }
+      .ob-select-menu.open {
+        display: grid;
+        gap: 2px;
+      }
+      .ob-select-menu button {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        min-height: 44px;
+        padding: 0 12px;
+        border: 0;
+        background: transparent;
+        border-radius: var(--r-sm);
+        font: 700 14px var(--f-ui);
+        color: var(--ink);
+        cursor: pointer;
+        text-align: left;
+        transition: background var(--t-fast);
+      }
+      .ob-select-menu button:hover {
+        background: var(--surface-2);
+      }
+      @media (max-width: 480px) {
+        .onboard-page {
+          padding: 16px;
+        }
+        .onboard-card {
+          padding: 24px 20px;
+          border-radius: var(--r-lg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="onboard-page">
+      <div class="onboard-logo">
+        <img
+          src="../shared/assets/logo-light.svg"
+          alt="Cuzto"
+          height="36"
+          class="sidebar-logo-img"
+        />
+        <img
+          src="../shared/assets/logo-dark.svg"
+          alt="Cuzto"
+          height="36"
+          class="sidebar-logo-img sidebar-logo-dark"
+        />
+      </div>
+      <!-- WhatsApp config page - accessed from settings, not from onboarding flow -->
+      <div class="onboard-card">
+        <h2>Conecte o WhatsApp</h2>
+        <div class="sub">Configure o canal de comunicação com seus funcionários.</div>
+
+        <div class="field">
+          <label>Provider</label>
+          <button
+            type="button"
+            class="ob-select-btn"
+            onclick="this.nextElementSibling.classList.toggle('open')"
+          >
+            <span>Evolution API (dev)</span>
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              style="margin-left: auto; color: var(--ink-3)"
+            >
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </button>
+          <div class="ob-select-menu">
+            <button
+              onclick="
+                this.closest('.field').querySelector('.ob-select-btn span').textContent =
+                  this.textContent;
+                this.closest('.ob-select-menu').classList.remove('open');
+              "
+            >
+              Evolution API (dev)
+            </button>
+            <button
+              onclick="
+                this.closest('.field').querySelector('.ob-select-btn span').textContent =
+                  this.textContent;
+                this.closest('.ob-select-menu').classList.remove('open');
+              "
+            >
+              Meta Cloud API (prod)
+            </button>
+          </div>
+        </div>
+        <div class="field">
+          <label>Número WhatsApp</label>
+          <div class="input">
+            <input
+              type="text"
+              data-phone
+              value="(11) 91234-5678"
+              placeholder="(XX) XXXXX-XXXX"
+              style="font-family: var(--f-mono); font-weight: 600"
+            />
+          </div>
+        </div>
+
+        <div class="conn-box">
+          <div class="cdot ok"></div>
+          <span class="label">Conectado</span>
+          <button class="btn btn-sm btn-outline">Testar conexão</button>
+        </div>
+
+        <div class="wa-preview">
+          <div class="bubble">
+            Olá Carlos! Sua despesa de R$ 114,00 no Restaurante Sabor Mineiro foi registrada. Seu
+            saldo: R$ 1.136,00
+            <div class="time">14:34</div>
+          </div>
+        </div>
+
+        <div class="onboard-actions">
+          <a href="settings-whatsapp.html" class="btn btn-sm btn-ghost">Ir para Configurações</a>
+          <a href="dashboard.html" class="btn btn-sm btn-primary">Salvar</a>
+        </div>
+      </div>
+    </div>
+    <script src="../shared/app.js"></script>
+    <script>
+      // Phone mask (Brazilian format without country code)
+      document.querySelectorAll("[data-phone]").forEach(function (inp) {
+        inp.addEventListener("input", function () {
+          var v = this.value.replace(/\D/g, "").substring(0, 11);
+          if (v.length > 6)
+            this.value = "(" + v.substring(0, 2) + ") " + v.substring(2, 7) + "-" + v.substring(7);
+          else if (v.length > 2) this.value = "(" + v.substring(0, 2) + ") " + v.substring(2);
+          else if (v.length > 0) this.value = "(" + v;
+        });
+      });
+      // Close select on outside click
+      document.addEventListener("click", function (e) {
+        if (!e.target.closest(".ob-select-btn") && !e.target.closest(".ob-select-menu")) {
+          document.querySelectorAll(".ob-select-menu").forEach(function (m) {
+            m.classList.remove("open");
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

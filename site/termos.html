@@ -1,0 +1,794 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Termos de Uso — Cuzto</title>
+    <link rel="icon" type="image/svg+xml" href="../shared/assets/favicon.svg" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Figtree:wght@400;500;600;700&display=swap"
+    />
+    <style>
+      :root {
+        --primary: #10b981;
+        --primary-deep: #059669;
+        --primary-hover: #047857;
+        --primary-light: #ecfdf5;
+        --primary-subtle: #f0fdf4;
+        --primary-shadow: #047857;
+        --primary-soft-shadow: #b7e4d2;
+        --bg: #ffffff;
+        --surface: #ffffff;
+        --surface-2: #f7fdf9;
+        --surface-3: #ecfdf5;
+        --ink: #064e3b;
+        --ink-2: #065f46;
+        --ink-3: #6b7280;
+        --ink-inverse: #ffffff;
+        --border: #d1fae5;
+        --border-strong: #a7f3d0;
+        --f-display: "Baloo 2", "Figtree", system-ui, sans-serif;
+        --f-ui: "Figtree", system-ui, -apple-system, sans-serif;
+        --r-sm: 10px;
+        --r-md: 14px;
+        --r-lg: 20px;
+        --r-xl: 28px;
+        --r-pill: 999px;
+        --t-fast: 120ms;
+        --t-base: 200ms;
+        --t-press: 80ms;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --bg: #0a1a14;
+          --surface: #112820;
+          --surface-2: #15332a;
+          --surface-3: #1a3f34;
+          --ink: #e2f5ee;
+          --ink-2: #a7d5c4;
+          --ink-3: #6b8e80;
+          --ink-inverse: #0a1a14;
+          --border: #1a3f34;
+          --border-strong: #22574a;
+          --primary: #6ee7b7;
+          --primary-deep: #10b981;
+          --primary-hover: #a7f3d0;
+          --primary-light: #064e3b;
+          --primary-subtle: #022c22;
+          --primary-shadow: #059669;
+          --primary-soft-shadow: #0f2e22;
+        }
+      }
+      :root[data-theme="dark"] {
+        --bg: #0a1a14;
+        --surface: #112820;
+        --surface-2: #15332a;
+        --surface-3: #1a3f34;
+        --ink: #e2f5ee;
+        --ink-2: #a7d5c4;
+        --ink-3: #6b8e80;
+        --ink-inverse: #0a1a14;
+        --border: #1a3f34;
+        --border-strong: #22574a;
+        --primary: #6ee7b7;
+        --primary-deep: #10b981;
+        --primary-hover: #a7f3d0;
+        --primary-light: #064e3b;
+        --primary-subtle: #022c22;
+        --primary-shadow: #059669;
+        --primary-soft-shadow: #0f2e22;
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      html {
+        -webkit-text-size-adjust: 100%;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font: 400 16px/1.7 var(--f-ui);
+        -webkit-font-smoothing: antialiased;
+        overflow-x: clip;
+      }
+      h1,
+      h2,
+      h3 {
+        font-family: var(--f-display);
+        margin: 0;
+        line-height: 1.2;
+      }
+      a {
+        color: var(--primary-deep);
+      }
+      img {
+        max-width: 100%;
+        display: block;
+      }
+      /* Navbar */
+      .navbar {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: color-mix(in srgb, var(--bg) 90%, transparent);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+        padding: 0 20px;
+      }
+      .navbar-inner {
+        max-width: 1140px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        min-height: 64px;
+      }
+      .navbar-logo img {
+        height: 28px;
+      }
+      .navbar-logo .dark {
+        display: none;
+      }
+      [data-theme="dark"] .navbar-logo .light {
+        display: none;
+      }
+      [data-theme="dark"] .navbar-logo .dark {
+        display: block;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) .navbar-logo .light {
+          display: none;
+        }
+        :root:not([data-theme="light"]) .navbar-logo .dark {
+          display: block;
+        }
+      }
+      .navbar-links {
+        display: flex;
+        gap: 6px;
+        flex: 1;
+      }
+      .navbar-links a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 40px;
+        padding: 0 14px;
+        border-radius: var(--r-pill);
+        font: 600 14px var(--f-ui);
+        color: var(--ink-2);
+        text-decoration: none;
+        transition:
+          background var(--t-fast),
+          color var(--t-fast);
+      }
+      .navbar-links a:hover,
+      .navbar-links a.active {
+        background: var(--surface-3);
+        color: var(--ink);
+      }
+      .navbar-actions {
+        display: flex;
+        gap: 10px;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        min-height: 46px;
+        padding: 0 22px;
+        border-radius: var(--r-lg);
+        font: 800 15px/1 var(--f-ui);
+        border: 2px solid transparent;
+        cursor: pointer;
+        white-space: nowrap;
+        text-decoration: none;
+        transition:
+          background var(--t-fast),
+          transform var(--t-press),
+          box-shadow var(--t-press);
+      }
+      .btn:hover {
+        text-decoration: none;
+      }
+      .btn:active {
+        transform: translateY(4px);
+        box-shadow: none !important;
+      }
+      .btn-primary {
+        background: var(--primary);
+        color: var(--ink-inverse);
+        box-shadow: 0 4px 0 var(--primary-shadow);
+      }
+      .btn-ghost {
+        background: transparent;
+        color: var(--ink-2);
+        box-shadow: none;
+      }
+      .btn-ghost:hover {
+        background: var(--surface-3);
+      }
+      .btn-sm {
+        min-height: 36px;
+        padding: 0 14px;
+        font-size: 13px;
+        border-radius: var(--r-sm);
+      }
+      .navbar-hamburger {
+        display: none;
+        width: 44px;
+        height: 44px;
+        border: none;
+        background: none;
+        cursor: pointer;
+        color: var(--ink);
+        border-radius: var(--r-sm);
+      }
+      .navbar-hamburger svg {
+        width: 22px;
+        height: 22px;
+        stroke: currentColor;
+        fill: none;
+        stroke-width: 1.75;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      @media (max-width: 768px) {
+        .navbar-links {
+          display: none;
+        }
+        .navbar-hamburger {
+          display: grid;
+          place-items: center;
+        }
+      }
+      /* Content */
+      .legal {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 48px 20px 80px;
+      }
+      .legal h1 {
+        font-size: clamp(28px, 4vw, 36px);
+        font-weight: 800;
+        margin-bottom: 8px;
+        letter-spacing: -0.02em;
+      }
+      .legal .updated {
+        font-size: 14px;
+        color: var(--ink-3);
+        margin-bottom: 32px;
+        font-weight: 600;
+      }
+      .legal h2 {
+        font-size: 20px;
+        font-weight: 800;
+        margin-top: 40px;
+        margin-bottom: 12px;
+        color: var(--primary-deep);
+        letter-spacing: -0.01em;
+      }
+      .legal h3 {
+        font-size: 16px;
+        font-weight: 700;
+        margin-top: 24px;
+        margin-bottom: 8px;
+      }
+      .legal p,
+      .legal li {
+        font-size: 15px;
+        line-height: 1.7;
+        color: var(--ink-2);
+        margin-bottom: 12px;
+      }
+      .legal ul,
+      .legal ol {
+        padding-left: 24px;
+        margin-bottom: 16px;
+      }
+      .legal li {
+        margin-bottom: 6px;
+      }
+      .legal strong {
+        color: var(--ink);
+        font-weight: 700;
+      }
+      .legal table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 16px 0;
+        font-size: 14px;
+      }
+      .legal th,
+      .legal td {
+        text-align: left;
+        padding: 10px 14px;
+        border: 1px solid var(--border);
+      }
+      .legal th {
+        background: var(--surface-3);
+        font-weight: 700;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        color: var(--ink-3);
+      }
+      /* Footer */
+      .footer {
+        background: var(--surface-2);
+        border-top: 2px solid var(--border);
+        padding: 48px 0 24px;
+      }
+      .footer-inner {
+        max-width: 1140px;
+        margin: 0 auto;
+        padding: 0 20px;
+        display: grid;
+        grid-template-columns: 1.5fr repeat(3, 1fr);
+        gap: 32px;
+      }
+      .footer-brand img {
+        height: 28px;
+        margin-bottom: 10px;
+      }
+      .footer-brand .dark {
+        display: none;
+      }
+      [data-theme="dark"] .footer-brand .light {
+        display: none;
+      }
+      [data-theme="dark"] .footer-brand .dark {
+        display: block;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) .footer-brand .light {
+          display: none;
+        }
+        :root:not([data-theme="light"]) .footer-brand .dark {
+          display: block;
+        }
+      }
+      .footer-brand p {
+        font-size: 13px;
+        color: var(--ink-3);
+        max-width: 240px;
+        line-height: 1.5;
+      }
+      .footer-col h4 {
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--ink-3);
+        margin-bottom: 12px;
+      }
+      .footer-col a {
+        display: block;
+        font-size: 14px;
+        color: var(--ink-2);
+        padding: 4px 0;
+        font-weight: 500;
+        text-decoration: none;
+        transition: color var(--t-fast);
+      }
+      .footer-col a:hover {
+        color: var(--primary);
+        text-decoration: none;
+      }
+      .footer-bottom {
+        max-width: 1140px;
+        margin: 32px auto 0;
+        padding: 16px 20px 0;
+        border-top: 1px solid var(--border);
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
+        color: var(--ink-3);
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      @media (max-width: 768px) {
+        .footer-inner {
+          grid-template-columns: 1fr 1fr;
+          gap: 24px;
+        }
+        .footer-brand {
+          grid-column: 1/-1;
+        }
+      }
+      @media (max-width: 500px) {
+        .footer-inner {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="navbar-inner">
+        <a href="index.html" class="navbar-logo"
+          ><img src="../shared/assets/logo-light.svg" alt="Cuzto" class="light" /><img
+            src="../shared/assets/logo-dark.svg"
+            alt="Cuzto"
+            class="dark"
+        /></a>
+        <div class="navbar-links">
+          <a href="index.html#funcionalidades">Produto</a
+          ><a href="index.html#como-funciona">Como Funciona</a><a href="index.html#planos">Planos</a
+          ><a href="index.html#faq">FAQ</a><a href="ajuda.html">Ajuda</a
+          ><a href="contato.html">Contato</a>
+        </div>
+        <div class="navbar-actions">
+          <a href="../company/login.html" class="btn btn-ghost btn-sm">Entrar</a
+          ><a href="../company/onboarding-step1.html" class="btn btn-primary btn-sm"
+            >Começar grátis</a
+          >
+        </div>
+      </div>
+    </nav>
+
+    <div class="legal">
+      <h1>Termos e Condições de Uso</h1>
+      <p class="updated">Última atualização: 23 de setembro de 2026</p>
+
+      <p>
+        Estes Termos e Condições de Uso ("Termos") regulam o acesso e a utilização da plataforma
+        Cuzto ("Plataforma"), disponibilizada por <strong>Cuzto Tecnologia Ltda.</strong> ("Cuzto"),
+        pessoa jurídica de direito privado, inscrita no CNPJ sob o nº 00.000.000/0001-00, com sede
+        na cidade de São Paulo, Estado de São Paulo.
+      </p>
+
+      <p>
+        Ao acessar ou utilizar a Plataforma, o Contratante declara ter lido, compreendido e
+        concordado integralmente com estes Termos. Caso não concorde com qualquer disposição, não
+        deverá utilizar a Plataforma.
+      </p>
+
+      <h2>1. Definições</h2>
+      <p>Para fins destes Termos, consideram-se as seguintes definições:</p>
+      <ul>
+        <li>
+          <strong>Plataforma:</strong> sistema de gestão de despesas corporativas operado pela
+          Cuzto, composto pelo painel web e pela integração com o WhatsApp Business.
+        </li>
+        <li>
+          <strong>Contratante:</strong> pessoa jurídica que contrata os serviços da Plataforma para
+          gestão de despesas de seus funcionários.
+        </li>
+        <li>
+          <strong>Usuário:</strong> pessoa física autorizada pelo Contratante a acessar o painel web
+          da Plataforma (financeiros, gestores, administradores).
+        </li>
+        <li>
+          <strong>Funcionário:</strong> pessoa física vinculada ao Contratante que utiliza o canal
+          WhatsApp para registrar despesas, consultar saldos e interagir com a Plataforma.
+        </li>
+        <li>
+          <strong>Tenant:</strong> ambiente isolado de dados pertencente a cada Contratante na
+          Plataforma.
+        </li>
+        <li>
+          <strong>Política de Despesas:</strong> conjunto de regras configuradas pelo Contratante
+          para validação automática de despesas registradas por seus Funcionários.
+        </li>
+        <li>
+          <strong>Plano:</strong> modalidade de assinatura contratada, que define limites de uso,
+          funcionalidades disponíveis e valor mensal.
+        </li>
+      </ul>
+
+      <h2>2. Objeto do Contrato</h2>
+      <p>
+        A Cuzto disponibiliza ao Contratante uma plataforma SaaS (Software como Serviço) para gestão
+        de despesas de equipes em campo, cujas principais funcionalidades incluem:
+      </p>
+      <ul>
+        <li>Registro de despesas via WhatsApp, mediante envio de foto de comprovante fiscal;</li>
+        <li>
+          Extração automática de dados fiscais via consulta à SEFAZ (NFC-e) ou reconhecimento óptico
+          de caracteres (OCR);
+        </li>
+        <li>
+          Validação automática de despesas contra a Política de Despesas configurada pelo
+          Contratante;
+        </li>
+        <li>Gestão de adiantamentos e caixa rotativo com livro-razão imutável;</li>
+        <li>
+          Painel web para gestão financeira, aprovação de exceções, fechamento de períodos e
+          auditoria;
+        </li>
+        <li>Notificações automáticas via WhatsApp Business para funcionários.</li>
+      </ul>
+
+      <h2>3. Cadastro e Conta</h2>
+      <p>
+        <strong>3.1.</strong> Para utilizar a Plataforma, o Contratante deverá realizar o cadastro
+        fornecendo informações verídicas e atualizadas, incluindo razão social, CNPJ, dados do
+        administrador principal e informações para faturamento.
+      </p>
+      <p>
+        <strong>3.2.</strong> O Contratante é responsável pela veracidade, precisão e atualização
+        dos dados informados no cadastro. Informações falsas ou desatualizadas poderão resultar na
+        suspensão ou cancelamento da conta.
+      </p>
+      <p>
+        <strong>3.3.</strong> O Contratante é responsável por manter a confidencialidade das
+        credenciais de acesso dos seus Usuários e responde por toda e qualquer atividade realizada
+        em sua conta.
+      </p>
+      <p>
+        <strong>3.4.</strong> A Cuzto reserva-se o direito de recusar o cadastro ou cancelar contas
+        que apresentem indícios de fraude, uso indevido ou violação destes Termos.
+      </p>
+
+      <h2>4. Planos e Pagamento</h2>
+      <p>
+        <strong>4.1.</strong> A Plataforma é oferecida em diferentes Planos de assinatura, cujos
+        valores, funcionalidades e limites estão disponíveis na página de preços do site (<a
+          href="index.html#planos"
+          >cuzto.com.br/planos</a
+        >).
+      </p>
+      <p>
+        <strong>4.2.</strong> O ciclo de cobrança é mensal, com vencimento na mesma data do cadastro
+        inicial. O pagamento pode ser realizado por cartão de crédito, boleto bancário ou PIX.
+      </p>
+      <p>
+        <strong>4.3.</strong> Todos os Planos incluem um período de avaliação gratuita de 14
+        (quatorze) dias corridos, contados a partir da data de ativação da conta. Durante o período
+        de avaliação, não será cobrado qualquer valor.
+      </p>
+      <p>
+        <strong>4.4.</strong> Os valores dos Planos poderão ser reajustados anualmente, com base na
+        variação do IPCA (Índice Nacional de Preços ao Consumidor Amplo) ou índice que o substitua,
+        mediante notificação prévia de 30 (trinta) dias.
+      </p>
+      <p>
+        <strong>4.5.</strong> Em caso de inadimplência superior a 15 (quinze) dias, a Cuzto poderá
+        suspender o acesso à Plataforma. Após 60 (sessenta) dias de inadimplência, a conta poderá
+        ser cancelada, respeitado o disposto na cláusula 11 quanto à portabilidade de dados.
+      </p>
+      <p>
+        <strong>4.6.</strong> A Cuzto emitirá nota fiscal de serviço eletrônica (NFS-e) para todos
+        os pagamentos efetuados.
+      </p>
+
+      <h2>5. Uso Aceitável</h2>
+      <p>
+        <strong>5.1.</strong> O Contratante e seus Usuários comprometem-se a utilizar a Plataforma
+        de forma ética, legal e em conformidade com estes Termos, sendo vedado:
+      </p>
+      <ul>
+        <li>
+          Utilizar a Plataforma para fins ilícitos, fraudulentos ou que violem a legislação
+          brasileira;
+        </li>
+        <li>Registrar despesas falsas, fictícias ou forjadas;</li>
+        <li>Compartilhar credenciais de acesso com terceiros não autorizados;</li>
+        <li>Tentar acessar dados de outros Contratantes (tenants);</li>
+        <li>Realizar engenharia reversa, descompilar ou modificar o software da Plataforma;</li>
+        <li>
+          Utilizar bots, scripts ou ferramentas automatizadas para acessar a Plataforma de forma não
+          autorizada;
+        </li>
+        <li>Sobrecarregar intencionalmente os servidores ou infraestrutura da Plataforma;</li>
+        <li>
+          Utilizar o canal WhatsApp para fins diferentes do registro e gestão de despesas
+          corporativas.
+        </li>
+      </ul>
+
+      <h2>6. Propriedade Intelectual</h2>
+      <p>
+        <strong>6.1.</strong> A Plataforma, incluindo seu código-fonte, design, marca, logotipos,
+        documentação e demais materiais, é de propriedade exclusiva da Cuzto, protegida pelas leis
+        brasileiras de propriedade intelectual e tratados internacionais.
+      </p>
+      <p>
+        <strong>6.2.</strong> A contratação do serviço não confere ao Contratante qualquer direito
+        de propriedade sobre a Plataforma, sendo concedida apenas uma licença limitada, não
+        exclusiva, intransferível e revogável de uso durante a vigência do contrato.
+      </p>
+      <p>
+        <strong>6.3.</strong> Os dados inseridos pelo Contratante na Plataforma (informações de
+        funcionários, despesas, documentos fiscais, configurações de política) permanecem de
+        propriedade do Contratante. A Cuzto atua como operadora desses dados nos termos da LGPD.
+      </p>
+
+      <h2>7. Dados e Privacidade</h2>
+      <p>
+        <strong>7.1.</strong> O tratamento de dados pessoais realizado pela Cuzto é regido pela
+        <a href="privacidade.html">Política de Privacidade</a>, que complementa e integra estes
+        Termos.
+      </p>
+      <p>
+        <strong>7.2.</strong> A Cuzto compromete-se a tratar os dados pessoais dos Funcionários e
+        Usuários em conformidade com a Lei Geral de Proteção de Dados Pessoais (Lei nº 13.709/2018 —
+        LGPD) e demais normas aplicáveis.
+      </p>
+      <p>
+        <strong>7.3.</strong> O Contratante é responsável por obter as autorizações necessárias de
+        seus Funcionários para o tratamento de dados pessoais na Plataforma, incluindo nome, CPF,
+        número de telefone e dados de despesas.
+      </p>
+
+      <h2>8. Nível de Serviço</h2>
+      <p>
+        <strong>8.1.</strong> A Cuzto empenhará esforços comercialmente razoáveis para manter a
+        disponibilidade da Plataforma em pelo menos 99,5% (noventa e nove vírgula cinco por cento)
+        do tempo mensal, excluindo-se períodos de manutenção programada.
+      </p>
+      <p>
+        <strong>8.2.</strong> Manutenções programadas serão comunicadas com antecedência mínima de
+        48 (quarenta e oito) horas, preferencialmente em horários de menor utilização (entre 00h00 e
+        06h00, horário de Brasília).
+      </p>
+      <p>
+        <strong>8.3.</strong> A Cuzto não se responsabiliza por indisponibilidades causadas por
+        fatores fora de seu controle, incluindo, mas não se limitando a: indisponibilidade dos
+        serviços da SEFAZ, interrupções no WhatsApp Business API (Meta), falhas em provedores de
+        infraestrutura (cloud), desastres naturais, atos governamentais ou falhas na conexão de
+        internet do Contratante.
+      </p>
+
+      <h2>9. Responsabilidades do Contratante</h2>
+      <p><strong>9.1.</strong> O Contratante é integralmente responsável por:</p>
+      <ul>
+        <li>A veracidade e conformidade dos dados fiscais registrados por seus Funcionários;</li>
+        <li>A configuração adequada da Política de Despesas;</li>
+        <li>O uso correto da Plataforma por seus Usuários e Funcionários;</li>
+        <li>A manutenção de backup próprio de dados críticos, quando necessário;</li>
+        <li>
+          O cumprimento das obrigações fiscais e trabalhistas decorrentes das despesas registradas;
+        </li>
+        <li>A obtenção de consentimento de seus Funcionários para tratamento de dados pessoais.</li>
+      </ul>
+
+      <h2>10. Limitação de Responsabilidade</h2>
+      <p>
+        <strong>10.1.</strong> A Cuzto não será responsável por danos indiretos, incidentais,
+        especiais, consequenciais ou punitivos, incluindo, sem limitação, perda de lucros, perda de
+        dados ou interrupção de negócios, mesmo que tenha sido avisada da possibilidade de tais
+        danos.
+      </p>
+      <p>
+        <strong>10.2.</strong> A responsabilidade total da Cuzto por quaisquer reivindicações
+        decorrentes destes Termos será limitada ao valor pago pelo Contratante nos 12 (doze) meses
+        anteriores ao evento que deu origem à reivindicação.
+      </p>
+      <p>
+        <strong>10.3.</strong> A Cuzto não se responsabiliza pela precisão dos dados extraídos por
+        OCR (reconhecimento óptico de caracteres), cabendo ao Funcionário e ao Contratante a
+        verificação e confirmação dos dados. Dados extraídos via consulta SEFAZ (NFC-e) refletem as
+        informações disponibilizadas pela Secretaria da Fazenda do respectivo estado.
+      </p>
+
+      <h2>11. Suspensão e Cancelamento</h2>
+      <p>
+        <strong>11.1.</strong> O Contratante poderá cancelar sua assinatura a qualquer momento pelo
+        painel da Plataforma. O acesso será mantido até o final do ciclo de cobrança vigente.
+      </p>
+      <p>
+        <strong>11.2.</strong> A Cuzto poderá suspender ou cancelar a conta do Contratante nas
+        seguintes hipóteses:
+      </p>
+      <ul>
+        <li>Inadimplência conforme disposto na cláusula 4.5;</li>
+        <li>Violação dos Termos de uso aceitável (cláusula 5);</li>
+        <li>Determinação judicial ou administrativa;</li>
+        <li>Identificação de fraude ou uso abusivo.</li>
+      </ul>
+      <p>
+        <strong>11.3.</strong> Em caso de cancelamento, por qualquer motivo, o Contratante terá o
+        prazo de 30 (trinta) dias para solicitar a exportação de seus dados no formato JSON ou CSV.
+        Após esse prazo, os dados poderão ser permanentemente excluídos dos servidores da Cuzto.
+      </p>
+      <p>
+        <strong>11.4.</strong> Dados sujeitos a obrigações legais de retenção (como registros
+        fiscais) poderão ser mantidos pelo prazo exigido pela legislação aplicável, em conformidade
+        com a Política de Privacidade.
+      </p>
+
+      <h2>12. Comunicações</h2>
+      <p>
+        <strong>12.1.</strong> Todas as comunicações oficiais entre a Cuzto e o Contratante serão
+        realizadas por meio do endereço de e-mail cadastrado pelo administrador principal da conta.
+      </p>
+      <p>
+        <strong>12.2.</strong> Notificações sobre alterações nos Termos, suspensão de conta,
+        manutenções programadas e atualizações relevantes serão enviadas por e-mail com antecedência
+        razoável.
+      </p>
+      <p>
+        <strong>12.3.</strong> O Contratante é responsável por manter seu endereço de e-mail
+        atualizado.
+      </p>
+
+      <h2>13. Alterações nos Termos</h2>
+      <p>
+        <strong>13.1.</strong> A Cuzto reserva-se o direito de modificar estes Termos a qualquer
+        tempo. Alterações substanciais serão comunicadas ao Contratante com antecedência mínima de
+        30 (trinta) dias por meio do e-mail cadastrado.
+      </p>
+      <p>
+        <strong>13.2.</strong> O uso continuado da Plataforma após a entrada em vigor das alterações
+        constitui aceitação tácita dos novos Termos. Caso o Contratante não concorde com as
+        alterações, poderá cancelar sua assinatura conforme disposto na cláusula 11.1.
+      </p>
+
+      <h2>14. Lei Aplicável e Foro</h2>
+      <p>
+        <strong>14.1.</strong> Estes Termos são regidos pelas leis da República Federativa do
+        Brasil.
+      </p>
+      <p>
+        <strong>14.2.</strong> Fica eleito o foro da Comarca de São Paulo, Estado de São Paulo, para
+        dirimir quaisquer controvérsias decorrentes destes Termos, com renúncia expressa a qualquer
+        outro, por mais privilegiado que seja.
+      </p>
+
+      <h2>15. Disposições Gerais</h2>
+      <p>
+        <strong>15.1.</strong> Se qualquer disposição destes Termos for considerada inválida ou
+        inexequível, as demais disposições permanecerão em pleno vigor e efeito.
+      </p>
+      <p>
+        <strong>15.2.</strong> A tolerância ou o não exercício, por qualquer das partes, de
+        quaisquer direitos previstos nestes Termos não constituirá novação nem renúncia a tais
+        direitos.
+      </p>
+      <p>
+        <strong>15.3.</strong> O Contratante não poderá ceder ou transferir seus direitos e
+        obrigações decorrentes destes Termos sem o consentimento prévio e por escrito da Cuzto.
+      </p>
+      <p>
+        <strong>15.4.</strong> Estes Termos, juntamente com a Política de Privacidade e a Política
+        de Cookies, constituem o acordo integral entre as partes com relação ao objeto aqui tratado,
+        substituindo quaisquer acordos anteriores, verbais ou escritos.
+      </p>
+
+      <p style="margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border)">
+        Em caso de dúvidas sobre estes Termos, entre em contato pelo e-mail
+        <strong>juridico@cuzto.com.br</strong>.
+      </p>
+    </div>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <img src="../shared/assets/logo-light.svg" alt="Cuzto" class="light" />
+          <img src="../shared/assets/logo-dark.svg" alt="Cuzto" class="dark" />
+          <p>Gestão de despesas pelo WhatsApp para empresas com equipes em campo.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Produto</h4>
+          <a href="index.html#funcionalidades">Funcionalidades</a>
+          <a href="index.html#planos">Planos</a>
+          <a href="index.html#faq">FAQ</a>
+          <a href="index.html#como-funciona">Como funciona</a>
+        </div>
+        <div class="footer-col">
+          <h4>Suporte</h4>
+          <a href="ajuda.html">Central de Ajuda</a>
+          <a href="contato.html">Contato</a>
+          <a href="#">Sobre</a>
+          <a href="#">Blog</a>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <a href="termos.html">Termos de Uso</a>
+          <a href="privacidade.html">Política de Privacidade</a>
+          <a href="cookies.html">Política de Cookies</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 Cuzto Tecnologia Ltda. Todos os direitos reservados.</span>
+        <span>CNPJ: 00.000.000/0001-00</span>
+      </div>
+    </footer>
+  </body>
+</html>

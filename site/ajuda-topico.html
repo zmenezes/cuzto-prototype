@@ -1,0 +1,769 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WhatsApp e envio de despesas — Central de Ajuda — Cuzto</title>
+    <link rel="icon" type="image/svg+xml" href="../shared/assets/favicon.svg" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Figtree:wght@400;500;600;700&display=swap"
+    />
+    <style>
+      :root {
+        --primary: #10b981;
+        --primary-deep: #059669;
+        --primary-hover: #047857;
+        --primary-light: #ecfdf5;
+        --primary-subtle: #f0fdf4;
+        --primary-shadow: #047857;
+        --bg: #ffffff;
+        --surface: #ffffff;
+        --surface-2: #f7fdf9;
+        --surface-3: #ecfdf5;
+        --ink: #064e3b;
+        --ink-2: #065f46;
+        --ink-3: #6b7280;
+        --ink-inverse: #ffffff;
+        --border: #d1fae5;
+        --border-strong: #a7f3d0;
+        --f-display: "Baloo 2", "Figtree", system-ui, sans-serif;
+        --f-ui: "Figtree", system-ui, -apple-system, sans-serif;
+        --r-sm: 10px;
+        --r-md: 14px;
+        --r-lg: 20px;
+        --r-xl: 28px;
+        --r-pill: 999px;
+        --t-fast: 120ms;
+        --t-base: 200ms;
+        --t-press: 80ms;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --bg: #0a1a14;
+          --surface: #112820;
+          --surface-2: #15332a;
+          --surface-3: #1a3f34;
+          --ink: #e2f5ee;
+          --ink-2: #a7d5c4;
+          --ink-3: #6b8e80;
+          --ink-inverse: #0a1a14;
+          --border: #1a3f34;
+          --border-strong: #22574a;
+          --primary: #6ee7b7;
+          --primary-deep: #10b981;
+          --primary-hover: #a7f3d0;
+          --primary-light: #064e3b;
+          --primary-subtle: #022c22;
+          --primary-shadow: #059669;
+        }
+      }
+      :root[data-theme="dark"] {
+        --bg: #0a1a14;
+        --surface: #112820;
+        --surface-2: #15332a;
+        --surface-3: #1a3f34;
+        --ink: #e2f5ee;
+        --ink-2: #a7d5c4;
+        --ink-3: #6b8e80;
+        --ink-inverse: #0a1a14;
+        --border: #1a3f34;
+        --border-strong: #22574a;
+        --primary: #6ee7b7;
+        --primary-deep: #10b981;
+        --primary-hover: #a7f3d0;
+        --primary-light: #064e3b;
+        --primary-subtle: #022c22;
+        --primary-shadow: #059669;
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      html {
+        -webkit-text-size-adjust: 100%;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font: 400 16px/1.7 var(--f-ui);
+        -webkit-font-smoothing: antialiased;
+        overflow-x: clip;
+      }
+      h1,
+      h2,
+      h3 {
+        font-family: var(--f-display);
+        margin: 0;
+        line-height: 1.2;
+      }
+      p {
+        margin: 0;
+      }
+      a {
+        color: var(--primary-deep);
+        text-decoration: none;
+      }
+      img {
+        max-width: 100%;
+        display: block;
+      }
+      .container {
+        max-width: 1140px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+      /* Navbar */
+      .navbar {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: color-mix(in srgb, var(--bg) 90%, transparent);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+        padding: 0 20px;
+      }
+      .navbar-inner {
+        max-width: 1140px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        min-height: 64px;
+      }
+      .navbar-logo img {
+        height: 28px;
+      }
+      .navbar-logo .dark {
+        display: none;
+      }
+      [data-theme="dark"] .navbar-logo .light {
+        display: none;
+      }
+      [data-theme="dark"] .navbar-logo .dark {
+        display: block;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) .navbar-logo .light {
+          display: none;
+        }
+        :root:not([data-theme="light"]) .navbar-logo .dark {
+          display: block;
+        }
+      }
+      .navbar-links {
+        display: flex;
+        gap: 6px;
+        flex: 1;
+      }
+      .navbar-links a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 40px;
+        padding: 0 14px;
+        border-radius: var(--r-pill);
+        font: 600 14px var(--f-ui);
+        color: var(--ink-2);
+        transition:
+          background var(--t-fast),
+          color var(--t-fast);
+      }
+      .navbar-links a:hover,
+      .navbar-links a.active {
+        background: var(--surface-3);
+        color: var(--ink);
+      }
+      .navbar-actions {
+        display: flex;
+        gap: 10px;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        min-height: 46px;
+        padding: 0 22px;
+        border-radius: var(--r-lg);
+        font: 800 15px/1 var(--f-ui);
+        border: 2px solid transparent;
+        cursor: pointer;
+        white-space: nowrap;
+        text-decoration: none;
+        transition:
+          background var(--t-fast),
+          transform var(--t-press),
+          box-shadow var(--t-press);
+      }
+      .btn:active {
+        transform: translateY(4px);
+        box-shadow: none !important;
+      }
+      .btn-primary {
+        background: var(--primary);
+        color: var(--ink-inverse);
+        box-shadow: 0 4px 0 var(--primary-shadow);
+      }
+      .btn-ghost {
+        background: transparent;
+        color: var(--ink-2);
+        box-shadow: none;
+      }
+      .btn-ghost:hover {
+        background: var(--surface-3);
+      }
+      .btn-outline {
+        background: transparent;
+        color: var(--primary-deep);
+        border-color: var(--primary);
+      }
+      .btn-outline:hover {
+        background: var(--primary-subtle);
+      }
+      .btn-sm {
+        min-height: 36px;
+        padding: 0 14px;
+        font-size: 13px;
+        border-radius: var(--r-sm);
+      }
+      .navbar-hamburger {
+        display: none;
+        width: 44px;
+        height: 44px;
+        border: none;
+        background: none;
+        cursor: pointer;
+        color: var(--ink);
+        border-radius: var(--r-sm);
+      }
+      .navbar-hamburger svg {
+        width: 22px;
+        height: 22px;
+        stroke: currentColor;
+        fill: none;
+        stroke-width: 1.75;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      @media (max-width: 768px) {
+        .navbar-links {
+          display: none;
+        }
+        .navbar-hamburger {
+          display: grid;
+          place-items: center;
+        }
+      }
+      /* Breadcrumb */
+      .crumbs {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex-wrap: wrap;
+        font-size: 13px;
+        color: var(--ink-3);
+        margin-bottom: 18px;
+      }
+      .crumbs a {
+        color: var(--ink-3);
+      }
+      .crumbs a:hover {
+        color: var(--primary-deep);
+        text-decoration: underline;
+      }
+      .crumbs svg {
+        width: 13px;
+        height: 13px;
+        stroke: currentColor;
+        fill: none;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .crumbs .current {
+        color: var(--ink-2);
+        font-weight: 600;
+      }
+      /* Topic head */
+      .topic-head {
+        padding: 40px 0 8px;
+      }
+      .topic-head .ti {
+        width: 52px;
+        height: 52px;
+        border-radius: 16px;
+        background: var(--primary-light);
+        color: var(--primary-deep);
+        display: grid;
+        place-items: center;
+        margin-bottom: 18px;
+      }
+      .topic-head .ti svg {
+        width: 24px;
+        height: 24px;
+        stroke: currentColor;
+        fill: none;
+        stroke-width: 1.75;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .topic-head h1 {
+        font-size: clamp(26px, 3.6vw, 34px);
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        margin-bottom: 10px;
+      }
+      .topic-head p {
+        color: var(--ink-2);
+        font-size: 15.5px;
+        max-width: 620px;
+        margin-bottom: 24px;
+      }
+      .topic-search {
+        max-width: 420px;
+        position: relative;
+        margin-bottom: 8px;
+      }
+      .topic-search svg {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 17px;
+        height: 17px;
+        color: var(--ink-3);
+        stroke: currentColor;
+        fill: none;
+        stroke-width: 1.75;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .topic-search input {
+        width: 100%;
+        min-height: 44px;
+        padding: 0 16px 0 40px;
+        border-radius: var(--r-md);
+        border: 2px solid var(--border-strong);
+        box-shadow: 0 3px 0 var(--border-strong);
+        background: var(--surface);
+        color: var(--ink);
+        font: 600 14px var(--f-ui);
+      }
+      .topic-search input:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 3px 0 var(--primary-shadow);
+      }
+      /* Layout */
+      .topic-wrap {
+        padding: 24px 0 88px;
+      }
+      .topic-grid {
+        display: grid;
+        grid-template-columns: 1fr 300px;
+        gap: 28px;
+        align-items: start;
+      }
+      @media (max-width: 860px) {
+        .topic-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      .topic-count {
+        font-size: 13px;
+        color: var(--ink-3);
+        margin-bottom: 14px;
+      }
+      /* QA list (shared component) */
+      .qa-list {
+        display: grid;
+        gap: 10px;
+      }
+      .qa-row {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 16px 18px;
+        background: var(--surface);
+        border: 2px solid var(--border);
+        border-radius: var(--r-lg);
+        box-shadow: 0 3px 0 var(--border);
+        color: var(--ink);
+        transition:
+          border-color var(--t-fast),
+          transform var(--t-press),
+          box-shadow var(--t-press);
+      }
+      .qa-row:hover {
+        border-color: var(--primary);
+      }
+      .qa-row:active {
+        transform: translateY(3px);
+        box-shadow: none;
+      }
+      .qa-row .qt {
+        flex: 1;
+        font-weight: 700;
+        font-size: 14.5px;
+      }
+      .qa-row .chev {
+        flex: none;
+        width: 18px;
+        height: 18px;
+        color: var(--ink-3);
+        stroke: currentColor;
+        fill: none;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .search-empty {
+        text-align: center;
+        color: var(--ink-3);
+        font-size: 14px;
+        padding: 24px 0 4px;
+        display: none;
+      }
+      /* Sidebar */
+      .side-card {
+        background: var(--surface-2);
+        border: 2px solid var(--border);
+        border-radius: var(--r-lg);
+        padding: 22px;
+        margin-bottom: 16px;
+      }
+      .side-card h4 {
+        font-size: 13px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--ink-3);
+        margin-bottom: 14px;
+      }
+      .side-list {
+        display: grid;
+        gap: 2px;
+      }
+      .side-list a {
+        display: block;
+        padding: 9px 0;
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--ink-2);
+        border-bottom: 1px solid var(--border);
+      }
+      .side-list a:last-child {
+        border-bottom: none;
+      }
+      .side-list a:hover {
+        color: var(--primary-deep);
+      }
+      .side-card.cta-card {
+        background: var(--primary-subtle);
+        border-color: var(--border-strong);
+        text-align: center;
+      }
+      .side-card.cta-card p {
+        font-size: 13.5px;
+        color: var(--ink-2);
+        margin: 0 0 14px;
+        line-height: 1.5;
+      }
+      /* Footer */
+      .footer {
+        background: var(--surface-2);
+        border-top: 2px solid var(--border);
+        padding: 48px 0 24px;
+      }
+      .footer-inner {
+        max-width: 1140px;
+        margin: 0 auto;
+        padding: 0 20px;
+        display: grid;
+        grid-template-columns: 1.5fr repeat(3, 1fr);
+        gap: 32px;
+      }
+      .footer-brand img {
+        height: 28px;
+        margin-bottom: 10px;
+      }
+      .footer-brand .dark {
+        display: none;
+      }
+      [data-theme="dark"] .footer-brand .light {
+        display: none;
+      }
+      [data-theme="dark"] .footer-brand .dark {
+        display: block;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) .footer-brand .light {
+          display: none;
+        }
+        :root:not([data-theme="light"]) .footer-brand .dark {
+          display: block;
+        }
+      }
+      .footer-brand p {
+        font-size: 13px;
+        color: var(--ink-3);
+        max-width: 240px;
+        line-height: 1.5;
+      }
+      .footer-col h4 {
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--ink-3);
+        margin-bottom: 12px;
+      }
+      .footer-col a {
+        display: block;
+        font-size: 14px;
+        color: var(--ink-2);
+        padding: 4px 0;
+        font-weight: 500;
+        text-decoration: none;
+        transition: color var(--t-fast);
+      }
+      .footer-col a:hover {
+        color: var(--primary);
+        text-decoration: none;
+      }
+      .footer-bottom {
+        max-width: 1140px;
+        margin: 32px auto 0;
+        padding: 16px 20px 0;
+        border-top: 1px solid var(--border);
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
+        color: var(--ink-3);
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      @media (max-width: 768px) {
+        .footer-inner {
+          grid-template-columns: 1fr 1fr;
+          gap: 24px;
+        }
+        .footer-brand {
+          grid-column: 1/-1;
+        }
+      }
+      @media (max-width: 500px) {
+        .footer-inner {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="navbar-inner">
+        <a href="index.html" class="navbar-logo"
+          ><img src="../shared/assets/logo-light.svg" alt="Cuzto" class="light" /><img
+            src="../shared/assets/logo-dark.svg"
+            alt="Cuzto"
+            class="dark"
+        /></a>
+        <div class="navbar-links">
+          <a href="index.html#funcionalidades">Produto</a
+          ><a href="index.html#como-funciona">Como Funciona</a><a href="index.html#planos">Planos</a
+          ><a href="index.html#faq">FAQ</a><a href="ajuda.html" class="active">Ajuda</a
+          ><a href="contato.html">Contato</a>
+        </div>
+        <div class="navbar-actions">
+          <a href="../company/login.html" class="btn btn-ghost btn-sm">Entrar</a
+          ><a href="../company/onboarding-step1.html" class="btn btn-primary btn-sm"
+            >Começar grátis</a
+          >
+        </div>
+      </div>
+    </nav>
+
+    <header class="topic-head">
+      <div class="container">
+        <div class="crumbs">
+          <a href="ajuda.html">Central de Ajuda</a>
+          <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6" /></svg>
+          <span class="current">WhatsApp e envio de despesas</span>
+        </div>
+        <div class="ti">
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"
+            />
+          </svg>
+        </div>
+        <h1>WhatsApp e envio de despesas</h1>
+        <p>
+          Tudo sobre como enviar comprovantes, corrigir dados lidos automaticamente e consultar seu
+          saldo direto pelo WhatsApp.
+        </p>
+        <div class="topic-search">
+          <svg viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+          <input type="text" id="topicSearchInput" placeholder="Buscar neste tópico..." autocomplete="off" />
+        </div>
+      </div>
+    </header>
+
+    <section class="topic-wrap">
+      <div class="container">
+        <div class="topic-grid">
+          <div>
+            <p class="topic-count" id="topicCount">12 artigos neste tópico</p>
+            <div class="qa-list" id="qaList">
+              <a
+                class="qa-row"
+                href="ajuda-pergunta.html"
+                data-search="nota fiscal ocr sefaz confirmação leitura automática qr code"
+              >
+                <span class="qt"
+                  >Como o sistema lê a nota fiscal e por que às vezes pede confirmação?</span
+                >
+                <svg class="chev" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6" /></svg>
+              </a>
+              <a class="qa-row" href="#" data-search="instalar aplicativo app celular download">
+                <span class="qt">Preciso instalar algum aplicativo?</span>
+                <svg class="chev" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6" /></svg>
+              </a>
+              <a class="qa-row" href="#" data-search="várias notas de uma vez multiplas fotos">
+                <span class="qt">Posso enviar mais de uma nota de uma vez?</span>
+                <svg class="chev" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6" /></svg>
+              </a>
+              <a class="qa-row" href="#" data-search="foto borrada incompleta ilegível qualidade">
+                <span class="qt">O que acontece se eu enviar uma foto borrada ou incompleta?</span>
+                <svg class="chev" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6" /></svg>
+              </a>
+              <a class="qa-row" href="#" data-search="corrigir valor errado dado lido incorreto">
+                <span class="qt">Como corrijo um valor lido errado pelo sistema?</span>
+                <svg class="chev" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6" /></svg>
+              </a>
+              <a class="qa-row" href="#" data-search="consultar saldo disponível comando palavra">
+                <span class="qt">Como consulto meu saldo disponível?</span>
+                <svg class="chev" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6" /></svg>
+              </a>
+              <a class="qa-row" href="#" data-search="despesa sem foto comprovante manual">
+                <span class="qt">Posso registrar uma despesa sem foto do comprovante?</span>
+                <svg class="chev" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6" /></svg>
+              </a>
+              <a class="qa-row" href="#" data-search="tempo expira conversa timeout 48 horas">
+                <span class="qt">Por quanto tempo posso responder antes que a conversa expire?</span>
+                <svg class="chev" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6" /></svg>
+              </a>
+              <a class="qa-row" href="#" data-search="palavra chave saldo ajuda menu comandos">
+                <span class="qt">Quais palavras-chave o WhatsApp do Cuzto reconhece?</span>
+                <svg class="chev" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6" /></svg>
+              </a>
+              <a class="qa-row" href="#" data-search="trocar número celular telefone funcionário">
+                <span class="qt">Troquei de celular. Preciso avisar alguém?</span>
+                <svg class="chev" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6" /></svg>
+              </a>
+              <a class="qa-row" href="#" data-search="categoria escolher classificar despesa">
+                <span class="qt">Como escolho a categoria da despesa pelo WhatsApp?</span>
+                <svg class="chev" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6" /></svg>
+              </a>
+              <a class="qa-row" href="#" data-search="outro assunto número comercial uso indevido">
+                <span class="qt">O número de WhatsApp do Cuzto pode ser usado para outros assuntos?</span>
+                <svg class="chev" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6" /></svg>
+              </a>
+            </div>
+            <p class="search-empty" id="qaEmpty">Nenhuma pergunta encontrada para essa busca.</p>
+          </div>
+
+          <aside>
+            <div class="side-card">
+              <h4>Outros tópicos</h4>
+              <div class="side-list">
+                <a href="ajuda.html">Primeiros passos</a>
+                <a href="ajuda.html">Política e aprovações</a>
+                <a href="ajuda.html">Adiantamentos e saldo</a>
+                <a href="ajuda.html">Painel e relatórios</a>
+                <a href="ajuda.html">Cobrança e planos</a>
+              </div>
+            </div>
+            <div class="side-card cta-card">
+              <p>Não encontrou sua resposta neste tópico?</p>
+              <a href="contato.html" class="btn btn-outline btn-sm">Falar com o suporte</a>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <img src="../shared/assets/logo-light.svg" alt="Cuzto" class="light" />
+          <img src="../shared/assets/logo-dark.svg" alt="Cuzto" class="dark" />
+          <p>Gestão de despesas pelo WhatsApp para empresas com equipes em campo.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Produto</h4>
+          <a href="index.html#funcionalidades">Funcionalidades</a>
+          <a href="index.html#planos">Planos</a>
+          <a href="index.html#faq">FAQ</a>
+          <a href="index.html#como-funciona">Como funciona</a>
+        </div>
+        <div class="footer-col">
+          <h4>Suporte</h4>
+          <a href="ajuda.html">Central de Ajuda</a>
+          <a href="contato.html">Contato</a>
+          <a href="#">Sobre</a>
+          <a href="#">Blog</a>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <a href="termos.html">Termos de Uso</a>
+          <a href="privacidade.html">Política de Privacidade</a>
+          <a href="cookies.html">Política de Cookies</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 Cuzto Tecnologia Ltda. Todos os direitos reservados.</span>
+        <span>CNPJ: 00.000.000/0001-00</span>
+      </div>
+    </footer>
+
+    <script>
+      (function () {
+        var input = document.getElementById("topicSearchInput");
+        var rows = Array.from(document.querySelectorAll("#qaList .qa-row"));
+        var empty = document.getElementById("qaEmpty");
+        var countLabel = document.getElementById("topicCount");
+        var total = rows.length;
+
+        function normalize(s) {
+          return s
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "");
+        }
+
+        function filter() {
+          var q = normalize(input.value.trim());
+          var visible = 0;
+          rows.forEach(function (el) {
+            var haystack = normalize(el.dataset.search + " " + el.querySelector(".qt").textContent);
+            var match = !q || haystack.indexOf(q) !== -1;
+            el.style.display = match ? "" : "none";
+            if (match) visible++;
+          });
+          empty.style.display = visible === 0 ? "block" : "none";
+          countLabel.textContent = q
+            ? visible + " de " + total + " artigos correspondem à busca"
+            : total + " artigos neste tópico";
+        }
+
+        input.addEventListener("input", filter);
+      })();
+    </script>
+  </body>
+</html>

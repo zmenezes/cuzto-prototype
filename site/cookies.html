@@ -1,0 +1,713 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Política de Cookies — Cuzto</title>
+    <link rel="icon" type="image/svg+xml" href="../shared/assets/favicon.svg" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Figtree:wght@400;500;600;700&display=swap"
+    />
+    <style>
+      :root {
+        --primary: #10b981;
+        --primary-deep: #059669;
+        --primary-hover: #047857;
+        --primary-light: #ecfdf5;
+        --primary-subtle: #f0fdf4;
+        --primary-shadow: #047857;
+        --primary-soft-shadow: #b7e4d2;
+        --bg: #ffffff;
+        --surface: #ffffff;
+        --surface-2: #f7fdf9;
+        --surface-3: #ecfdf5;
+        --ink: #064e3b;
+        --ink-2: #065f46;
+        --ink-3: #6b7280;
+        --ink-inverse: #ffffff;
+        --border: #d1fae5;
+        --border-strong: #a7f3d0;
+        --f-display: "Baloo 2", "Figtree", system-ui, sans-serif;
+        --f-ui: "Figtree", system-ui, -apple-system, sans-serif;
+        --r-sm: 10px;
+        --r-md: 14px;
+        --r-lg: 20px;
+        --r-xl: 28px;
+        --r-pill: 999px;
+        --t-fast: 120ms;
+        --t-base: 200ms;
+        --t-press: 80ms;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --bg: #0a1a14;
+          --surface: #112820;
+          --surface-2: #15332a;
+          --surface-3: #1a3f34;
+          --ink: #e2f5ee;
+          --ink-2: #a7d5c4;
+          --ink-3: #6b8e80;
+          --ink-inverse: #0a1a14;
+          --border: #1a3f34;
+          --border-strong: #22574a;
+          --primary: #6ee7b7;
+          --primary-deep: #10b981;
+          --primary-hover: #a7f3d0;
+          --primary-light: #064e3b;
+          --primary-subtle: #022c22;
+          --primary-shadow: #059669;
+          --primary-soft-shadow: #0f2e22;
+        }
+      }
+      :root[data-theme="dark"] {
+        --bg: #0a1a14;
+        --surface: #112820;
+        --surface-2: #15332a;
+        --surface-3: #1a3f34;
+        --ink: #e2f5ee;
+        --ink-2: #a7d5c4;
+        --ink-3: #6b8e80;
+        --ink-inverse: #0a1a14;
+        --border: #1a3f34;
+        --border-strong: #22574a;
+        --primary: #6ee7b7;
+        --primary-deep: #10b981;
+        --primary-hover: #a7f3d0;
+        --primary-light: #064e3b;
+        --primary-subtle: #022c22;
+        --primary-shadow: #059669;
+        --primary-soft-shadow: #0f2e22;
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font: 400 16px/1.7 var(--f-ui);
+        -webkit-font-smoothing: antialiased;
+        overflow-x: clip;
+      }
+      h1,
+      h2,
+      h3 {
+        font-family: var(--f-display);
+        margin: 0;
+        line-height: 1.2;
+      }
+      a {
+        color: var(--primary-deep);
+      }
+      img {
+        max-width: 100%;
+        display: block;
+      }
+      .navbar {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: color-mix(in srgb, var(--bg) 90%, transparent);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+        padding: 0 20px;
+      }
+      .navbar-inner {
+        max-width: 1140px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        min-height: 64px;
+      }
+      .navbar-logo img {
+        height: 28px;
+      }
+      .navbar-logo .dark {
+        display: none;
+      }
+      [data-theme="dark"] .navbar-logo .light {
+        display: none;
+      }
+      [data-theme="dark"] .navbar-logo .dark {
+        display: block;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) .navbar-logo .light {
+          display: none;
+        }
+        :root:not([data-theme="light"]) .navbar-logo .dark {
+          display: block;
+        }
+      }
+      .navbar-links {
+        display: flex;
+        gap: 6px;
+        flex: 1;
+      }
+      .navbar-links a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 40px;
+        padding: 0 14px;
+        border-radius: var(--r-pill);
+        font: 600 14px var(--f-ui);
+        color: var(--ink-2);
+        text-decoration: none;
+        transition: background var(--t-fast);
+      }
+      .navbar-links a:hover,
+      .navbar-links a.active {
+        background: var(--surface-3);
+        color: var(--ink);
+      }
+      .navbar-actions {
+        display: flex;
+        gap: 10px;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        min-height: 46px;
+        padding: 0 22px;
+        border-radius: var(--r-lg);
+        font: 800 15px/1 var(--f-ui);
+        border: 2px solid transparent;
+        cursor: pointer;
+        white-space: nowrap;
+        text-decoration: none;
+        transition:
+          background var(--t-fast),
+          transform var(--t-press),
+          box-shadow var(--t-press);
+      }
+      .btn:hover {
+        text-decoration: none;
+      }
+      .btn:active {
+        transform: translateY(4px);
+        box-shadow: none !important;
+      }
+      .btn-primary {
+        background: var(--primary);
+        color: var(--ink-inverse);
+        box-shadow: 0 4px 0 var(--primary-shadow);
+      }
+      .btn-ghost {
+        background: transparent;
+        color: var(--ink-2);
+        box-shadow: none;
+      }
+      .btn-ghost:hover {
+        background: var(--surface-3);
+      }
+      .btn-sm {
+        min-height: 36px;
+        padding: 0 14px;
+        font-size: 13px;
+        border-radius: var(--r-sm);
+      }
+      @media (max-width: 768px) {
+        .navbar-links {
+          display: none;
+        }
+      }
+      .legal {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 48px 20px 80px;
+      }
+      .legal h1 {
+        font-size: clamp(28px, 4vw, 36px);
+        font-weight: 800;
+        margin-bottom: 8px;
+        letter-spacing: -0.02em;
+      }
+      .legal .updated {
+        font-size: 14px;
+        color: var(--ink-3);
+        margin-bottom: 32px;
+        font-weight: 600;
+      }
+      .legal h2 {
+        font-size: 20px;
+        font-weight: 800;
+        margin-top: 40px;
+        margin-bottom: 12px;
+        color: var(--primary-deep);
+      }
+      .legal h3 {
+        font-size: 16px;
+        font-weight: 700;
+        margin-top: 24px;
+        margin-bottom: 8px;
+      }
+      .legal p,
+      .legal li {
+        font-size: 15px;
+        line-height: 1.7;
+        color: var(--ink-2);
+        margin-bottom: 12px;
+      }
+      .legal ul,
+      .legal ol {
+        padding-left: 24px;
+        margin-bottom: 16px;
+      }
+      .legal li {
+        margin-bottom: 6px;
+      }
+      .legal strong {
+        color: var(--ink);
+        font-weight: 700;
+      }
+      .legal table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 16px 0;
+        font-size: 14px;
+      }
+      .legal th,
+      .legal td {
+        text-align: left;
+        padding: 10px 14px;
+        border: 1px solid var(--border);
+      }
+      .legal th {
+        background: var(--surface-3);
+        font-weight: 700;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        color: var(--ink-3);
+      }
+      .footer {
+        background: var(--surface-2);
+        border-top: 2px solid var(--border);
+        padding: 48px 0 24px;
+      }
+      .footer-inner {
+        max-width: 1140px;
+        margin: 0 auto;
+        padding: 0 20px;
+        display: grid;
+        grid-template-columns: 1.5fr repeat(3, 1fr);
+        gap: 32px;
+      }
+      .footer-brand img {
+        height: 28px;
+        margin-bottom: 10px;
+      }
+      .footer-brand .dark {
+        display: none;
+      }
+      [data-theme="dark"] .footer-brand .light {
+        display: none;
+      }
+      [data-theme="dark"] .footer-brand .dark {
+        display: block;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) .footer-brand .light {
+          display: none;
+        }
+        :root:not([data-theme="light"]) .footer-brand .dark {
+          display: block;
+        }
+      }
+      .footer-brand p {
+        font-size: 13px;
+        color: var(--ink-3);
+        max-width: 240px;
+        line-height: 1.5;
+      }
+      .footer-col h4 {
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--ink-3);
+        margin-bottom: 12px;
+      }
+      .footer-col a {
+        display: block;
+        font-size: 14px;
+        color: var(--ink-2);
+        padding: 4px 0;
+        font-weight: 500;
+        text-decoration: none;
+        transition: color var(--t-fast);
+      }
+      .footer-col a:hover {
+        color: var(--primary);
+        text-decoration: none;
+      }
+      .footer-bottom {
+        max-width: 1140px;
+        margin: 32px auto 0;
+        padding: 16px 20px 0;
+        border-top: 1px solid var(--border);
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
+        color: var(--ink-3);
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      @media (max-width: 768px) {
+        .footer-inner {
+          grid-template-columns: 1fr 1fr;
+          gap: 24px;
+        }
+        .footer-brand {
+          grid-column: 1/-1;
+        }
+      }
+      @media (max-width: 500px) {
+        .footer-inner {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="navbar-inner">
+        <a href="index.html" class="navbar-logo"
+          ><img src="../shared/assets/logo-light.svg" alt="Cuzto" class="light" /><img
+            src="../shared/assets/logo-dark.svg"
+            alt="Cuzto"
+            class="dark"
+        /></a>
+        <div class="navbar-links">
+          <a href="index.html#funcionalidades">Produto</a
+          ><a href="index.html#como-funciona">Como Funciona</a><a href="index.html#planos">Planos</a
+          ><a href="index.html#faq">FAQ</a><a href="ajuda.html">Ajuda</a
+          ><a href="contato.html">Contato</a>
+        </div>
+        <div class="navbar-actions">
+          <a href="../company/login.html" class="btn btn-ghost btn-sm">Entrar</a
+          ><a href="../company/onboarding-step1.html" class="btn btn-primary btn-sm"
+            >Começar grátis</a
+          >
+        </div>
+      </div>
+    </nav>
+
+    <div class="legal">
+      <h1>Política de Cookies</h1>
+      <p class="updated">Última atualização: 23 de setembro de 2026</p>
+
+      <p>
+        Esta Política de Cookies explica como a <strong>Cuzto Tecnologia Ltda.</strong> ("Cuzto")
+        utiliza cookies e tecnologias similares na plataforma Cuzto ("Plataforma") e no site
+        cuzto.com.br ("Site"). Ao utilizar nossos serviços, você concorda com o uso de cookies
+        conforme descrito nesta Política.
+      </p>
+
+      <h2>1. O que são Cookies</h2>
+      <p>
+        Cookies são pequenos arquivos de texto armazenados no navegador do usuário quando ele acessa
+        um site ou aplicação web. Eles permitem que o site reconheça o navegador em visitas
+        subsequentes, armazene preferências e forneça funcionalidades essenciais.
+      </p>
+      <p>
+        Tecnologias similares incluem web beacons, pixels, armazenamento local (localStorage) e
+        identificadores de sessão, que cumprem funções semelhantes aos cookies.
+      </p>
+
+      <h2>2. Cookies que Utilizamos</h2>
+
+      <h3>2.1. Cookies Essenciais</h3>
+      <p>
+        São estritamente necessários para o funcionamento da Plataforma. Não podem ser desativados
+        sem comprometer funcionalidades básicas. Não requerem consentimento.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Finalidade</th>
+            <th>Duração</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>cuzto_session</strong></td>
+            <td>
+              Mantém a sessão do Usuário autenticado no painel web. Contém um identificador único de
+              sessão.
+            </td>
+            <td>24 horas ou até logout</td>
+          </tr>
+          <tr>
+            <td><strong>cuzto_csrf</strong></td>
+            <td>
+              Proteção contra ataques Cross-Site Request Forgery (CSRF). Token único por sessão.
+            </td>
+            <td>Sessão (navegador)</td>
+          </tr>
+          <tr>
+            <td><strong>cuzto_tenant</strong></td>
+            <td>Identifica o ambiente (tenant) do Contratante para isolamento de dados.</td>
+            <td>24 horas</td>
+          </tr>
+          <tr>
+            <td><strong>cuzto_consent</strong></td>
+            <td>
+              Registra as preferências de cookies do usuário (aceite ou recusa de categorias
+              opcionais).
+            </td>
+            <td>12 meses</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>2.2. Cookies Funcionais</h3>
+      <p>
+        Permitem que a Plataforma lembre preferências do usuário para melhorar a experiência. Podem
+        ser desativados, mas algumas funcionalidades de personalização serão perdidas.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Finalidade</th>
+            <th>Duração</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>cuzto_theme</strong></td>
+            <td>Armazena a preferência de tema visual (claro ou escuro).</td>
+            <td>12 meses</td>
+          </tr>
+          <tr>
+            <td><strong>cuzto_lang</strong></td>
+            <td>Armazena a preferência de idioma (quando disponível).</td>
+            <td>12 meses</td>
+          </tr>
+          <tr>
+            <td><strong>cuzto_sidebar</strong></td>
+            <td>Armazena o estado do menu lateral (expandido ou recolhido).</td>
+            <td>Sessão</td>
+          </tr>
+          <tr>
+            <td><strong>cuzto_filters</strong></td>
+            <td>
+              Lembra os últimos filtros aplicados em listas de despesas, funcionários e relatórios.
+            </td>
+            <td>Sessão</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>2.3. Cookies Analíticos</h3>
+      <p>
+        Coletam informações sobre como os usuários interagem com a Plataforma e o Site,
+        permitindo-nos melhorar a experiência. Requerem consentimento e podem ser desativados.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Provedor</th>
+            <th>Finalidade</th>
+            <th>Duração</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>_ga</strong></td>
+            <td>Google Analytics</td>
+            <td>Distingue usuários únicos para análise de tráfego do Site.</td>
+            <td>2 anos</td>
+          </tr>
+          <tr>
+            <td><strong>_ga_*</strong></td>
+            <td>Google Analytics 4</td>
+            <td>Mantém o estado da sessão para análise de navegação.</td>
+            <td>2 anos</td>
+          </tr>
+          <tr>
+            <td><strong>_gid</strong></td>
+            <td>Google Analytics</td>
+            <td>Distingue usuários para contagem de páginas visualizadas.</td>
+            <td>24 horas</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>2.4. Cookies de Marketing</h3>
+      <p>
+        Atualmente, a Cuzto <strong>não utiliza cookies de marketing ou publicidade</strong>. Não
+        rastreamos usuários para fins de publicidade direcionada. Caso essa política mude no futuro,
+        esta seção será atualizada e o consentimento será solicitado.
+      </p>
+
+      <h2>3. Cookies de Terceiros</h2>
+      <p>Além dos cookies próprios, a Plataforma pode carregar cookies de terceiros:</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Provedor</th>
+            <th>Serviço</th>
+            <th>Finalidade</th>
+            <th>Política de Privacidade</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Google</td>
+            <td>Google Analytics</td>
+            <td>Análise de tráfego e uso (Site)</td>
+            <td>
+              <a href="https://policies.google.com/privacy" target="_blank" rel="noopener"
+                >policies.google.com/privacy</a
+              >
+            </td>
+          </tr>
+          <tr>
+            <td>Google</td>
+            <td>Google Fonts</td>
+            <td>Carregamento de fontes tipográficas (Baloo 2, Figtree)</td>
+            <td>
+              <a href="https://policies.google.com/privacy" target="_blank" rel="noopener"
+                >policies.google.com/privacy</a
+              >
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>4. Como Gerenciar Cookies</h2>
+      <p>
+        Você pode gerenciar ou desativar cookies a qualquer momento por meio das configurações do
+        seu navegador. A seguir, instruções para os navegadores mais utilizados:
+      </p>
+
+      <h3>Google Chrome</h3>
+      <ol>
+        <li>Acesse Configurações > Privacidade e segurança > Cookies e outros dados de sites;</li>
+        <li>
+          Escolha bloquear cookies de terceiros, bloquear todos os cookies ou gerenciar exceções por
+          site.
+        </li>
+      </ol>
+
+      <h3>Mozilla Firefox</h3>
+      <ol>
+        <li>Acesse Configurações > Privacidade & Segurança;</li>
+        <li>
+          Na seção "Proteção aprimorada contra rastreamento", selecione o nível desejado (Padrão,
+          Rigoroso ou Personalizado).
+        </li>
+      </ol>
+
+      <h3>Apple Safari</h3>
+      <ol>
+        <li>Acesse Preferências > Privacidade;</li>
+        <li>Selecione "Bloquear todos os cookies" ou gerencie exceções por site.</li>
+      </ol>
+
+      <h3>Microsoft Edge</h3>
+      <ol>
+        <li>Acesse Configurações > Cookies e permissões de site > Gerenciar e excluir cookies;</li>
+        <li>Escolha bloquear cookies de terceiros ou todos os cookies.</li>
+      </ol>
+
+      <h2>5. Impacto da Desativação</h2>
+      <p>A desativação de cookies pode afetar o funcionamento da Plataforma:</p>
+      <ul>
+        <li>
+          <strong>Cookies essenciais desativados:</strong> não será possível fazer login ou utilizar
+          a Plataforma. A sessão não será mantida entre páginas.
+        </li>
+        <li>
+          <strong>Cookies funcionais desativados:</strong> preferências de tema (claro/escuro),
+          filtros salvos e estado do menu lateral não serão lembrados.
+        </li>
+        <li>
+          <strong>Cookies analíticos desativados:</strong> nenhum impacto na funcionalidade. Apenas
+          deixaremos de receber dados agregados sobre uso do Site.
+        </li>
+      </ul>
+
+      <h2>6. Alterações nesta Política</h2>
+      <p>
+        A Cuzto poderá atualizar esta Política de Cookies periodicamente. Alterações substanciais
+        serão comunicadas por meio de aviso na Plataforma ou por e-mail. A data de "Última
+        atualização" no topo desta página indica quando a Política foi revisada pela última vez.
+      </p>
+
+      <h2>7. Contato</h2>
+      <p>
+        Para dúvidas sobre esta Política de Cookies ou sobre como utilizamos cookies, entre em
+        contato:
+      </p>
+      <ul>
+        <li><strong>E-mail:</strong> privacidade@cuzto.com.br</li>
+        <li><strong>Site:</strong> cuzto.com.br</li>
+      </ul>
+      <p>
+        Para informações adicionais sobre proteção de dados, consulte nossa
+        <a href="privacidade.html">Política de Privacidade</a>.
+      </p>
+
+      <p
+        style="
+          margin-top: 40px;
+          padding-top: 24px;
+          border-top: 1px solid var(--border);
+          font-size: 14px;
+          color: var(--ink-3);
+        "
+      >
+        <strong>Cuzto Tecnologia Ltda.</strong> — CNPJ: 00.000.000/0001-00 — São Paulo, SP, Brasil
+      </p>
+    </div>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <img src="../shared/assets/logo-light.svg" alt="Cuzto" class="light" />
+          <img src="../shared/assets/logo-dark.svg" alt="Cuzto" class="dark" />
+          <p>Gestão de despesas pelo WhatsApp para empresas com equipes em campo.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Produto</h4>
+          <a href="index.html#funcionalidades">Funcionalidades</a>
+          <a href="index.html#planos">Planos</a>
+          <a href="index.html#faq">FAQ</a>
+          <a href="index.html#como-funciona">Como funciona</a>
+        </div>
+        <div class="footer-col">
+          <h4>Suporte</h4>
+          <a href="ajuda.html">Central de Ajuda</a>
+          <a href="contato.html">Contato</a>
+          <a href="#">Sobre</a>
+          <a href="#">Blog</a>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <a href="termos.html">Termos de Uso</a>
+          <a href="privacidade.html">Política de Privacidade</a>
+          <a href="cookies.html">Política de Cookies</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 Cuzto Tecnologia Ltda. Todos os direitos reservados.</span>
+        <span>CNPJ: 00.000.000/0001-00</span>
+      </div>
+    </footer>
+  </body>
+</html>

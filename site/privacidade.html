@@ -1,0 +1,842 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Política de Privacidade — Cuzto</title>
+    <link rel="icon" type="image/svg+xml" href="../shared/assets/favicon.svg" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Figtree:wght@400;500;600;700&display=swap"
+    />
+    <style>
+      :root {
+        --primary: #10b981;
+        --primary-deep: #059669;
+        --primary-hover: #047857;
+        --primary-light: #ecfdf5;
+        --primary-subtle: #f0fdf4;
+        --primary-shadow: #047857;
+        --primary-soft-shadow: #b7e4d2;
+        --bg: #ffffff;
+        --surface: #ffffff;
+        --surface-2: #f7fdf9;
+        --surface-3: #ecfdf5;
+        --ink: #064e3b;
+        --ink-2: #065f46;
+        --ink-3: #6b7280;
+        --ink-inverse: #ffffff;
+        --border: #d1fae5;
+        --border-strong: #a7f3d0;
+        --f-display: "Baloo 2", "Figtree", system-ui, sans-serif;
+        --f-ui: "Figtree", system-ui, -apple-system, sans-serif;
+        --r-sm: 10px;
+        --r-md: 14px;
+        --r-lg: 20px;
+        --r-xl: 28px;
+        --r-pill: 999px;
+        --t-fast: 120ms;
+        --t-base: 200ms;
+        --t-press: 80ms;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --bg: #0a1a14;
+          --surface: #112820;
+          --surface-2: #15332a;
+          --surface-3: #1a3f34;
+          --ink: #e2f5ee;
+          --ink-2: #a7d5c4;
+          --ink-3: #6b8e80;
+          --ink-inverse: #0a1a14;
+          --border: #1a3f34;
+          --border-strong: #22574a;
+          --primary: #6ee7b7;
+          --primary-deep: #10b981;
+          --primary-hover: #a7f3d0;
+          --primary-light: #064e3b;
+          --primary-subtle: #022c22;
+          --primary-shadow: #059669;
+          --primary-soft-shadow: #0f2e22;
+        }
+      }
+      :root[data-theme="dark"] {
+        --bg: #0a1a14;
+        --surface: #112820;
+        --surface-2: #15332a;
+        --surface-3: #1a3f34;
+        --ink: #e2f5ee;
+        --ink-2: #a7d5c4;
+        --ink-3: #6b8e80;
+        --ink-inverse: #0a1a14;
+        --border: #1a3f34;
+        --border-strong: #22574a;
+        --primary: #6ee7b7;
+        --primary-deep: #10b981;
+        --primary-hover: #a7f3d0;
+        --primary-light: #064e3b;
+        --primary-subtle: #022c22;
+        --primary-shadow: #059669;
+        --primary-soft-shadow: #0f2e22;
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font: 400 16px/1.7 var(--f-ui);
+        -webkit-font-smoothing: antialiased;
+        overflow-x: clip;
+      }
+      h1,
+      h2,
+      h3 {
+        font-family: var(--f-display);
+        margin: 0;
+        line-height: 1.2;
+      }
+      a {
+        color: var(--primary-deep);
+      }
+      img {
+        max-width: 100%;
+        display: block;
+      }
+      .navbar {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: color-mix(in srgb, var(--bg) 90%, transparent);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+        padding: 0 20px;
+      }
+      .navbar-inner {
+        max-width: 1140px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        min-height: 64px;
+      }
+      .navbar-logo img {
+        height: 28px;
+      }
+      .navbar-logo .dark {
+        display: none;
+      }
+      [data-theme="dark"] .navbar-logo .light {
+        display: none;
+      }
+      [data-theme="dark"] .navbar-logo .dark {
+        display: block;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) .navbar-logo .light {
+          display: none;
+        }
+        :root:not([data-theme="light"]) .navbar-logo .dark {
+          display: block;
+        }
+      }
+      .navbar-links {
+        display: flex;
+        gap: 6px;
+        flex: 1;
+      }
+      .navbar-links a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 40px;
+        padding: 0 14px;
+        border-radius: var(--r-pill);
+        font: 600 14px var(--f-ui);
+        color: var(--ink-2);
+        text-decoration: none;
+        transition: background var(--t-fast);
+      }
+      .navbar-links a:hover,
+      .navbar-links a.active {
+        background: var(--surface-3);
+        color: var(--ink);
+      }
+      .navbar-actions {
+        display: flex;
+        gap: 10px;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        min-height: 46px;
+        padding: 0 22px;
+        border-radius: var(--r-lg);
+        font: 800 15px/1 var(--f-ui);
+        border: 2px solid transparent;
+        cursor: pointer;
+        white-space: nowrap;
+        text-decoration: none;
+        transition:
+          background var(--t-fast),
+          transform var(--t-press),
+          box-shadow var(--t-press);
+      }
+      .btn:hover {
+        text-decoration: none;
+      }
+      .btn:active {
+        transform: translateY(4px);
+        box-shadow: none !important;
+      }
+      .btn-primary {
+        background: var(--primary);
+        color: var(--ink-inverse);
+        box-shadow: 0 4px 0 var(--primary-shadow);
+      }
+      .btn-ghost {
+        background: transparent;
+        color: var(--ink-2);
+        box-shadow: none;
+      }
+      .btn-ghost:hover {
+        background: var(--surface-3);
+      }
+      .btn-sm {
+        min-height: 36px;
+        padding: 0 14px;
+        font-size: 13px;
+        border-radius: var(--r-sm);
+      }
+      @media (max-width: 768px) {
+        .navbar-links {
+          display: none;
+        }
+      }
+      .legal {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 48px 20px 80px;
+      }
+      .legal h1 {
+        font-size: clamp(28px, 4vw, 36px);
+        font-weight: 800;
+        margin-bottom: 8px;
+        letter-spacing: -0.02em;
+      }
+      .legal .updated {
+        font-size: 14px;
+        color: var(--ink-3);
+        margin-bottom: 32px;
+        font-weight: 600;
+      }
+      .legal h2 {
+        font-size: 20px;
+        font-weight: 800;
+        margin-top: 40px;
+        margin-bottom: 12px;
+        color: var(--primary-deep);
+      }
+      .legal h3 {
+        font-size: 16px;
+        font-weight: 700;
+        margin-top: 24px;
+        margin-bottom: 8px;
+      }
+      .legal p,
+      .legal li {
+        font-size: 15px;
+        line-height: 1.7;
+        color: var(--ink-2);
+        margin-bottom: 12px;
+      }
+      .legal ul,
+      .legal ol {
+        padding-left: 24px;
+        margin-bottom: 16px;
+      }
+      .legal li {
+        margin-bottom: 6px;
+      }
+      .legal strong {
+        color: var(--ink);
+        font-weight: 700;
+      }
+      .legal table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 16px 0;
+        font-size: 14px;
+      }
+      .legal th,
+      .legal td {
+        text-align: left;
+        padding: 10px 14px;
+        border: 1px solid var(--border);
+      }
+      .legal th {
+        background: var(--surface-3);
+        font-weight: 700;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        color: var(--ink-3);
+      }
+      .footer {
+        background: var(--surface-2);
+        border-top: 2px solid var(--border);
+        padding: 48px 0 24px;
+      }
+      .footer-inner {
+        max-width: 1140px;
+        margin: 0 auto;
+        padding: 0 20px;
+        display: grid;
+        grid-template-columns: 1.5fr repeat(3, 1fr);
+        gap: 32px;
+      }
+      .footer-brand img {
+        height: 28px;
+        margin-bottom: 10px;
+      }
+      .footer-brand .dark {
+        display: none;
+      }
+      [data-theme="dark"] .footer-brand .light {
+        display: none;
+      }
+      [data-theme="dark"] .footer-brand .dark {
+        display: block;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) .footer-brand .light {
+          display: none;
+        }
+        :root:not([data-theme="light"]) .footer-brand .dark {
+          display: block;
+        }
+      }
+      .footer-brand p {
+        font-size: 13px;
+        color: var(--ink-3);
+        max-width: 240px;
+        line-height: 1.5;
+      }
+      .footer-col h4 {
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--ink-3);
+        margin-bottom: 12px;
+      }
+      .footer-col a {
+        display: block;
+        font-size: 14px;
+        color: var(--ink-2);
+        padding: 4px 0;
+        font-weight: 500;
+        text-decoration: none;
+        transition: color var(--t-fast);
+      }
+      .footer-col a:hover {
+        color: var(--primary);
+        text-decoration: none;
+      }
+      .footer-bottom {
+        max-width: 1140px;
+        margin: 32px auto 0;
+        padding: 16px 20px 0;
+        border-top: 1px solid var(--border);
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
+        color: var(--ink-3);
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      @media (max-width: 768px) {
+        .footer-inner {
+          grid-template-columns: 1fr 1fr;
+          gap: 24px;
+        }
+        .footer-brand {
+          grid-column: 1/-1;
+        }
+      }
+      @media (max-width: 500px) {
+        .footer-inner {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="navbar-inner">
+        <a href="index.html" class="navbar-logo"
+          ><img src="../shared/assets/logo-light.svg" alt="Cuzto" class="light" /><img
+            src="../shared/assets/logo-dark.svg"
+            alt="Cuzto"
+            class="dark"
+        /></a>
+        <div class="navbar-links">
+          <a href="index.html#funcionalidades">Produto</a
+          ><a href="index.html#como-funciona">Como Funciona</a><a href="index.html#planos">Planos</a
+          ><a href="index.html#faq">FAQ</a><a href="ajuda.html">Ajuda</a
+          ><a href="contato.html">Contato</a>
+        </div>
+        <div class="navbar-actions">
+          <a href="../company/login.html" class="btn btn-ghost btn-sm">Entrar</a
+          ><a href="../company/onboarding-step1.html" class="btn btn-primary btn-sm"
+            >Começar grátis</a
+          >
+        </div>
+      </div>
+    </nav>
+
+    <div class="legal">
+      <h1>Política de Privacidade</h1>
+      <p class="updated">Última atualização: 23 de setembro de 2026</p>
+
+      <p>
+        A <strong>Cuzto Tecnologia Ltda.</strong> ("Cuzto", "nós") respeita a privacidade dos seus
+        usuários e está comprometida com a proteção dos dados pessoais tratados por meio da
+        plataforma Cuzto ("Plataforma"). Esta Política de Privacidade descreve como coletamos,
+        utilizamos, armazenamos, compartilhamos e protegemos os dados pessoais, em conformidade com
+        a Lei Geral de Proteção de Dados Pessoais (Lei nº 13.709/2018 — LGPD).
+      </p>
+
+      <h2>1. Controlador de Dados</h2>
+      <p>O controlador dos dados pessoais tratados pela Plataforma é:</p>
+      <p>
+        <strong>Cuzto Tecnologia Ltda.</strong><br />CNPJ: 00.000.000/0001-00<br />Endereço: São
+        Paulo, SP, Brasil<br />E-mail do Encarregado (DPO):
+        <strong>privacidade@cuzto.com.br</strong>
+      </p>
+      <p>
+        Quando a Cuzto trata dados pessoais de Funcionários em nome do Contratante (empresa
+        cliente), a Cuzto atua como <strong>operadora</strong> de dados, sendo o Contratante o
+        controlador. Quando a Cuzto trata dados dos próprios Usuários do painel (financeiros,
+        gestores), atua como controladora.
+      </p>
+
+      <h2>2. Dados Pessoais Coletados</h2>
+      <p>Coletamos e tratamos as seguintes categorias de dados pessoais:</p>
+
+      <h3>2.1. Dados do Contratante (empresa)</h3>
+      <ul>
+        <li>Razão social, nome fantasia e CNPJ;</li>
+        <li>Endereço comercial;</li>
+        <li>Dados bancários para faturamento.</li>
+      </ul>
+
+      <h3>2.2. Dados dos Usuários (painel web)</h3>
+      <ul>
+        <li>Nome completo;</li>
+        <li>Endereço de e-mail corporativo;</li>
+        <li>Cargo ou função;</li>
+        <li>Registros de acesso (IP, data/hora, user agent).</li>
+      </ul>
+
+      <h3>2.3. Dados dos Funcionários (canal WhatsApp)</h3>
+      <ul>
+        <li>Nome completo;</li>
+        <li>CPF (quando informado pelo Contratante);</li>
+        <li>Número de telefone celular (formato E.164);</li>
+        <li>Histórico de números de telefone (incluindo datas de ativação e desativação);</li>
+        <li>Projeto ou obra associada.</li>
+      </ul>
+
+      <h3>2.4. Dados financeiros</h3>
+      <ul>
+        <li>Valores de despesas, adiantamentos e saldos;</li>
+        <li>Categorias de despesas;</li>
+        <li>Dados de estabelecimentos comerciais (nome, CNPJ do estabelecimento);</li>
+        <li>Registros do livro-razão (lançamentos, estornos, ajustes);</li>
+        <li>Dados de aprovação e decisões sobre exceções.</li>
+      </ul>
+
+      <h3>2.5. Documentos fiscais</h3>
+      <ul>
+        <li>Imagens de comprovantes fiscais (cupons, notas fiscais, recibos);</li>
+        <li>Chaves de acesso NFC-e (44 dígitos);</li>
+        <li>
+          Dados extraídos de documentos fiscais via SEFAZ ou OCR (itens, valores, datas, CNPJs).
+        </li>
+      </ul>
+
+      <h3>2.6. Dados de comunicação</h3>
+      <ul>
+        <li>Mensagens trocadas via WhatsApp entre o Funcionário e a Plataforma;</li>
+        <li>Mídia enviada (fotos de comprovantes);</li>
+        <li>Status de entrega de mensagens.</li>
+      </ul>
+
+      <h3>2.7. Dados de uso e técnicos</h3>
+      <ul>
+        <li>Logs de acesso ao painel web;</li>
+        <li>Endereço IP, tipo de navegador, sistema operacional;</li>
+        <li>Trilha de auditoria (ações realizadas na Plataforma);</li>
+        <li>
+          Cookies e tecnologias similares (conforme <a href="cookies.html">Política de Cookies</a>).
+        </li>
+      </ul>
+
+      <h2>3. Bases Legais para Tratamento</h2>
+      <p>
+        O tratamento de dados pessoais pela Cuzto fundamenta-se nas seguintes bases legais previstas
+        no Art. 7º da LGPD:
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Base Legal</th>
+            <th>Dados</th>
+            <th>Finalidade</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Execução de contrato</strong> (Art. 7º, V)</td>
+            <td>Dados do Contratante, Usuários, Funcionários, dados financeiros</td>
+            <td>
+              Prestação do serviço contratado: gestão de despesas, processamento de notas, gestão de
+              saldos
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Cumprimento de obrigação legal</strong> (Art. 7º, II)</td>
+            <td>Dados fiscais, registros de transações</td>
+            <td>
+              Cumprimento de obrigações fiscais e contábeis (retenção de documentos por 5 anos)
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Legítimo interesse</strong> (Art. 7º, IX)</td>
+            <td>Dados de uso, logs, auditoria</td>
+            <td>Segurança da Plataforma, prevenção de fraudes, melhoria do serviço</td>
+          </tr>
+          <tr>
+            <td><strong>Consentimento</strong> (Art. 7º, I)</td>
+            <td>Cookies analíticos</td>
+            <td>Análise de uso para melhoria da experiência</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>4. Finalidades do Tratamento</h2>
+      <p>Os dados pessoais são tratados para as seguintes finalidades:</p>
+      <ul>
+        <li>Cadastro e autenticação de Contratantes, Usuários e Funcionários;</li>
+        <li>Processamento e registro de despesas corporativas;</li>
+        <li>Extração de dados de documentos fiscais (via SEFAZ e OCR);</li>
+        <li>Validação de despesas contra políticas configuradas;</li>
+        <li>Gestão de adiantamentos e caixa rotativo;</li>
+        <li>Envio de notificações e comunicações via WhatsApp;</li>
+        <li>Geração de relatórios financeiros e exportações;</li>
+        <li>Auditoria e rastreabilidade de operações;</li>
+        <li>Faturamento e cobrança;</li>
+        <li>Suporte ao cliente;</li>
+        <li>Segurança, prevenção de fraudes e detecção de uso abusivo;</li>
+        <li>Cumprimento de obrigações legais e regulatórias;</li>
+        <li>Melhoria contínua do serviço (com base em dados anonimizados ou agregados).</li>
+      </ul>
+
+      <h2>5. Compartilhamento de Dados</h2>
+      <p>A Cuzto poderá compartilhar dados pessoais com terceiros nas seguintes circunstâncias:</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Destinatário</th>
+            <th>Finalidade</th>
+            <th>Dados compartilhados</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Provedores de infraestrutura</strong> (AWS, GCP ou similar)</td>
+            <td>Hospedagem, armazenamento, processamento</td>
+            <td>Todos os dados (criptografados em repouso)</td>
+          </tr>
+          <tr>
+            <td><strong>SEFAZ</strong> (Secretarias da Fazenda estaduais)</td>
+            <td>Consulta de NFC-e por chave de acesso</td>
+            <td>Chave de acesso da NFC-e (44 dígitos)</td>
+          </tr>
+          <tr>
+            <td><strong>Meta (WhatsApp Business API)</strong></td>
+            <td>Envio e recebimento de mensagens</td>
+            <td>Número de telefone, conteúdo das mensagens</td>
+          </tr>
+          <tr>
+            <td><strong>Provedor de OCR/IA</strong></td>
+            <td>Extração de dados de comprovantes sem QR Code</td>
+            <td>Imagem do comprovante fiscal</td>
+          </tr>
+          <tr>
+            <td><strong>Gateway de pagamento</strong></td>
+            <td>Processamento de pagamentos de assinatura</td>
+            <td>Dados de faturamento do Contratante</td>
+          </tr>
+          <tr>
+            <td><strong>Autoridades competentes</strong></td>
+            <td>Cumprimento de determinação judicial ou legal</td>
+            <td>Conforme requerido pela ordem</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>
+        A Cuzto não vende, aluga ou comercializa dados pessoais a terceiros para fins de marketing
+        ou publicidade.
+      </p>
+
+      <h2>6. Transferência Internacional</h2>
+      <p>
+        Os dados pessoais poderão ser transferidos e armazenados em servidores localizados fora do
+        Brasil, utilizados por nossos provedores de infraestrutura em nuvem. Nesse caso, a
+        transferência é realizada com base nas seguintes salvaguardas:
+      </p>
+      <ul>
+        <li>Cláusulas contratuais padrão entre a Cuzto e o provedor;</li>
+        <li>Provedores certificados por padrões internacionais de segurança (SOC 2, ISO 27001);</li>
+        <li>Conformidade com o Capítulo V da LGPD (transferência internacional de dados).</li>
+      </ul>
+
+      <h2>7. Retenção de Dados</h2>
+      <p>
+        Os dados pessoais serão retidos pelo período necessário para as finalidades descritas nesta
+        Política, observados os seguintes prazos:
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Tipo de dado</th>
+            <th>Prazo de retenção</th>
+            <th>Fundamento</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Dados da conta (cadastro)</td>
+            <td>Vigência do contrato + 6 meses</td>
+            <td>Execução contratual</td>
+          </tr>
+          <tr>
+            <td>Dados de despesas e documentos fiscais</td>
+            <td>5 anos após o registro</td>
+            <td>Obrigação fiscal (CTN, Art. 173)</td>
+          </tr>
+          <tr>
+            <td>Livro-razão (lançamentos)</td>
+            <td>5 anos após o registro</td>
+            <td>Obrigação fiscal e contábil</td>
+          </tr>
+          <tr>
+            <td>Imagens de comprovantes</td>
+            <td>5 anos após o registro</td>
+            <td>Obrigação fiscal</td>
+          </tr>
+          <tr>
+            <td>Trilha de auditoria</td>
+            <td>3 anos</td>
+            <td>Legítimo interesse (segurança)</td>
+          </tr>
+          <tr>
+            <td>Logs de acesso</td>
+            <td>6 meses</td>
+            <td>Marco Civil da Internet (Art. 15)</td>
+          </tr>
+          <tr>
+            <td>Dados de WhatsApp (mensagens)</td>
+            <td>1 ano</td>
+            <td>Execução contratual + suporte</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>
+        Após o término dos prazos de retenção, os dados serão anonimizados ou excluídos de forma
+        segura.
+      </p>
+
+      <h2>8. Segurança dos Dados</h2>
+      <p>
+        A Cuzto adota medidas técnicas e organizacionais para proteger os dados pessoais contra
+        acesso não autorizado, perda, alteração ou destruição, incluindo:
+      </p>
+      <ul>
+        <li>
+          <strong>Criptografia em repouso:</strong> todos os dados armazenados são criptografados
+          (AES-256);
+        </li>
+        <li><strong>Criptografia em trânsito:</strong> todas as comunicações utilizam TLS 1.3;</li>
+        <li>
+          <strong>Isolamento de dados:</strong> cada Contratante possui dados isolados via Row Level
+          Security (RLS) no banco de dados;
+        </li>
+        <li>
+          <strong>Controle de acesso:</strong> sistema de permissões granulares (RBAC) por função;
+        </li>
+        <li>
+          <strong>Auditoria:</strong> trilha de auditoria completa para todas as operações
+          financeiras e de configuração;
+        </li>
+        <li>
+          <strong>Livro-razão imutável:</strong> registros financeiros não podem ser editados ou
+          excluídos, apenas estornados;
+        </li>
+        <li><strong>Backups:</strong> backups automáticos diários com retenção de 30 dias;</li>
+        <li>
+          <strong>Monitoramento:</strong> sistemas de monitoramento em tempo real para detecção de
+          incidentes.
+        </li>
+      </ul>
+
+      <h2>9. Direitos do Titular</h2>
+      <p>
+        Em conformidade com o Art. 18 da LGPD, os titulares de dados pessoais possuem os seguintes
+        direitos:
+      </p>
+      <ul>
+        <li>
+          <strong>Confirmação e acesso:</strong> confirmar a existência de tratamento e obter cópia
+          dos dados;
+        </li>
+        <li>
+          <strong>Correção:</strong> solicitar a correção de dados incompletos, inexatos ou
+          desatualizados;
+        </li>
+        <li>
+          <strong>Anonimização, bloqueio ou eliminação:</strong> de dados desnecessários ou tratados
+          em desconformidade;
+        </li>
+        <li>
+          <strong>Portabilidade:</strong> obter seus dados em formato estruturado (JSON ou CSV);
+        </li>
+        <li>
+          <strong>Eliminação:</strong> solicitar a exclusão dos dados tratados com base no
+          consentimento;
+        </li>
+        <li>
+          <strong>Informação sobre compartilhamento:</strong> saber com quais entidades seus dados
+          são compartilhados;
+        </li>
+        <li>
+          <strong>Revogação do consentimento:</strong> revogar o consentimento a qualquer momento;
+        </li>
+        <li>
+          <strong>Oposição:</strong> opor-se ao tratamento realizado com base em legítimo interesse.
+        </li>
+      </ul>
+      <p>
+        Para exercer seus direitos, entre em contato com nosso Encarregado de Dados pelo e-mail
+        <strong>privacidade@cuzto.com.br</strong>. Responderemos no prazo de 15 (quinze) dias úteis.
+      </p>
+      <p>
+        <strong>Funcionários</strong> que desejarem exercer seus direitos devem fazê-lo por meio do
+        Contratante (controlador), que poderá solicitar à Cuzto (operadora) as medidas necessárias.
+      </p>
+
+      <h2>10. Cookies e Tecnologias Similares</h2>
+      <p>
+        A Plataforma utiliza cookies e tecnologias similares conforme descrito em nossa
+        <a href="cookies.html">Política de Cookies</a>.
+      </p>
+
+      <h2>11. Dados de Menores</h2>
+      <p>
+        A Plataforma não é destinada a menores de 18 (dezoito) anos. Não coletamos intencionalmente
+        dados pessoais de menores. Se tomarmos conhecimento de que dados de um menor foram coletados
+        sem autorização, tomaremos medidas para excluí-los.
+      </p>
+
+      <h2>12. Encarregado de Dados (DPO)</h2>
+      <p>O Encarregado pelo Tratamento de Dados Pessoais da Cuzto pode ser contatado por:</p>
+      <p>
+        <strong>E-mail:</strong> privacidade@cuzto.com.br<br /><strong>Formulário:</strong>
+        cuzto.com.br/privacidade/contato
+      </p>
+      <p>
+        O Encarregado é responsável por receber comunicações dos titulares de dados e da Autoridade
+        Nacional de Proteção de Dados (ANPD), além de orientar a Cuzto sobre as práticas de proteção
+        de dados.
+      </p>
+
+      <h2>13. Alterações nesta Política</h2>
+      <p>
+        A Cuzto poderá atualizar esta Política de Privacidade periodicamente. Alterações
+        substanciais serão comunicadas por e-mail aos Contratantes e publicadas nesta página com a
+        data de atualização revisada. Recomendamos a consulta periódica desta Política.
+      </p>
+
+      <h2>14. Contato</h2>
+      <p>
+        Para dúvidas, solicitações ou reclamações relacionadas a esta Política de Privacidade ou ao
+        tratamento de seus dados pessoais, entre em contato:
+      </p>
+      <ul>
+        <li><strong>E-mail:</strong> privacidade@cuzto.com.br</li>
+        <li><strong>E-mail geral:</strong> contato@cuzto.com.br</li>
+      </ul>
+      <p>
+        Se considerar que o tratamento de seus dados pessoais viola a LGPD, você tem o direito de
+        apresentar reclamação à Autoridade Nacional de Proteção de Dados (ANPD).
+      </p>
+
+      <p
+        style="
+          margin-top: 40px;
+          padding-top: 24px;
+          border-top: 1px solid var(--border);
+          font-size: 14px;
+          color: var(--ink-3);
+        "
+      >
+        <strong>Cuzto Tecnologia Ltda.</strong> — CNPJ: 00.000.000/0001-00 — São Paulo, SP, Brasil
+      </p>
+    </div>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <img src="../shared/assets/logo-light.svg" alt="Cuzto" class="light" />
+          <img src="../shared/assets/logo-dark.svg" alt="Cuzto" class="dark" />
+          <p>Gestão de despesas pelo WhatsApp para empresas com equipes em campo.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Produto</h4>
+          <a href="index.html#funcionalidades">Funcionalidades</a>
+          <a href="index.html#planos">Planos</a>
+          <a href="index.html#faq">FAQ</a>
+          <a href="index.html#como-funciona">Como funciona</a>
+        </div>
+        <div class="footer-col">
+          <h4>Suporte</h4>
+          <a href="ajuda.html">Central de Ajuda</a>
+          <a href="contato.html">Contato</a>
+          <a href="#">Sobre</a>
+          <a href="#">Blog</a>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <a href="termos.html">Termos de Uso</a>
+          <a href="privacidade.html">Política de Privacidade</a>
+          <a href="cookies.html">Política de Cookies</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 Cuzto Tecnologia Ltda. Todos os direitos reservados.</span>
+        <span>CNPJ: 00.000.000/0001-00</span>
+      </div>
+    </footer>
+  </body>
+</html>

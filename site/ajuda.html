@@ -1,0 +1,895 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Central de Ajuda — Cuzto</title>
+    <link rel="icon" type="image/svg+xml" href="../shared/assets/favicon.svg" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Figtree:wght@400;500;600;700&display=swap"
+    />
+    <style>
+      :root {
+        --primary: #10b981;
+        --primary-deep: #059669;
+        --primary-hover: #047857;
+        --primary-light: #ecfdf5;
+        --primary-subtle: #f0fdf4;
+        --primary-shadow: #047857;
+        --bg: #ffffff;
+        --surface: #ffffff;
+        --surface-2: #f7fdf9;
+        --surface-3: #ecfdf5;
+        --ink: #064e3b;
+        --ink-2: #065f46;
+        --ink-3: #6b7280;
+        --ink-inverse: #ffffff;
+        --border: #d1fae5;
+        --border-strong: #a7f3d0;
+        --f-display: "Baloo 2", "Figtree", system-ui, sans-serif;
+        --f-ui: "Figtree", system-ui, -apple-system, sans-serif;
+        --r-sm: 10px;
+        --r-md: 14px;
+        --r-lg: 20px;
+        --r-xl: 28px;
+        --r-pill: 999px;
+        --t-fast: 120ms;
+        --t-base: 200ms;
+        --t-press: 80ms;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --bg: #0a1a14;
+          --surface: #112820;
+          --surface-2: #15332a;
+          --surface-3: #1a3f34;
+          --ink: #e2f5ee;
+          --ink-2: #a7d5c4;
+          --ink-3: #6b8e80;
+          --ink-inverse: #0a1a14;
+          --border: #1a3f34;
+          --border-strong: #22574a;
+          --primary: #6ee7b7;
+          --primary-deep: #10b981;
+          --primary-hover: #a7f3d0;
+          --primary-light: #064e3b;
+          --primary-subtle: #022c22;
+          --primary-shadow: #059669;
+        }
+      }
+      :root[data-theme="dark"] {
+        --bg: #0a1a14;
+        --surface: #112820;
+        --surface-2: #15332a;
+        --surface-3: #1a3f34;
+        --ink: #e2f5ee;
+        --ink-2: #a7d5c4;
+        --ink-3: #6b8e80;
+        --ink-inverse: #0a1a14;
+        --border: #1a3f34;
+        --border-strong: #22574a;
+        --primary: #6ee7b7;
+        --primary-deep: #10b981;
+        --primary-hover: #a7f3d0;
+        --primary-light: #064e3b;
+        --primary-subtle: #022c22;
+        --primary-shadow: #059669;
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      html {
+        -webkit-text-size-adjust: 100%;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font: 400 16px/1.7 var(--f-ui);
+        -webkit-font-smoothing: antialiased;
+        overflow-x: clip;
+      }
+      h1,
+      h2,
+      h3 {
+        font-family: var(--f-display);
+        margin: 0;
+        line-height: 1.2;
+      }
+      p {
+        margin: 0;
+      }
+      a {
+        color: var(--primary-deep);
+        text-decoration: none;
+      }
+      img {
+        max-width: 100%;
+        display: block;
+      }
+      .container {
+        max-width: 1140px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+      /* Navbar */
+      .navbar {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: color-mix(in srgb, var(--bg) 90%, transparent);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+        padding: 0 20px;
+      }
+      .navbar-inner {
+        max-width: 1140px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        min-height: 64px;
+      }
+      .navbar-logo img {
+        height: 28px;
+      }
+      .navbar-logo .dark {
+        display: none;
+      }
+      [data-theme="dark"] .navbar-logo .light {
+        display: none;
+      }
+      [data-theme="dark"] .navbar-logo .dark {
+        display: block;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) .navbar-logo .light {
+          display: none;
+        }
+        :root:not([data-theme="light"]) .navbar-logo .dark {
+          display: block;
+        }
+      }
+      .navbar-links {
+        display: flex;
+        gap: 6px;
+        flex: 1;
+      }
+      .navbar-links a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 40px;
+        padding: 0 14px;
+        border-radius: var(--r-pill);
+        font: 600 14px var(--f-ui);
+        color: var(--ink-2);
+        transition:
+          background var(--t-fast),
+          color var(--t-fast);
+      }
+      .navbar-links a:hover,
+      .navbar-links a.active {
+        background: var(--surface-3);
+        color: var(--ink);
+      }
+      .navbar-actions {
+        display: flex;
+        gap: 10px;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        min-height: 46px;
+        padding: 0 22px;
+        border-radius: var(--r-lg);
+        font: 800 15px/1 var(--f-ui);
+        border: 2px solid transparent;
+        cursor: pointer;
+        white-space: nowrap;
+        text-decoration: none;
+        transition:
+          background var(--t-fast),
+          transform var(--t-press),
+          box-shadow var(--t-press);
+      }
+      .btn:active {
+        transform: translateY(4px);
+        box-shadow: none !important;
+      }
+      .btn-primary {
+        background: var(--primary);
+        color: var(--ink-inverse);
+        box-shadow: 0 4px 0 var(--primary-shadow);
+      }
+      .btn-ghost {
+        background: transparent;
+        color: var(--ink-2);
+        box-shadow: none;
+      }
+      .btn-ghost:hover {
+        background: var(--surface-3);
+      }
+      .btn-white {
+        background: #fff;
+        color: var(--primary-deep);
+        box-shadow: 0 4px 0 rgba(0, 0, 0, 0.15);
+      }
+      .btn-white:hover {
+        background: #f0fdf4;
+      }
+      .btn-sm {
+        min-height: 36px;
+        padding: 0 14px;
+        font-size: 13px;
+        border-radius: var(--r-sm);
+      }
+      .btn-lg {
+        min-height: 54px;
+        padding: 0 28px;
+        font-size: 16px;
+      }
+      .navbar-hamburger {
+        display: none;
+        width: 44px;
+        height: 44px;
+        border: none;
+        background: none;
+        cursor: pointer;
+        color: var(--ink);
+        border-radius: var(--r-sm);
+      }
+      .navbar-hamburger svg {
+        width: 22px;
+        height: 22px;
+        stroke: currentColor;
+        fill: none;
+        stroke-width: 1.75;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      @media (max-width: 768px) {
+        .navbar-links {
+          display: none;
+        }
+        .navbar-hamburger {
+          display: grid;
+          place-items: center;
+        }
+      }
+      /* Help hero + search */
+      .help-hero {
+        padding: 60px 0 44px;
+        text-align: center;
+        background: var(--surface-2);
+        border-bottom: 1px solid var(--border);
+      }
+      .help-hero h1 {
+        font-size: clamp(28px, 4vw, 38px);
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        margin-bottom: 10px;
+      }
+      .help-hero p {
+        color: var(--ink-2);
+        font-size: 16px;
+        margin-bottom: 28px;
+      }
+      .help-search {
+        max-width: 560px;
+        margin: 0 auto;
+        position: relative;
+      }
+      .help-search svg {
+        position: absolute;
+        left: 18px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 20px;
+        height: 20px;
+        color: var(--ink-3);
+        stroke: currentColor;
+        fill: none;
+        stroke-width: 1.75;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .help-search input {
+        width: 100%;
+        min-height: 54px;
+        padding: 0 20px 0 50px;
+        border-radius: var(--r-lg);
+        border: 2px solid var(--border-strong);
+        box-shadow: 0 4px 0 var(--border-strong);
+        background: var(--surface);
+        color: var(--ink);
+        font: 600 15px var(--f-ui);
+        transition:
+          border-color var(--t-fast),
+          box-shadow var(--t-fast);
+      }
+      .help-search input:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 4px 0 var(--primary-shadow);
+      }
+      /* Sections */
+      .section {
+        padding: 64px 0;
+      }
+      .section-alt {
+        background: var(--surface-2);
+      }
+      .section-title {
+        font-size: clamp(24px, 3.2vw, 30px);
+        font-weight: 800;
+        text-align: center;
+        margin-bottom: 10px;
+        letter-spacing: -0.02em;
+      }
+      .section-sub {
+        text-align: center;
+        color: var(--ink-2);
+        font-size: 15.5px;
+        max-width: 520px;
+        margin: 0 auto 36px;
+      }
+      .search-empty {
+        text-align: center;
+        color: var(--ink-3);
+        font-size: 14px;
+        padding: 24px 0 4px;
+      }
+      /* Topics grid */
+      .help-topics {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+      }
+      @media (max-width: 900px) {
+        .help-topics {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      @media (max-width: 600px) {
+        .help-topics {
+          grid-template-columns: 1fr;
+        }
+      }
+      .help-topic {
+        display: block;
+        color: inherit;
+        padding: 26px;
+        background: var(--surface);
+        border: 2px solid var(--border);
+        border-radius: var(--r-lg);
+        box-shadow: 0 4px 0 var(--border);
+        transition:
+          border-color var(--t-fast),
+          transform var(--t-press),
+          box-shadow var(--t-press);
+      }
+      .help-topic:hover {
+        border-color: var(--primary);
+      }
+      .help-topic:active {
+        transform: translateY(4px);
+        box-shadow: none;
+      }
+      .help-topic .ti {
+        width: 46px;
+        height: 46px;
+        border-radius: 14px;
+        background: var(--primary-light);
+        color: var(--primary-deep);
+        display: grid;
+        place-items: center;
+        margin-bottom: 16px;
+      }
+      .help-topic .ti svg {
+        width: 21px;
+        height: 21px;
+        stroke: currentColor;
+        fill: none;
+        stroke-width: 1.75;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .help-topic h3 {
+        font-size: 16.5px;
+        font-weight: 800;
+        margin-bottom: 6px;
+      }
+      .help-topic p {
+        font-size: 13.5px;
+        color: var(--ink-2);
+        line-height: 1.55;
+        margin-bottom: 14px;
+      }
+      .help-topic .tcount {
+        font-size: 12.5px;
+        font-weight: 700;
+        color: var(--primary-deep);
+      }
+      /* QA list */
+      .qa-list {
+        max-width: 760px;
+        margin: 0 auto;
+        display: grid;
+        gap: 10px;
+      }
+      .qa-row {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 16px 18px;
+        background: var(--surface);
+        border: 2px solid var(--border);
+        border-radius: var(--r-lg);
+        box-shadow: 0 3px 0 var(--border);
+        color: var(--ink);
+        transition:
+          border-color var(--t-fast),
+          transform var(--t-press),
+          box-shadow var(--t-press);
+      }
+      .qa-row:hover {
+        border-color: var(--primary);
+      }
+      .qa-row:active {
+        transform: translateY(3px);
+        box-shadow: none;
+      }
+      .qa-row .qi {
+        flex: none;
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        background: var(--primary-light);
+        color: var(--primary-deep);
+        display: grid;
+        place-items: center;
+      }
+      .qa-row .qi svg {
+        width: 17px;
+        height: 17px;
+        stroke: currentColor;
+        fill: none;
+        stroke-width: 1.75;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .qa-row .qt {
+        flex: 1;
+        font-weight: 700;
+        font-size: 14.5px;
+      }
+      .qa-row .qtag {
+        flex: none;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        color: var(--ink-3);
+        background: var(--surface-2);
+        padding: 4px 10px;
+        border-radius: var(--r-pill);
+      }
+      .qa-row .chev {
+        flex: none;
+        width: 18px;
+        height: 18px;
+        color: var(--ink-3);
+        stroke: currentColor;
+        fill: none;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      @media (max-width: 560px) {
+        .qa-row .qtag {
+          display: none;
+        }
+      }
+      /* CTA */
+      .cta {
+        background: linear-gradient(135deg, var(--primary-deep) 0%, var(--primary) 100%);
+        padding: 72px 0;
+        text-align: center;
+        color: #fff;
+      }
+      .cta h2 {
+        font-size: clamp(24px, 3.4vw, 32px);
+        font-weight: 800;
+        margin-bottom: 10px;
+      }
+      .cta p {
+        opacity: 0.92;
+        margin-bottom: 26px;
+        font-size: 15.5px;
+      }
+      /* Footer */
+      .footer {
+        background: var(--surface-2);
+        border-top: 2px solid var(--border);
+        padding: 48px 0 24px;
+      }
+      .footer-inner {
+        max-width: 1140px;
+        margin: 0 auto;
+        padding: 0 20px;
+        display: grid;
+        grid-template-columns: 1.5fr repeat(3, 1fr);
+        gap: 32px;
+      }
+      .footer-brand img {
+        height: 28px;
+        margin-bottom: 10px;
+      }
+      .footer-brand .dark {
+        display: none;
+      }
+      [data-theme="dark"] .footer-brand .light {
+        display: none;
+      }
+      [data-theme="dark"] .footer-brand .dark {
+        display: block;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) .footer-brand .light {
+          display: none;
+        }
+        :root:not([data-theme="light"]) .footer-brand .dark {
+          display: block;
+        }
+      }
+      .footer-brand p {
+        font-size: 13px;
+        color: var(--ink-3);
+        max-width: 240px;
+        line-height: 1.5;
+      }
+      .footer-col h4 {
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--ink-3);
+        margin-bottom: 12px;
+      }
+      .footer-col a {
+        display: block;
+        font-size: 14px;
+        color: var(--ink-2);
+        padding: 4px 0;
+        font-weight: 500;
+        text-decoration: none;
+        transition: color var(--t-fast);
+      }
+      .footer-col a:hover {
+        color: var(--primary);
+        text-decoration: none;
+      }
+      .footer-bottom {
+        max-width: 1140px;
+        margin: 32px auto 0;
+        padding: 16px 20px 0;
+        border-top: 1px solid var(--border);
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
+        color: var(--ink-3);
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      @media (max-width: 768px) {
+        .footer-inner {
+          grid-template-columns: 1fr 1fr;
+          gap: 24px;
+        }
+        .footer-brand {
+          grid-column: 1/-1;
+        }
+      }
+      @media (max-width: 500px) {
+        .footer-inner {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="navbar-inner">
+        <a href="index.html" class="navbar-logo"
+          ><img src="../shared/assets/logo-light.svg" alt="Cuzto" class="light" /><img
+            src="../shared/assets/logo-dark.svg"
+            alt="Cuzto"
+            class="dark"
+        /></a>
+        <div class="navbar-links">
+          <a href="index.html#funcionalidades">Produto</a
+          ><a href="index.html#como-funciona">Como Funciona</a><a href="index.html#planos">Planos</a
+          ><a href="index.html#faq">FAQ</a><a href="ajuda.html" class="active">Ajuda</a
+          ><a href="contato.html">Contato</a>
+        </div>
+        <div class="navbar-actions">
+          <a href="../company/login.html" class="btn btn-ghost btn-sm">Entrar</a
+          ><a href="../company/onboarding-step1.html" class="btn btn-primary btn-sm"
+            >Começar grátis</a
+          >
+        </div>
+      </div>
+    </nav>
+
+    <section class="help-hero">
+      <div class="container">
+        <h1>Central de Ajuda</h1>
+        <p>Encontre respostas rápidas sobre o Cuzto ou fale com o nosso time.</p>
+        <div class="help-search">
+          <svg viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+          <input
+            type="text"
+            id="helpSearchInput"
+            placeholder="Buscar por palavra-chave... ex: adiantamento, política, OCR"
+            autocomplete="off"
+          />
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2 class="section-title">Navegue por tópico</h2>
+        <p class="section-sub">Escolha uma categoria para ver todos os artigos relacionados.</p>
+        <div class="help-topics" id="topicsGrid">
+          <a
+            class="help-topic"
+            href="ajuda-topico.html"
+            data-search="primeiros passos começar onboarding cadastro configuração inicial"
+          >
+            <div class="ti">
+              <svg viewBox="0 0 24 24">
+                <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" />
+                <line x1="4" y1="22" x2="4" y2="15" />
+              </svg>
+            </div>
+            <h3>Primeiros passos</h3>
+            <p>Como criar sua conta, convidar funcionários e configurar a política inicial.</p>
+            <span class="tcount">8 artigos</span>
+          </a>
+          <a
+            class="help-topic"
+            href="ajuda-topico.html"
+            data-search="whatsapp envio de despesas foto cupom nota fiscal ocr sefaz saldo mensagem"
+          >
+            <div class="ti">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"
+                />
+              </svg>
+            </div>
+            <h3>WhatsApp e envio de despesas</h3>
+            <p>Envio de comprovantes, correção de dados e consulta de saldo pelo WhatsApp.</p>
+            <span class="tcount">12 artigos</span>
+          </a>
+          <a
+            class="help-topic"
+            href="#"
+            data-search="política de despesas aprovações limites exceções categorias"
+          >
+            <div class="ti">
+              <svg viewBox="0 0 24 24">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+            </div>
+            <h3>Política e aprovações</h3>
+            <p>Limites por categoria, exceções e como funciona a fila de aprovação.</p>
+            <span class="tcount">9 artigos</span>
+          </a>
+          <a class="help-topic" href="#" data-search="adiantamentos saldo pix caixa rotativo">
+            <div class="ti">
+              <svg viewBox="0 0 24 24">
+                <line x1="12" y1="1" x2="12" y2="23" />
+                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+              </svg>
+            </div>
+            <h3>Adiantamentos e saldo</h3>
+            <p>Como liberar um adiantamento via PIX e acompanhar o saldo dos funcionários.</p>
+            <span class="tcount">6 artigos</span>
+          </a>
+          <a
+            class="help-topic"
+            href="#"
+            data-search="painel financeiro relatórios exportação fechamento de período auditoria"
+          >
+            <div class="ti">
+              <svg viewBox="0 0 24 24">
+                <line x1="18" y1="20" x2="18" y2="10" />
+                <line x1="12" y1="20" x2="12" y2="4" />
+                <line x1="6" y1="20" x2="6" y2="14" />
+              </svg>
+            </div>
+            <h3>Painel e relatórios</h3>
+            <p>Fechamento de período, exportação de dados e trilha de auditoria.</p>
+            <span class="tcount">10 artigos</span>
+          </a>
+          <a
+            class="help-topic"
+            href="#"
+            data-search="cobrança planos faturamento assinatura trial upgrade downgrade"
+          >
+            <div class="ti">
+              <svg viewBox="0 0 24 24">
+                <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
+                <line x1="1" y1="10" x2="23" y2="10" />
+              </svg>
+            </div>
+            <h3>Cobrança e planos</h3>
+            <p>Faturas, troca de plano, trial e cancelamento de assinatura.</p>
+            <span class="tcount">7 artigos</span>
+          </a>
+        </div>
+        <p class="search-empty" id="topicsEmpty" style="display: none">
+          Nenhum tópico encontrado para essa busca.
+        </p>
+      </div>
+    </section>
+
+    <section class="section section-alt">
+      <div class="container">
+        <h2 class="section-title">Perguntas mais buscadas</h2>
+        <p class="section-sub">As dúvidas mais comuns de quem usa o Cuzto todos os dias.</p>
+        <div class="qa-list" id="qaList">
+          <a
+            class="qa-row"
+            href="ajuda-pergunta.html"
+            data-search="nota fiscal ocr sefaz confirmação leitura automática"
+          >
+            <span class="qi"
+              ><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg
+            ></span>
+            <span class="qt">Como o sistema lê a nota fiscal e por que às vezes pede confirmação?</span>
+            <span class="qtag">WhatsApp</span>
+            <svg class="chev" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6" /></svg>
+          </a>
+          <a class="qa-row" href="#" data-search="instalar aplicativo app celular">
+            <span class="qi"
+              ><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg
+            ></span>
+            <span class="qt">Preciso instalar algum aplicativo?</span>
+            <span class="qtag">Primeiros passos</span>
+            <svg class="chev" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6" /></svg>
+          </a>
+          <a class="qa-row" href="#" data-search="limite categoria política exceção aprovação">
+            <span class="qi"
+              ><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg
+            ></span>
+            <span class="qt">O que acontece se o funcionário exceder o limite da política?</span>
+            <span class="qtag">Política</span>
+            <svg class="chev" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6" /></svg>
+          </a>
+          <a class="qa-row" href="#" data-search="adiantamento pix saldo consultar">
+            <span class="qi"
+              ><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg
+            ></span>
+            <span class="qt">Como funciona o adiantamento e como consulto meu saldo?</span>
+            <span class="qtag">Adiantamentos</span>
+            <svg class="chev" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6" /></svg>
+          </a>
+          <a class="qa-row" href="#" data-search="segurança dados lgpd criptografia rls">
+            <span class="qi"
+              ><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg
+            ></span>
+            <span class="qt">Meus dados são seguros?</span>
+            <span class="qtag">Painel</span>
+            <svg class="chev" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6" /></svg>
+          </a>
+          <a class="qa-row" href="#" data-search="trial plano starter grátis testar cancelar">
+            <span class="qi"
+              ><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg
+            ></span>
+            <span class="qt">Posso testar antes de assinar um plano pago?</span>
+            <span class="qtag">Cobrança</span>
+            <svg class="chev" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6" /></svg>
+          </a>
+        </div>
+        <p class="search-empty" id="qaEmpty" style="display: none">
+          Nenhuma pergunta encontrada para essa busca.
+        </p>
+      </div>
+    </section>
+
+    <section class="cta">
+      <div class="container">
+        <h2>Não encontrou o que procurava?</h2>
+        <p>Nosso time de suporte responde em até 1 dia útil.</p>
+        <a href="contato.html" class="btn btn-white btn-lg">Falar com o suporte</a>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <img src="../shared/assets/logo-light.svg" alt="Cuzto" class="light" />
+          <img src="../shared/assets/logo-dark.svg" alt="Cuzto" class="dark" />
+          <p>Gestão de despesas pelo WhatsApp para empresas com equipes em campo.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Produto</h4>
+          <a href="index.html#funcionalidades">Funcionalidades</a>
+          <a href="index.html#planos">Planos</a>
+          <a href="index.html#faq">FAQ</a>
+          <a href="index.html#como-funciona">Como funciona</a>
+        </div>
+        <div class="footer-col">
+          <h4>Suporte</h4>
+          <a href="ajuda.html">Central de Ajuda</a>
+          <a href="contato.html">Contato</a>
+          <a href="#">Sobre</a>
+          <a href="#">Blog</a>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <a href="termos.html">Termos de Uso</a>
+          <a href="privacidade.html">Política de Privacidade</a>
+          <a href="cookies.html">Política de Cookies</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 Cuzto Tecnologia Ltda. Todos os direitos reservados.</span>
+        <span>CNPJ: 00.000.000/0001-00</span>
+      </div>
+    </footer>
+
+    <script>
+      (function () {
+        var input = document.getElementById("helpSearchInput");
+        var topics = Array.from(document.querySelectorAll("#topicsGrid .help-topic"));
+        var questions = Array.from(document.querySelectorAll("#qaList .qa-row"));
+        var topicsEmpty = document.getElementById("topicsEmpty");
+        var qaEmpty = document.getElementById("qaEmpty");
+
+        function normalize(s) {
+          return s
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "");
+        }
+
+        function filter() {
+          var q = normalize(input.value.trim());
+          var topicsVisible = 0;
+          var qaVisible = 0;
+
+          topics.forEach(function (el) {
+            var haystack = normalize(el.dataset.search + " " + el.querySelector("h3").textContent);
+            var match = !q || haystack.indexOf(q) !== -1;
+            el.style.display = match ? "" : "none";
+            if (match) topicsVisible++;
+          });
+
+          questions.forEach(function (el) {
+            var haystack = normalize(el.dataset.search + " " + el.querySelector(".qt").textContent);
+            var match = !q || haystack.indexOf(q) !== -1;
+            el.style.display = match ? "" : "none";
+            if (match) qaVisible++;
+          });
+
+          topicsEmpty.style.display = topicsVisible === 0 ? "block" : "none";
+          qaEmpty.style.display = qaVisible === 0 ? "block" : "none";
+        }
+
+        input.addEventListener("input", filter);
+      })();
+    </script>
+  </body>
+</html>

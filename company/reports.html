@@ -1,0 +1,704 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Relatórios — Cuzto</title>
+    <link rel="icon" type="image/svg+xml" href="../shared/assets/favicon.svg" />
+    <link rel="stylesheet" href="../shared/styles.css" />
+    <style>
+      .stats-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
+        gap: 12px;
+        margin-bottom: 28px;
+      }
+      .stat-c {
+        background: var(--surface);
+        border: 2px solid var(--border);
+        border-radius: var(--r-lg);
+        padding: 18px;
+        box-shadow: 0 4px 0 var(--border);
+      }
+      .stat-c .k {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--ink-3);
+        margin-bottom: 6px;
+      }
+      .stat-c .v {
+        font-family: var(--f-display);
+        font-size: 26px;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        font-variant-numeric: tabular-nums;
+      }
+      .stat-c .d {
+        font-size: 12px;
+        font-weight: 700;
+        margin-top: 4px;
+      }
+      .stat-c .d.up {
+        color: var(--success-text);
+      }
+      .chart-section {
+        margin-bottom: 28px;
+      }
+      .chart-title {
+        font: 700 16px var(--f-display);
+        margin-bottom: 14px;
+      }
+      .hbar {
+        display: grid;
+        gap: 8px;
+      }
+      .hbar-row {
+        display: grid;
+        grid-template-columns: 100px 1fr 80px;
+        gap: 10px;
+        align-items: center;
+        font-size: 13px;
+        font-weight: 700;
+      }
+      .hbar-row .cat {
+        color: var(--ink-2);
+        text-align: right;
+        font-size: 12px;
+      }
+      .hbar-row .bar {
+        height: 14px;
+        border-radius: var(--r-pill);
+        background: var(--surface-3);
+        overflow: hidden;
+        position: relative;
+      }
+      .hbar-row .bar i {
+        position: absolute;
+        inset: 0 auto 0 0;
+        background: linear-gradient(90deg, var(--primary-deep), var(--primary));
+        border-radius: var(--r-pill);
+      }
+      .hbar-row .val {
+        font-family: var(--f-mono);
+        font-size: 12px;
+        color: var(--ink-2);
+      }
+      .vbar-chart {
+        display: flex;
+        align-items: flex-end;
+        gap: 12px;
+        height: 180px;
+        padding-top: 10px;
+        border-bottom: 2px solid var(--border);
+        margin-bottom: 8px;
+      }
+      .vbar {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+      }
+      .vbar .col {
+        width: 100%;
+        border-radius: var(--r-sm) var(--r-sm) 0 0;
+        background: linear-gradient(180deg, var(--primary), var(--primary-deep));
+        transition: height var(--t-slow);
+        min-height: 4px;
+      }
+      .vbar .col.hi {
+        background: linear-gradient(180deg, var(--accent), var(--accent-shadow));
+        box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 30%, transparent);
+      }
+      .vbar .lbl {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--ink-3);
+      }
+      .vbar .amt {
+        font-family: var(--f-mono);
+        font-size: 11px;
+        color: var(--ink-2);
+        font-weight: 600;
+      }
+      @media (max-width: 480px) {
+        .hbar-row {
+          grid-template-columns: 70px 1fr 60px;
+          gap: 6px;
+          font-size: 12px;
+        }
+        .hbar-row .cat {
+          font-size: 11px;
+        }
+        .vbar-chart {
+          gap: 6px;
+          height: 140px;
+        }
+        .vbar .lbl {
+          font-size: 10px;
+        }
+        .vbar .amt {
+          font-size: 10px;
+        }
+        .stat-c .v {
+          font-size: 22px;
+        }
+      }
+      .rank-tbl {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+      }
+      .rank-tbl th {
+        text-align: left;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--ink-3);
+        padding: 8px 12px;
+        border-bottom: 2px solid var(--border);
+        background: var(--surface-2);
+      }
+      .rank-tbl td {
+        padding: 10px 12px;
+        border-bottom: 1px solid var(--border);
+        vertical-align: middle;
+      }
+      .rank-tbl tr:last-child td {
+        border-bottom: none;
+      }
+      .rank-tbl .rank {
+        font-family: var(--f-display);
+        font-weight: 800;
+        font-size: 16px;
+        color: var(--ink-3);
+        width: 36px;
+        text-align: center;
+      }
+      .rank-tbl .conf {
+        font-family: var(--f-mono);
+        font-weight: 700;
+      }
+      .conf-hi {
+        color: var(--success-text);
+      }
+      .conf-mid {
+        color: var(--accent-text);
+      }
+      .ring-sm {
+        position: relative;
+        width: 56px;
+        height: 56px;
+        flex: none;
+      }
+      .ring-sm svg {
+        width: 100%;
+        height: 100%;
+        transform: rotate(-90deg);
+      }
+      .ring-sm circle {
+        fill: none;
+        stroke-width: 5;
+        stroke-linecap: round;
+      }
+      .ring-sm .track {
+        stroke: var(--surface-3);
+      }
+      .ring-sm .val {
+        stroke: var(--primary);
+        stroke-dasharray: 150;
+        transition: stroke-dashoffset var(--t-slow);
+      }
+      .ring-sm b {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        font: 800 12px var(--f-display);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app-layout">
+      <nav class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+          <img
+            src="../shared/assets/logo-light.svg"
+            alt="Cuzto"
+            class="sidebar-logo-img"
+            height="28"
+          /><img
+            src="../shared/assets/logo-dark.svg"
+            alt="Cuzto"
+            class="sidebar-logo-img sidebar-logo-dark"
+            height="28"
+          />
+        </div>
+        <div class="sidebar-nav">
+          <div class="sidebar-section">Principal</div>
+          <a class="nav-item on" href="dashboard.html"
+            ><svg viewBox="0 0 24 24">
+              <rect x="3" y="3" width="7" height="7" rx="1" />
+              <rect x="14" y="3" width="7" height="7" rx="1" />
+              <rect x="3" y="14" width="7" height="7" rx="1" />
+              <rect x="14" y="14" width="7" height="7" rx="1" /></svg
+            >Dashboard</a
+          >
+          <a class="nav-item" href="expenses.html"
+            ><svg viewBox="0 0 24 24">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+              <line x1="16" y1="13" x2="8" y2="13" />
+              <line x1="16" y1="17" x2="8" y2="17" /></svg
+            >Despesas</a
+          >
+          <a class="nav-item" href="employees.html"
+            ><svg viewBox="0 0 24 24">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+              <path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg
+            >Funcionários</a
+          >
+          <a class="nav-item" href="advances.html"
+            ><svg viewBox="0 0 24 24">
+              <line x1="12" y1="1" x2="12" y2="23" />
+              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" /></svg
+            >Adiantamentos</a
+          >
+          <a class="nav-item" href="approvals.html"
+            ><svg viewBox="0 0 24 24">
+              <polyline points="9 11 12 14 22 4" />
+              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" /></svg
+            >Aprovações<span class="nav-badge">7</span></a
+          >
+          <div class="sidebar-sep"></div>
+          <div class="sidebar-section">Configuração</div>
+          <a class="nav-item" href="policy.html"
+            ><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg
+            >Política</a
+          >
+          <a class="nav-item" href="period-closure.html"
+            ><svg viewBox="0 0 24 24">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+              <line x1="16" y1="2" x2="16" y2="6" />
+              <line x1="8" y1="2" x2="8" y2="6" />
+              <line x1="3" y1="10" x2="21" y2="10" /></svg
+            >Fechamento</a
+          >
+          <a class="nav-item" href="audit.html"
+            ><svg viewBox="0 0 24 24">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+              <line x1="16" y1="13" x2="8" y2="13" />
+              <line x1="16" y1="17" x2="8" y2="17" /></svg
+            >Auditoria</a
+          >
+          <a class="nav-item" href="settings.html"
+            ><svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="3" />
+              <path
+                d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"
+              /></svg
+            >Configurações</a
+          >
+        </div>
+        <div class="sidebar-user">
+          <div class="avatar sm">MS</div>
+          <div><strong>Maria Silva</strong><small>Financeiro</small></div>
+        </div>
+      </nav>
+      <div class="sidebar-overlay" id="sidebar-overlay"></div>
+      <header class="topbar">
+        <button class="topbar-hamburger" id="hamburger">
+          <svg viewBox="0 0 24 24">
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        </button>
+        <div class="topbar-search">
+          <svg viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" /></svg
+          ><input type="text" placeholder="Buscar despesas, funcionários..." />
+        </div>
+        <div class="topbar-actions">
+          <div class="topbar-bell-wrap">
+            <button class="topbar-icon" id="notif-btn">
+              <svg viewBox="0 0 24 24">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                <path d="M13.73 21a2 2 0 0 1-3.46 0" /></svg
+              ><span class="topbar-count">7</span>
+            </button>
+            <div class="notif-dropdown" id="notif-dropdown">
+              <div class="notif-dd-header">Notificações</div>
+              <div class="notif-dd-list">
+                <a class="notif-dd-item unread" href="approvals.html"
+                  ><span class="notif-dd-dot"></span>
+                  <div
+                    class="notif-dd-ic"
+                    style="background: var(--accent-soft); color: var(--accent-text)"
+                  >
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                      <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                    </svg>
+                  </div>
+                  <div class="notif-dd-body">
+                    <div class="notif-dd-title">Nova despesa pendente</div>
+                    <div class="notif-dd-desc">Carlos Oliveira, R$ 287,50</div>
+                    <div class="notif-dd-time">há 5 min</div>
+                  </div></a
+                >
+              </div>
+              <a class="notif-dd-footer" href="notifications.html">Ver todas as notificações</a>
+            </div>
+          </div>
+          <button class="theme-toggle">
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="4" />
+              <path
+                d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"
+              />
+            </svg>
+          </button>
+          <div class="user-menu-wrap">
+            <button class="topbar-user" id="user-menu-btn">
+              <div class="avatar sm">MS</div>
+              <span class="topbar-user-name">Maria Silva</span>
+            </button>
+            <div class="user-dropdown" id="user-dropdown">
+              <a class="user-dd-item" href="profile.html"
+                ><svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" /></svg
+                >Meu perfil</a
+              ><a class="user-dd-item" href="settings.html"
+                ><svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <circle cx="12" cy="12" r="3" /></svg
+                >Configurações</a
+              >
+              <div class="user-dd-sep"></div>
+              <a class="user-dd-item logout" href="login.html"
+                ><svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                  <polyline points="16 17 21 12 16 7" />
+                  <line x1="21" y1="12" x2="9" y2="12" /></svg
+                >Sair</a
+              >
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main class="content">
+        <div class="page-hdr">
+          <div>
+            <div class="page-hdr-title">Relatórios</div>
+            <div class="page-hdr-sub">Setembro 2026</div>
+          </div>
+          <a href="export.html" class="btn btn-sm btn-outline"
+            ><svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+            Exportar</a
+          >
+        </div>
+
+        <div class="stats-row">
+          <div class="stat-c">
+            <div class="k">Total de despesas</div>
+            <div class="v">R$ 34.820</div>
+            <div class="d up">+12% vs agosto</div>
+          </div>
+          <div class="stat-c">
+            <div class="k">Média por funcionário</div>
+            <div class="v">R$ 1.934</div>
+            <div class="d" style="color: var(--ink-3)">18 funcionários</div>
+          </div>
+          <div class="stat-c" style="display: flex; align-items: center; gap: 16px">
+            <div class="ring-sm">
+              <svg viewBox="0 0 56 56">
+                <circle class="track" cx="28" cy="28" r="24" />
+                <circle
+                  class="val"
+                  cx="28"
+                  cy="28"
+                  r="24"
+                  style="stroke-dashoffset: calc(150 - 150 * 0.87)"
+                /></svg
+              ><b>87%</b>
+            </div>
+            <div>
+              <div class="k">Taxa de conformidade</div>
+              <div style="font: 800 20px var(--f-display)">87%</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="chart-section">
+          <div class="chart-title">Despesas por Categoria</div>
+          <div
+            class="hbar"
+            style="
+              background: var(--surface);
+              border: 2px solid var(--border);
+              border-radius: var(--r-lg);
+              padding: 18px;
+              box-shadow: 0 3px 0 var(--border);
+            "
+          >
+            <div class="hbar-row">
+              <span class="cat">Alimentação</span>
+              <div class="bar"><i style="width: 100%"></i></div>
+              <span class="val">R$ 12.340</span>
+            </div>
+            <div class="hbar-row">
+              <span class="cat">Combustível</span>
+              <div class="bar"><i style="width: 71%"></i></div>
+              <span class="val">R$ 8.750</span>
+            </div>
+            <div class="hbar-row">
+              <span class="cat">Hospedagem</span>
+              <div class="bar"><i style="width: 50%"></i></div>
+              <span class="val">R$ 6.200</span>
+            </div>
+            <div class="hbar-row">
+              <span class="cat">Transporte</span>
+              <div class="bar"><i style="width: 37%"></i></div>
+              <span class="val">R$ 4.530</span>
+            </div>
+            <div class="hbar-row">
+              <span class="cat">Material</span>
+              <div class="bar"><i style="width: 24%"></i></div>
+              <span class="val">R$ 3.000</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="chart-section">
+          <div class="chart-title">Evolução Mensal</div>
+          <div
+            style="
+              background: var(--surface);
+              border: 2px solid var(--border);
+              border-radius: var(--r-lg);
+              padding: 18px;
+              box-shadow: 0 3px 0 var(--border);
+            "
+          >
+            <div class="vbar-chart">
+              <div class="vbar">
+                <div class="col" style="height: 80%"></div>
+                <div class="amt">R$ 28k</div>
+                <div class="lbl">Abr</div>
+              </div>
+              <div class="vbar">
+                <div class="col" style="height: 89%"></div>
+                <div class="amt">R$ 31k</div>
+                <div class="lbl">Mai</div>
+              </div>
+              <div class="vbar">
+                <div class="col" style="height: 83%"></div>
+                <div class="amt">R$ 29k</div>
+                <div class="lbl">Jun</div>
+              </div>
+              <div class="vbar">
+                <div class="col" style="height: 94%"></div>
+                <div class="amt">R$ 33k</div>
+                <div class="lbl">Jul</div>
+              </div>
+              <div class="vbar">
+                <div class="col" style="height: 86%"></div>
+                <div class="amt">R$ 30k</div>
+                <div class="lbl">Ago</div>
+              </div>
+              <div class="vbar">
+                <div class="col hi" style="height: 100%"></div>
+                <div class="amt">R$ 35k</div>
+                <div class="lbl">Set</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="chart-section">
+          <div class="chart-title">Top 5 Funcionários</div>
+          <div class="tbl-wrap">
+            <table class="rank-tbl">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Funcionário</th>
+                  <th>Despesas</th>
+                  <th style="text-align: right">Total</th>
+                  <th style="text-align: right">Conformidade</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="rank">1</td>
+                  <td>
+                    <div class="who">
+                      <div class="avatar sm">CO</div>
+                      Carlos Oliveira
+                    </div>
+                  </td>
+                  <td>12</td>
+                  <td style="text-align: right; font-family: var(--f-mono); font-weight: 700">
+                    R$ 4.820
+                  </td>
+                  <td style="text-align: right" class="conf conf-hi">95%</td>
+                </tr>
+                <tr>
+                  <td class="rank">2</td>
+                  <td>
+                    <div class="who">
+                      <div class="avatar sm a4">AF</div>
+                      Ana Ferreira
+                    </div>
+                  </td>
+                  <td>10</td>
+                  <td style="text-align: right; font-family: var(--f-mono); font-weight: 700">
+                    R$ 4.200
+                  </td>
+                  <td style="text-align: right" class="conf conf-mid">82%</td>
+                </tr>
+                <tr>
+                  <td class="rank">3</td>
+                  <td>
+                    <div class="who">
+                      <div class="avatar sm a3">RS</div>
+                      Ricardo Santos
+                    </div>
+                  </td>
+                  <td>8</td>
+                  <td style="text-align: right; font-family: var(--f-mono); font-weight: 700">
+                    R$ 3.100
+                  </td>
+                  <td style="text-align: right" class="conf conf-hi">100%</td>
+                </tr>
+                <tr>
+                  <td class="rank">4</td>
+                  <td>
+                    <div class="who">
+                      <div class="avatar sm a2">ML</div>
+                      Marcos Lima
+                    </div>
+                  </td>
+                  <td>7</td>
+                  <td style="text-align: right; font-family: var(--f-mono); font-weight: 700">
+                    R$ 2.900
+                  </td>
+                  <td style="text-align: right" class="conf conf-hi">91%</td>
+                </tr>
+                <tr>
+                  <td class="rank">5</td>
+                  <td>
+                    <div class="who">
+                      <div class="avatar sm a5">PC</div>
+                      Patrícia Costa
+                    </div>
+                  </td>
+                  <td>6</td>
+                  <td style="text-align: right; font-family: var(--f-mono); font-weight: 700">
+                    R$ 2.400
+                  </td>
+                  <td style="text-align: right" class="conf conf-mid">88%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <nav class="bottom-nav">
+      <a class="bnav-item on" href="dashboard.html"
+        ><svg viewBox="0 0 24 24">
+          <rect x="3" y="3" width="7" height="7" rx="1" />
+          <rect x="14" y="3" width="7" height="7" rx="1" />
+          <rect x="3" y="14" width="7" height="7" rx="1" />
+          <rect x="14" y="14" width="7" height="7" rx="1" /></svg
+        ><span>Dashboard</span></a
+      >
+      <a class="bnav-item" href="expenses.html"
+        ><svg viewBox="0 0 24 24">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+          <polyline points="14 2 14 8 20 8" /></svg
+        ><span>Despesas</span></a
+      >
+      <a class="bnav-item" href="advances.html"
+        ><svg viewBox="0 0 24 24">
+          <line x1="12" y1="1" x2="12" y2="23" />
+          <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" /></svg
+        ><span>Adiantam.</span></a
+      >
+      <a class="bnav-item" href="approvals.html"
+        ><svg viewBox="0 0 24 24">
+          <polyline points="9 11 12 14 22 4" />
+          <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" /></svg
+        ><span>Aprovações</span><span class="bnav-count">7</span></a
+      >
+      <a class="bnav-item" href="settings.html"
+        ><svg viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="1" />
+          <circle cx="19" cy="12" r="1" />
+          <circle cx="5" cy="12" r="1" /></svg
+        ><span>Mais</span></a
+      >
+    </nav>
+    <script src="../shared/app.js"></script>
+  </body>
+</html>

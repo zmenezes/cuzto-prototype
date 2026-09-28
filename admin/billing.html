@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Billing — Cuzto Admin</title>
+    <link rel="icon" type="image/svg+xml" href="../shared/assets/favicon.svg" />
+    <link rel="stylesheet" href="../shared/styles.css" />
+    <style>
+      :root {
+        --primary: #6366f1;
+        --primary-deep: #4f46e5;
+        --primary-hover: #4338ca;
+        --primary-light: #eef2ff;
+        --primary-subtle: #f5f3ff;
+        --primary-shadow: #4338ca;
+        --primary-soft-shadow: #c7d2fe;
+        --primary-glow: rgba(99, 102, 241, 0.25);
+      }
+      .plan-card {
+        background: var(--surface);
+        border: 2px solid var(--border);
+        border-radius: var(--r-lg);
+        padding: 20px;
+        box-shadow: 0 4px 0 var(--border);
+        text-align: center;
+      }
+      .plan-card .plan-name {
+        font: 800 18px var(--f-display);
+        margin-bottom: 4px;
+      }
+      .plan-card .plan-price {
+        font: 800 28px var(--f-display);
+        color: var(--primary-deep);
+        font-variant-numeric: tabular-nums;
+        letter-spacing: -0.02em;
+      }
+      .plan-card .plan-price small {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--ink-3);
+      }
+      .plan-card .plan-count {
+        font-size: 13px;
+        color: var(--ink-2);
+        margin-top: 8px;
+        font-weight: 700;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app-layout">
+      <nav class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+          <img
+            src="../shared/assets/logo-light.svg"
+            alt="Cuzto"
+            class="sidebar-logo-img"
+            height="28"
+          /><img
+            src="../shared/assets/logo-dark.svg"
+            alt="Cuzto"
+            class="sidebar-logo-img sidebar-logo-dark"
+            height="28"
+          /><span
+            style="
+              font-size: 10px;
+              font-weight: 800;
+              text-transform: uppercase;
+              letter-spacing: 0.06em;
+              padding: 2px 8px;
+              border-radius: var(--r-pill);
+              background: var(--primary-light);
+              color: var(--primary-deep);
+              margin-left: 8px;
+            "
+            >Admin</span
+          >
+        </div>
+        <div class="sidebar-nav">
+          <div class="sidebar-section">Principal</div>
+          <a class="nav-item" href="dashboard.html"
+            ><svg viewBox="0 0 24 24">
+              <rect x="3" y="3" width="7" height="7" rx="1" />
+              <rect x="14" y="3" width="7" height="7" rx="1" />
+              <rect x="3" y="14" width="7" height="7" rx="1" />
+              <rect x="14" y="14" width="7" height="7" rx="1" /></svg
+            >Dashboard</a
+          ><a class="nav-item" href="tenants.html"
+            ><svg viewBox="0 0 24 24">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+              <polyline points="9 22 9 12 15 12 15 22" /></svg
+            >Tenants</a
+          ><a class="nav-item active" href="billing.html"
+            ><svg viewBox="0 0 24 24">
+              <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
+              <line x1="1" y1="10" x2="23" y2="10" /></svg
+            >Billing</a
+          >
+          <div class="sidebar-sep"></div>
+          <div class="sidebar-section">WhatsApp</div>
+          <a class="nav-item" href="wa-overview.html"
+            ><svg viewBox="0 0 24 24">
+              <path
+                d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"
+              /></svg
+            >Visão Geral</a
+          ><a class="nav-item" href="wa-templates.html"
+            ><svg viewBox="0 0 24 24">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" /></svg
+            >Templates</a
+          ><a class="nav-item" href="wa-usage.html"
+            ><svg viewBox="0 0 24 24">
+              <rect x="2" y="2" width="20" height="20" rx="2" />
+              <path d="M7 17v-4M12 17v-7M17 17v-2" /></svg
+            >Uso & Limites</a
+          ><a class="nav-item" href="wa-cost-report.html"
+            ><svg viewBox="0 0 24 24">
+              <line x1="12" y1="1" x2="12" y2="23" />
+              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" /></svg
+            >Custos</a
+          ><a class="nav-item" href="wa-health.html"
+            ><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12" /></svg
+            >Saúde</a
+          >
+          <div class="sidebar-sep"></div>
+          <div class="sidebar-section">Sistema</div>
+          <a class="nav-item" href="system-health.html"
+            ><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12" /></svg
+            >Health</a
+          ><a class="nav-item" href="system-metrics.html"
+            ><svg viewBox="0 0 24 24">
+              <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+              <polyline points="17 6 23 6 23 12" /></svg
+            >Métricas</a
+          ><a class="nav-item" href="system-logs.html"
+            ><svg viewBox="0 0 24 24">
+              <polyline points="4 17 10 11 4 5" />
+              <line x1="12" y1="19" x2="20" y2="19" /></svg
+            >Logs</a
+          ><a class="nav-item" href="system-jobs.html"
+            ><svg viewBox="0 0 24 24">
+              <polygon points="12 2 2 7 12 12 22 7 12 2" />
+              <polyline points="2 17 12 22 22 17" />
+              <polyline points="2 12 12 17 22 12" /></svg
+            >Jobs & Filas</a
+          ><a class="nav-item" href="system-alerts.html"
+            ><svg viewBox="0 0 24 24">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+              <path d="M13.73 21a2 2 0 0 1-3.46 0" /></svg
+            >Alertas</a
+          ><a class="nav-item" href="system-config.html"
+            ><svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="3" />
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83" /></svg
+            >Configurações</a
+          ><a class="nav-item" href="system-migrations.html"
+            ><svg viewBox="0 0 24 24">
+              <rect x="4" y="4" width="16" height="16" rx="2" />
+              <path d="M9 9h6M9 13h6M9 17h4" /></svg
+            >Migrations</a
+          >
+          <div class="sidebar-sep"></div>
+          <div class="sidebar-section">Suporte</div>
+          <a class="nav-item" href="support-tickets.html"
+            ><svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10" />
+              <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+              <line x1="12" y1="17" x2="12.01" y2="17" /></svg
+            >Tickets</a
+          ><a class="nav-item" href="support-knowledge-base.html"
+            ><svg viewBox="0 0 24 24">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" /></svg
+            >Base de Conhecimento</a
+          ><a class="nav-item" href="admin-users.html"
+            ><svg viewBox="0 0 24 24">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+              <path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg
+            >Usuários Admin</a
+          >
+        </div>
+        <div class="sidebar-user">
+          <div class="avatar sm" style="background: linear-gradient(135deg, #4338ca, #818cf8)">
+            AC
+          </div>
+          <div><strong>Admin Cuzto</strong><small>Super Admin</small></div>
+        </div>
+      </nav>
+      <div class="sidebar-overlay" id="sidebar-overlay"></div>
+      <header class="topbar">
+        <button class="topbar-hamburger" id="hamburger">
+          <svg viewBox="0 0 24 24">
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        </button>
+        <div class="topbar-search">
+          <svg viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" /></svg
+          ><input type="text" placeholder="Buscar..." />
+        </div>
+        <div class="topbar-actions">
+          <button class="theme-toggle">
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="4" />
+              <path
+                d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"
+              />
+            </svg>
+          </button>
+          <div class="user-menu-wrap">
+            <button class="topbar-user" id="user-menu-btn">
+              <div class="avatar sm" style="background: linear-gradient(135deg, #4338ca, #818cf8)">
+                AC
+              </div>
+              <span class="topbar-user-name">Admin</span>
+            </button>
+            <div class="user-dropdown" id="user-dropdown">
+              <a class="user-dd-item" href="admin-users.html">Administradores</a>
+              <div class="user-dd-sep"></div>
+              <a class="user-dd-item logout" href="login.html">Sair</a>
+            </div>
+          </div>
+        </div>
+      </header>
+      <main class="content">
+        <div class="page-hdr">
+          <div>
+            <div class="page-hdr-title">Billing</div>
+            <div class="page-hdr-sub">Receita e faturamento</div>
+          </div>
+          <div class="page-hdr-actions">
+            <a
+              href="billing-invoices.html"
+              class="btn btn-sm btn-outline"
+              style="text-decoration: none"
+              >Ver faturas</a
+            ><a
+              href="billing-plans.html"
+              class="btn btn-sm btn-primary"
+              style="text-decoration: none"
+              >Gerenciar planos</a
+            >
+          </div>
+        </div>
+        <div
+          style="
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+          "
+        >
+          <div class="stat-card">
+            <div class="stat-label">MRR</div>
+            <div class="stat-value">R$ 14.000</div>
+            <div class="stat-trend up" style="margin-top: 6px">+8.2%</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Tenants pagantes</div>
+            <div class="stat-value">35</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Churn rate</div>
+            <div class="stat-value">2.1%</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">ARPU</div>
+            <div class="stat-value">R$ 400</div>
+          </div>
+        </div>
+        <h3 style="font: 700 16px var(--f-display); margin-bottom: 14px">Distribuição por plano</h3>
+        <div
+          style="
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+          "
+        >
+          <div class="plan-card">
+            <div class="plan-name">Starter</div>
+            <div class="plan-price">Grátis</div>
+            <div class="plan-count">12 tenants</div>
+            <div style="margin-top: 8px; font: 800 14px var(--f-mono); color: var(--ink-3)">
+              R$ 0/mês
+            </div>
+          </div>
+          <div class="plan-card">
+            <div class="plan-name">Essencial</div>
+            <div class="plan-price">R$ 129<small>/mês</small></div>
+            <div class="plan-count">22 tenants</div>
+            <div style="margin-top: 8px; font: 800 14px var(--f-mono); color: var(--ink-2)">
+              R$ 3.600/mês
+            </div>
+          </div>
+          <div
+            class="plan-card"
+            style="border-color: var(--primary); box-shadow: 0 4px 0 var(--primary-shadow)"
+          >
+            <div class="plan-name">Profissional</div>
+            <div class="plan-price">R$ 299<small>/mês</small></div>
+            <div class="plan-count">9 tenants</div>
+            <div style="margin-top: 8px; font: 800 14px var(--f-mono); color: var(--primary-deep)">
+              R$ 3.200/mês
+            </div>
+          </div>
+          <div class="plan-card">
+            <div class="plan-name">Enterprise</div>
+            <div class="plan-price">Consulta</div>
+            <div class="plan-count">4 tenants</div>
+            <div style="margin-top: 8px; font: 800 14px var(--f-mono); color: var(--ink-2)">
+              R$ 7.200/mês
+            </div>
+          </div>
+        </div>
+        <h3 style="font: 700 16px var(--f-display); margin-bottom: 14px">Faturas recentes</h3>
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Tenant</th>
+                <th>Plano</th>
+                <th class="amt">Valor</th>
+                <th>Status</th>
+                <th>Vencimento</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="font-weight: 700">Construtora Horizonte</td>
+                <td>
+                  <span class="badge primary" style="height: 20px; font-size: 10px; padding: 0 6px"
+                    >Profissional</span
+                  >
+                </td>
+                <td class="amt tnum">R$ 299,00</td>
+                <td><span class="badge warning">Pendente</span></td>
+                <td class="tnum" style="font-size: 12px">01/10/2026</td>
+              </tr>
+              <tr>
+                <td style="font-weight: 700">Construtora ABC</td>
+                <td>
+                  <span class="badge primary" style="height: 20px; font-size: 10px; padding: 0 6px"
+                    >Essencial</span
+                  >
+                </td>
+                <td class="amt tnum">R$ 165,00</td>
+                <td><span class="badge error">Atrasado</span></td>
+                <td class="tnum" style="font-size: 12px">01/09/2026</td>
+              </tr>
+              <tr>
+                <td style="font-weight: 700">Solar Engenharia</td>
+                <td>
+                  <span class="badge accent" style="height: 20px; font-size: 10px; padding: 0 6px"
+                    >Enterprise</span
+                  >
+                </td>
+                <td class="amt tnum">R$ 1.800,00</td>
+                <td><span class="badge success">Pago</span></td>
+                <td class="tnum" style="font-size: 12px">01/09/2026</td>
+              </tr>
+              <tr>
+                <td style="font-weight: 700">Logística Express</td>
+                <td>
+                  <span class="badge primary" style="height: 20px; font-size: 10px; padding: 0 6px"
+                    >Profissional</span
+                  >
+                </td>
+                <td class="amt tnum">R$ 339,00</td>
+                <td><span class="badge success">Pago</span></td>
+                <td class="tnum" style="font-size: 12px">01/09/2026</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Quick links -->
+        <div style="display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap">
+          <a
+            href="billing-revenue-report.html"
+            class="btn btn-sm btn-outline"
+            style="text-decoration: none"
+            ><svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect x="2" y="2" width="20" height="20" rx="2" />
+              <path d="M7 17v-4M12 17v-7M17 17v-2" />
+            </svg>
+            Relatório de receita</a
+          >
+          <a
+            href="billing-coupons.html"
+            class="btn btn-sm btn-outline"
+            style="text-decoration: none"
+            ><svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="20.59" y1="13.41" x2="10.59" y2="3.41" />
+              <line x1="16" y1="8" x2="2" y2="22" />
+            </svg>
+            Cupons</a
+          >
+          <a
+            href="billing-payment-methods.html"
+            class="btn btn-sm btn-outline"
+            style="text-decoration: none"
+            ><svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
+              <line x1="1" y1="10" x2="23" y2="10" />
+            </svg>
+            Métodos de pagamento</a
+          >
+        </div>
+      </main>
+    </div>
+    <nav class="bottom-nav">
+      <a class="bnav-item" href="dashboard.html"
+        ><svg viewBox="0 0 24 24">
+          <rect x="3" y="3" width="7" height="7" rx="1" />
+          <rect x="14" y="3" width="7" height="7" rx="1" />
+          <rect x="3" y="14" width="7" height="7" rx="1" />
+          <rect x="14" y="14" width="7" height="7" rx="1" /></svg
+        ><span>Dashboard</span></a
+      ><a class="bnav-item" href="tenants.html"
+        ><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></svg
+        ><span>Tenants</span></a
+      ><a class="bnav-item on" href="billing.html"
+        ><svg viewBox="0 0 24 24">
+          <rect x="1" y="4" width="22" height="16" rx="2" />
+          <line x1="1" y1="10" x2="23" y2="10" /></svg
+        ><span>Billing</span></a
+      ><a class="bnav-item" href="wa-overview.html"
+        ><svg viewBox="0 0 24 24">
+          <path
+            d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"
+          /></svg
+        ><span>WhatsApp</span></a
+      ><a class="bnav-item" href="system-health.html"
+        ><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12" /></svg
+        ><span>Sistema</span></a
+      >
+    </nav>
+    <script src="../shared/app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,685 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Auditoria — Cuzto</title>
+    <link rel="icon" type="image/svg+xml" href="../shared/assets/favicon.svg" />
+    <link rel="stylesheet" href="../shared/styles.css" />
+    <style>
+      .audit-row {
+        cursor: pointer;
+        transition: background var(--t-fast);
+      }
+      .audit-row:hover td {
+        background: var(--primary-subtle);
+      }
+      .audit-detail {
+        display: none;
+        padding: 12px 14px;
+        background: var(--surface-2);
+        font-family: var(--f-mono);
+        font-size: 12px;
+        color: var(--ink-2);
+        white-space: pre-wrap;
+        word-break: break-all;
+        border-bottom: 1px solid var(--border);
+      }
+      .audit-detail.show {
+        display: block;
+      }
+      .action-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 11px;
+        font-weight: 700;
+        padding: 2px 8px;
+        border-radius: var(--r-pill);
+      }
+      .action-badge.create {
+        background: var(--success-soft);
+        color: var(--success-text);
+      }
+      .action-badge.approve {
+        background: var(--primary-light);
+        color: var(--primary-deep);
+      }
+      .action-badge.reject {
+        background: var(--error-soft);
+        color: var(--error-text);
+      }
+      .action-badge.update {
+        background: var(--info-soft);
+        color: var(--info-text);
+      }
+      .action-badge.system {
+        background: var(--surface-2);
+        color: var(--ink-3);
+      }
+      .action-badge.reversal {
+        background: var(--warning-soft);
+        color: var(--warning-text);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app-layout">
+      <!-- Sidebar -->
+      <nav class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+          <img
+            src="../shared/assets/logo-light.svg"
+            alt="Cuzto"
+            class="sidebar-logo-img"
+            height="28"
+          />
+          <img
+            src="../shared/assets/logo-dark.svg"
+            alt="Cuzto"
+            class="sidebar-logo-img sidebar-logo-dark"
+            height="28"
+          />
+        </div>
+        <div class="sidebar-nav">
+          <div class="sidebar-section">Principal</div>
+          <a class="nav-item" href="dashboard.html"
+            ><svg viewBox="0 0 24 24">
+              <rect x="3" y="3" width="7" height="7" rx="1" />
+              <rect x="14" y="3" width="7" height="7" rx="1" />
+              <rect x="3" y="14" width="7" height="7" rx="1" />
+              <rect x="14" y="14" width="7" height="7" rx="1" /></svg
+            >Dashboard</a
+          >
+          <a class="nav-item" href="expenses.html"
+            ><svg viewBox="0 0 24 24">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+              <line x1="16" y1="13" x2="8" y2="13" />
+              <line x1="16" y1="17" x2="8" y2="17" /></svg
+            >Despesas</a
+          >
+          <a class="nav-item" href="employees.html"
+            ><svg viewBox="0 0 24 24">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+              <path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg
+            >Funcionários</a
+          >
+          <a class="nav-item" href="advances.html"
+            ><svg viewBox="0 0 24 24">
+              <line x1="12" y1="1" x2="12" y2="23" />
+              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" /></svg
+            >Adiantamentos</a
+          >
+          <a class="nav-item" href="approvals.html"
+            ><svg viewBox="0 0 24 24">
+              <polyline points="9 11 12 14 22 4" />
+              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" /></svg
+            >Aprovações<span class="nav-badge">7</span></a
+          >
+          <a class="nav-item" href="reports.html"
+            ><svg viewBox="0 0 24 24">
+              <rect x="2" y="2" width="20" height="20" rx="2" />
+              <path d="M7 17v-4M12 17v-7M17 17v-2" /></svg
+            >Relatórios</a
+          >
+          <div class="sidebar-sep"></div>
+          <div class="sidebar-section">Configuração</div>
+          <a class="nav-item" href="policy.html"
+            ><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg
+            >Política</a
+          >
+          <a class="nav-item" href="period-closure.html"
+            ><svg viewBox="0 0 24 24">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+              <line x1="16" y1="2" x2="16" y2="6" />
+              <line x1="8" y1="2" x2="8" y2="6" />
+              <line x1="3" y1="10" x2="21" y2="10" /></svg
+            >Fechamento</a
+          >
+          <a class="nav-item" href="audit.html"
+            ><svg viewBox="0 0 24 24">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+              <line x1="16" y1="13" x2="8" y2="13" />
+              <line x1="16" y1="17" x2="8" y2="17" /></svg
+            >Auditoria</a
+          >
+          <a class="nav-item" href="settings.html"
+            ><svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="3" />
+              <path
+                d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"
+              /></svg
+            >Configurações</a
+          >
+        </div>
+        <div class="sidebar-user">
+          <div class="avatar sm">MS</div>
+          <div><strong>Maria Silva</strong><small>Financeiro</small></div>
+        </div>
+      </nav>
+
+      <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+      <!-- Topbar -->
+      <header class="topbar">
+        <button class="topbar-hamburger" id="hamburger">
+          <svg viewBox="0 0 24 24">
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        </button>
+        <div class="topbar-search">
+          <svg viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+          <input type="text" placeholder="Buscar despesas, funcionários..." />
+        </div>
+        <div class="topbar-actions">
+          <div class="topbar-bell-wrap">
+            <button class="topbar-icon" id="notif-btn">
+              <svg viewBox="0 0 24 24">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                <path d="M13.73 21a2 2 0 0 1-3.46 0" /></svg
+              ><span class="topbar-count">7</span>
+            </button>
+            <div class="notif-dropdown" id="notif-dropdown">
+              <div class="notif-dd-header">Notificações</div>
+              <div class="notif-dd-list">
+                <a class="notif-dd-item unread" href="approvals.html"
+                  ><span class="notif-dd-dot"></span>
+                  <div
+                    class="notif-dd-ic"
+                    style="background: var(--accent-soft); color: var(--accent-text)"
+                  >
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                      <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                    </svg>
+                  </div>
+                  <div class="notif-dd-body">
+                    <div class="notif-dd-title">Nova despesa pendente</div>
+                    <div class="notif-dd-desc">Carlos Oliveira, R$ 287,50</div>
+                    <div class="notif-dd-time">há 5 min</div>
+                  </div></a
+                >
+                <a class="notif-dd-item unread" href="expenses.html"
+                  ><span class="notif-dd-dot"></span>
+                  <div
+                    class="notif-dd-ic"
+                    style="background: var(--success-soft); color: var(--success-text)"
+                  >
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                      <polyline points="22 4 12 14.01 9 11.01" />
+                    </svg>
+                  </div>
+                  <div class="notif-dd-body">
+                    <div class="notif-dd-title">Exceção aprovada</div>
+                    <div class="notif-dd-desc">Maria Silva aprovou R$ 171,00</div>
+                    <div class="notif-dd-time">há 12 min</div>
+                  </div></a
+                >
+                <a class="notif-dd-item" href="audit.html"
+                  ><div
+                    class="notif-dd-ic"
+                    style="background: var(--error-soft); color: var(--error-text)"
+                  >
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path
+                        d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
+                      />
+                      <line x1="12" y1="9" x2="12" y2="13" />
+                      <line x1="12" y1="17" x2="12.01" y2="17" />
+                    </svg>
+                  </div>
+                  <div class="notif-dd-body">
+                    <div class="notif-dd-title">Falha SEFAZ</div>
+                    <div class="notif-dd-desc">Timeout na consulta NFC-e</div>
+                    <div class="notif-dd-time">há 1h</div>
+                  </div></a
+                >
+                <a class="notif-dd-item" href="advances.html"
+                  ><div
+                    class="notif-dd-ic"
+                    style="background: var(--primary-light); color: var(--primary-deep)"
+                  >
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <line x1="12" y1="1" x2="12" y2="23" />
+                      <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                    </svg>
+                  </div>
+                  <div class="notif-dd-body">
+                    <div class="notif-dd-title">Adiantamento pago</div>
+                    <div class="notif-dd-desc">R$ 1.500 creditado</div>
+                    <div class="notif-dd-time">há 3h</div>
+                  </div></a
+                >
+              </div>
+              <a class="notif-dd-footer" href="notifications.html">Ver todas as notificações</a>
+            </div>
+          </div>
+          <button class="theme-toggle">
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="4" />
+              <path
+                d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"
+              />
+            </svg>
+          </button>
+          <div class="user-menu-wrap">
+            <button class="topbar-user" id="user-menu-btn">
+              <div class="avatar sm">MS</div>
+              <span class="topbar-user-name">Maria Silva</span>
+            </button>
+            <div class="user-dropdown" id="user-dropdown">
+              <a class="user-dd-item" href="profile.html"
+                ><svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" /></svg
+                >Meu perfil</a
+              >
+              <a class="user-dd-item" href="settings.html"
+                ><svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <circle cx="12" cy="12" r="3" />
+                  <path
+                    d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"
+                  /></svg
+                >Configurações</a
+              >
+              <div class="user-dd-sep"></div>
+              <a class="user-dd-item logout" href="login.html"
+                ><svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                  <polyline points="16 17 21 12 16 7" />
+                  <line x1="21" y1="12" x2="9" y2="12" /></svg
+                >Sair</a
+              >
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main class="content">
+        <div class="page-hdr">
+          <div>
+            <div class="page-hdr-title">Auditoria</div>
+            <div class="page-hdr-sub">Histórico de todas as operações</div>
+          </div>
+          <div class="page-hdr-actions">
+            <button class="btn btn-sm btn-outline">Exportar log</button>
+          </div>
+        </div>
+
+        <div class="filter-bar">
+          <div class="filter-search">
+            <svg viewBox="0 0 24 24">
+              <circle cx="11" cy="11" r="8" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" /></svg
+            ><input type="text" placeholder="Buscar ação, ator, entidade..." />
+          </div>
+          <div class="filter-chips">
+            <span class="chip on" data-toggle>Todas</span>
+            <span class="chip" data-toggle>Despesas</span>
+            <span class="chip" data-toggle>Política</span>
+            <span class="chip" data-toggle>Funcionários</span>
+            <span class="chip" data-toggle>Adiantamentos</span>
+          </div>
+          <span class="filter-count">156 registros</span>
+        </div>
+
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Data/Hora</th>
+                <th>Ator</th>
+                <th>Ação</th>
+                <th>Entidade</th>
+                <th>Detalhes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="audit-row" onclick="this.nextElementSibling.classList.toggle('show')">
+                <td style="font-family: var(--f-mono); font-size: 12px">22/09 15:10</td>
+                <td>
+                  <div class="who">
+                    <div class="avatar sm">MS</div>
+                    Maria Silva
+                  </div>
+                </td>
+                <td><span class="action-badge approve">Aprovou exceção</span></td>
+                <td>Despesa #1847</td>
+                <td style="font-size: 13px; color: var(--ink-3)">Jantar com cliente</td>
+              </tr>
+              <tr>
+                <td colspan="5" class="audit-detail">
+                  {"action":"approval.approved","entity":"expense","entity_id":"1847","actor":"maria.silva","changes":{"status":{"before":"pending_approval","after":"approved"}},"note":"Jantar
+                  com cliente autorizado pelo gestor"}
+                </td>
+              </tr>
+
+              <tr class="audit-row" onclick="this.nextElementSibling.classList.toggle('show')">
+                <td style="font-family: var(--f-mono); font-size: 12px">22/09 14:34</td>
+                <td>
+                  <div class="who">
+                    <div class="avatar sm a4" style="width: 28px; height: 28px; font-size: 10px">
+                      SY
+                    </div>
+                    Sistema
+                  </div>
+                </td>
+                <td><span class="action-badge create">Criou despesa</span></td>
+                <td>Despesa #1847</td>
+                <td style="font-size: 13px; color: var(--ink-3)">R$ 171,00</td>
+              </tr>
+              <tr>
+                <td colspan="5" class="audit-detail">
+                  {"action":"expense.created","entity":"expense","entity_id":"1847","amount":17100,"merchant":"Rest.
+                  Sabor Mineiro","extraction":"sefaz"}
+                </td>
+              </tr>
+
+              <tr class="audit-row" onclick="this.nextElementSibling.classList.toggle('show')">
+                <td style="font-family: var(--f-mono); font-size: 12px">22/09 14:33</td>
+                <td>
+                  <div class="who">
+                    <div class="avatar sm a4" style="width: 28px; height: 28px; font-size: 10px">
+                      SY
+                    </div>
+                    Sistema
+                  </div>
+                </td>
+                <td><span class="action-badge system">Avaliou política</span></td>
+                <td>Despesa #1847</td>
+                <td style="font-size: 13px; color: var(--ink-3)">Violação detectada</td>
+              </tr>
+              <tr>
+                <td colspan="5" class="audit-detail">
+                  {"action":"policy.evaluated","policy_version":12,"result":"violation","violations":[{"rule":"per_person_limit","limit":3800,"actual":5700}]}
+                </td>
+              </tr>
+
+              <tr class="audit-row" onclick="this.nextElementSibling.classList.toggle('show')">
+                <td style="font-family: var(--f-mono); font-size: 12px">22/09 10:00</td>
+                <td>
+                  <div class="who">
+                    <div class="avatar sm">MS</div>
+                    Maria Silva
+                  </div>
+                </td>
+                <td><span class="action-badge approve">Registrou pagamento</span></td>
+                <td>Adiantamento #89</td>
+                <td style="font-size: 13px; color: var(--ink-3)">R$ 1.500 via PIX</td>
+              </tr>
+              <tr>
+                <td colspan="5" class="audit-detail">
+                  {"action":"advance.paid","amount":150000,"method":"pix","employee":"carlos.oliveira"}
+                </td>
+              </tr>
+
+              <tr class="audit-row" onclick="this.nextElementSibling.classList.toggle('show')">
+                <td style="font-family: var(--f-mono); font-size: 12px">21/09 16:30</td>
+                <td>
+                  <div class="who">
+                    <div class="avatar sm a3">JG</div>
+                    João Gestor
+                  </div>
+                </td>
+                <td><span class="action-badge update">Atualizou política</span></td>
+                <td>Política v12</td>
+                <td style="font-size: 13px; color: var(--ink-3)">Adicionou regra #7</td>
+              </tr>
+              <tr>
+                <td colspan="5" class="audit-detail">
+                  {"action":"policy.updated","version":12,"changes":{"rules_added":[{"type":"advance_limit","params":{"limit":300000,"period":"month"}}]}}
+                </td>
+              </tr>
+
+              <tr class="audit-row" onclick="this.nextElementSibling.classList.toggle('show')">
+                <td style="font-family: var(--f-mono); font-size: 12px">21/09 14:22</td>
+                <td>
+                  <div class="who">
+                    <div class="avatar sm a4" style="width: 28px; height: 28px; font-size: 10px">
+                      SY
+                    </div>
+                    Sistema
+                  </div>
+                </td>
+                <td><span class="action-badge create">Criou despesa</span></td>
+                <td>Despesa #1846</td>
+                <td style="font-size: 13px; color: var(--ink-3)">R$ 287,50</td>
+              </tr>
+              <tr>
+                <td colspan="5" class="audit-detail">
+                  {"action":"expense.created","entity_id":"1846","amount":28750,"merchant":"Posto
+                  Shell BR-101","extraction":"sefaz"}
+                </td>
+              </tr>
+
+              <tr class="audit-row" onclick="this.nextElementSibling.classList.toggle('show')">
+                <td style="font-family: var(--f-mono); font-size: 12px">20/09 11:00</td>
+                <td>
+                  <div class="who">
+                    <div class="avatar sm">MS</div>
+                    Maria Silva
+                  </div>
+                </td>
+                <td><span class="action-badge create">Cadastrou funcionário</span></td>
+                <td>Marcos Lima</td>
+                <td style="font-size: 13px; color: var(--ink-3)">Técnico</td>
+              </tr>
+              <tr>
+                <td colspan="5" class="audit-detail">
+                  {"action":"employee.created","name":"Marcos Lima","role":"Técnico de
+                  Campo","phone":"+5511998887766"}
+                </td>
+              </tr>
+
+              <tr class="audit-row" onclick="this.nextElementSibling.classList.toggle('show')">
+                <td style="font-family: var(--f-mono); font-size: 12px">20/09 09:15</td>
+                <td>
+                  <div class="who">
+                    <div class="avatar sm a4" style="width: 28px; height: 28px; font-size: 10px">
+                      SY
+                    </div>
+                    Sistema
+                  </div>
+                </td>
+                <td><span class="action-badge system">Fechou período</span></td>
+                <td>Agosto 2026</td>
+                <td style="font-size: 13px; color: var(--ink-3)">42 despesas</td>
+              </tr>
+              <tr>
+                <td colspan="5" class="audit-detail">
+                  {"action":"period.closed","year":2026,"month":8,"total_expenses":42,"total_amount":2815000}
+                </td>
+              </tr>
+
+              <tr class="audit-row" onclick="this.nextElementSibling.classList.toggle('show')">
+                <td style="font-family: var(--f-mono); font-size: 12px">19/09 17:45</td>
+                <td>
+                  <div class="who">
+                    <div class="avatar sm a2">AF</div>
+                    Ana Ferreira
+                  </div>
+                </td>
+                <td><span class="action-badge create">Solicitou adiantamento</span></td>
+                <td>R$ 800,00</td>
+                <td style="font-size: 13px; color: var(--ink-3)"></td>
+              </tr>
+              <tr>
+                <td colspan="5" class="audit-detail">
+                  {"action":"advance.requested","amount":80000,"employee":"ana.ferreira"}
+                </td>
+              </tr>
+
+              <tr class="audit-row" onclick="this.nextElementSibling.classList.toggle('show')">
+                <td style="font-family: var(--f-mono); font-size: 12px">19/09 15:30</td>
+                <td>
+                  <div class="who">
+                    <div class="avatar sm">MS</div>
+                    Maria Silva
+                  </div>
+                </td>
+                <td><span class="action-badge reversal">Estornou despesa</span></td>
+                <td>Despesa #1820</td>
+                <td style="font-size: 13px; color: var(--ink-3)">Hotel Ibis</td>
+              </tr>
+              <tr>
+                <td colspan="5" class="audit-detail">
+                  {"action":"expense.reversed","entity_id":"1820","amount":38900,"merchant":"Hotel
+                  Ibis Campinas","reason":"Nota fiscal duplicada"}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="pager mt-20">
+          <span class="pager-info">1-10 de 156 registros</span>
+          <button class="pg" disabled>
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="15 18 9 12 15 6" />
+            </svg>
+          </button>
+          <button class="pg on">1</button>
+          <button class="pg">2</button>
+          <button class="pg">3</button>
+          <button class="pg">...</button>
+          <button class="pg">16</button>
+          <button class="pg">
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+          </button>
+        </div>
+      </main>
+    </div>
+
+    <!-- Bottom Nav -->
+    <nav class="bottom-nav">
+      <a class="bnav-item" href="dashboard.html"
+        ><svg viewBox="0 0 24 24">
+          <rect x="3" y="3" width="7" height="7" rx="1" />
+          <rect x="14" y="3" width="7" height="7" rx="1" />
+          <rect x="3" y="14" width="7" height="7" rx="1" />
+          <rect x="14" y="14" width="7" height="7" rx="1" /></svg
+        ><span>Dashboard</span></a
+      >
+      <a class="bnav-item" href="expenses.html"
+        ><svg viewBox="0 0 24 24">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+          <polyline points="14 2 14 8 20 8" /></svg
+        ><span>Despesas</span></a
+      >
+      <a class="bnav-item" href="advances.html"
+        ><svg viewBox="0 0 24 24">
+          <line x1="12" y1="1" x2="12" y2="23" />
+          <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" /></svg
+        ><span>Adiantam.</span></a
+      >
+      <a class="bnav-item" href="approvals.html"
+        ><svg viewBox="0 0 24 24">
+          <polyline points="9 11 12 14 22 4" />
+          <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" /></svg
+        ><span>Aprovações</span><span class="bnav-count">7</span></a
+      >
+      <a class="bnav-item" href="settings.html"
+        ><svg viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="1" />
+          <circle cx="19" cy="12" r="1" />
+          <circle cx="5" cy="12" r="1" /></svg
+        ><span>Mais</span></a
+      >
+    </nav>
+
+    <script src="../shared/app.js"></script>
+  </body>
+</html>

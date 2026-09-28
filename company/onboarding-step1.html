@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Boas-vindas — Cuzto</title>
+    <link rel="icon" type="image/svg+xml" href="../shared/assets/favicon.svg" />
+    <link rel="stylesheet" href="../shared/styles.css" />
+    <style>
+      .onboard-page {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 24px;
+        background: linear-gradient(135deg, var(--bg) 0%, var(--surface-2) 100%);
+      }
+      .onboard-logo {
+        margin: 32px 0 24px;
+      }
+      .onboard-steps {
+        display: flex;
+        align-items: center;
+        gap: 0;
+        margin-bottom: 32px;
+        max-width: 440px;
+        width: 100%;
+      }
+      .ob-node {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex: 0 0 auto;
+        position: relative;
+      }
+      .ob-circle {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        font-size: 13px;
+        font-weight: 800;
+        border: 3px solid var(--border-strong);
+        background: var(--surface);
+        color: var(--ink-3);
+        box-shadow: 0 3px 0 var(--border-strong);
+        font-family: var(--f-display);
+      }
+      .ob-node.done .ob-circle {
+        background: var(--primary);
+        border-color: var(--primary);
+        color: var(--text-on-primary);
+        box-shadow: 0 3px 0 var(--primary-shadow);
+      }
+      .ob-node.cur .ob-circle {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: #2b1a00;
+        box-shadow: 0 3px 0 var(--accent-shadow);
+      }
+      .ob-text {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--ink-3);
+        margin-top: 6px;
+        white-space: nowrap;
+      }
+      .ob-node.done .ob-text,
+      .ob-node.cur .ob-text {
+        color: var(--ink);
+      }
+      .ob-conn {
+        flex: 1;
+        height: 4px;
+        background: var(--surface-3);
+        border-radius: 2px;
+        min-width: 16px;
+      }
+      .ob-conn.done {
+        background: var(--primary);
+      }
+      .onboard-card {
+        background: var(--surface);
+        border: 2px solid var(--border);
+        border-radius: var(--r-xl);
+        padding: 36px;
+        max-width: 500px;
+        width: 100%;
+        box-shadow:
+          0 6px 0 var(--border),
+          var(--sh-2);
+      }
+      .onboard-card h2 {
+        font-family: var(--f-display);
+        font-size: 22px;
+        font-weight: 800;
+        text-align: center;
+        margin-bottom: 6px;
+      }
+      .onboard-card .sub {
+        text-align: center;
+        color: var(--ink-3);
+        font-size: 14px;
+        margin-bottom: 28px;
+      }
+      .onboard-actions {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        margin-top: 28px;
+      }
+      .welcome-steps {
+        display: grid;
+        gap: 14px;
+        margin-bottom: 8px;
+      }
+      .welcome-step {
+        display: flex;
+        gap: 14px;
+        align-items: flex-start;
+        padding: 16px;
+        border: 2px solid var(--border);
+        border-radius: var(--r-lg);
+        background: var(--surface);
+        box-shadow: 0 3px 0 var(--border);
+      }
+      .welcome-step .ws-num {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: var(--primary-light);
+        color: var(--primary-deep);
+        font: 800 14px var(--f-display);
+        display: grid;
+        place-items: center;
+        flex: none;
+      }
+      .welcome-step .ws-title {
+        font: 700 14px var(--f-display);
+        margin-bottom: 2px;
+      }
+      .welcome-step .ws-desc {
+        font-size: 13px;
+        color: var(--ink-3);
+        line-height: 1.45;
+      }
+      @media (max-width: 480px) {
+        .onboard-page {
+          padding: 16px;
+        }
+        .onboard-card {
+          padding: 24px 20px;
+          border-radius: var(--r-lg);
+        }
+        .onboard-actions {
+          flex-direction: column;
+        }
+        .onboard-actions .btn {
+          width: 100%;
+        }
+        .ob-text {
+          font-size: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="onboard-page">
+      <div class="onboard-logo">
+        <img
+          src="../shared/assets/logo-light.svg"
+          alt="Cuzto"
+          height="36"
+          class="sidebar-logo-img"
+        />
+        <img
+          src="../shared/assets/logo-dark.svg"
+          alt="Cuzto"
+          height="36"
+          class="sidebar-logo-img sidebar-logo-dark"
+        />
+      </div>
+      <div class="onboard-steps">
+        <div class="ob-node cur">
+          <div class="ob-circle">1</div>
+          <div class="ob-text">Boas-vindas</div>
+        </div>
+        <div class="ob-conn"></div>
+        <div class="ob-node">
+          <div class="ob-circle">2</div>
+          <div class="ob-text">Empresa</div>
+        </div>
+        <div class="ob-conn"></div>
+        <div class="ob-node">
+          <div class="ob-circle">3</div>
+          <div class="ob-text">Acesso</div>
+        </div>
+      </div>
+      <div class="onboard-card">
+        <h2>Bem-vindo ao Cuzto!</h2>
+        <div class="sub">Gestão de despesas pelo WhatsApp. Veja como funciona:</div>
+
+        <div class="welcome-steps">
+          <div class="welcome-step">
+            <div class="ws-num">1</div>
+            <div>
+              <div class="ws-title">Funcionário envia foto</div>
+              <div class="ws-desc">
+                Pelo WhatsApp, sem app, sem login. Tirou foto do cupom? Enviou. Pronto.
+              </div>
+            </div>
+          </div>
+          <div class="welcome-step">
+            <div class="ws-num">2</div>
+            <div>
+              <div class="ws-title">Sistema valida automaticamente</div>
+              <div class="ws-desc">
+                Lê a nota fiscal (NFC-e ou OCR), aplica a política da empresa e registra a despesa.
+              </div>
+            </div>
+          </div>
+          <div class="welcome-step">
+            <div class="ws-num">3</div>
+            <div>
+              <div class="ws-title">Financeiro gerencia no painel</div>
+              <div class="ws-desc">
+                Despesas, saldos, aprovações e fechamento de período. Tudo em um só lugar.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="onboard-actions">
+          <a href="onboarding-welcome.html" class="btn btn-primary btn-lg" style="min-width: 200px"
+            >Cadastrar minha empresa</a
+          >
+        </div>
+      </div>
+    </div>
+    <script src="../shared/app.js"></script>
+  </body>
+</html>
